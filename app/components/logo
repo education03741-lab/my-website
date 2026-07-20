@@ -1,0 +1,26 @@
+export default function Logo() {
+  return (
+    <svg
+      width="150"
+      height="48"
+      viewBox="0 0 150 48"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="24" cy="24" r="20" fill="#f4d9df" />
+      <path
+        d="M24 12 C 31 20, 36 26, 31 33 C 27 38, 21 38, 17 33 C 12 26, 17 20, 24 12 Z"
+        fill="#c65d7b"
+      />
+      <text
+        x="56"
+        y="31"
+        fontFamily="Georgia, serif"
+        fontSize="24"
+        fontWeight="bold"
+        fill="#1f2937"
+      >
+        GlowSkin
+      </text>
+    </svg>
+  );
+}

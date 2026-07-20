@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #FDF9F4;
+  --foreground: #2D2A26;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* fonts come from layout.tsx (Plus Jakarta + Fraunces) */
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+
+  --color-primary: #B15A66;
+  --color-primary-light: #E8C9CB;
+  --color-primary-dark: #8C3F49;
+
+  --color-accent: #6B7D5A;
+  --color-accent-light: #D4DDC7;
+  --color-accent-dark: #4E5D41;
+
+  --color-cream: #FDF9F4;
+  --color-charcoal: #2D2A26;
+}
+
+.dark {
+  --background: #1A1817;
+  --foreground: #F0EBE6;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Serif headings — the premium jump */
+h1, h2, h3 {
+  font-family: var(--font-heading), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* Font size preference scaling */
+html { transition: font-size 0.2s ease; }
+html.text-size-sm { font-size: 15px; }
+html.text-size-base { font-size: 16px; }
+html.text-size-lg { font-size: 18.5px; }
+
+/* Smooth anchor scrolling with sticky-nav offset */
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 90px; }
+
+/* Sepia reading mode */
+.sepia {
+  filter: sepia(0.35) brightness(0.97) contrast(0.95);
+}
