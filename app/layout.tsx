@@ -95,6 +95,23 @@ export default function RootLayout({
             gtag('config', 'G-TH7S06BTWS');
           `}
         </Script>
+
+        <div id="google_translate_element" className="fixed top-4 right-4 z-[9999]"></div>
+        <Script id="google-translate-init" strategy="afterInteractive">
+          {`
+            function googleTranslateElementInit() {
+              new google.translate.TranslateElement(
+                { pageLanguage: 'en', includedLanguages: 'ur,hi,ar,fr,de,es,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+                'google_translate_element'
+              );
+            }
+          `}
+        </Script>
+        <Script
+          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          strategy="afterInteractive"
+        />
+
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
