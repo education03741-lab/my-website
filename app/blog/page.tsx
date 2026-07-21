@@ -8,6 +8,8 @@ import { client } from "../../sanity/lib/client";
 import { ARTICLES_QUERY } from "../../sanity/lib/queries";
 import { urlFor } from "../../sanity/lib/image";
 
+export const revalidate = 60;
+
 type SanityArticle = {
   _id: string;
   title: string;
