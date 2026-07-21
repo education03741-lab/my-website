@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
+import type { PortableTextComponents } from "@portabletext/react";
 import { cache } from "react";
 import type { Metadata } from "next";
 import Navbar from "../../components/Navbar";
@@ -16,6 +17,27 @@ interface PageProps {
     slug: string;
   }>;
 }
+
+// Custom renderers for PortableText, so Sanity's rich text blocks (like
+// images added inside the article body) render correctly on the page
+const portableTextComponents: PortableTextComponents = {
+  types: {
+    image: ({ value }) => {
+      if (!value?.asset) return null;
+      return (
+        <div className="relative my-8 h-96 w-full overflow-hidden rounded-2xl">
+          <Image
+            src={urlFor(value).width(1000).height(600).url()}
+            alt={value.alt || " "}
+            fill
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
+          />
+        </div>
+      );
+    },
+  },
+};
 
 // Pulls plain text out of Sanity's portable text blocks, used for meta
 // descriptions and JSON-LD (which both need plain strings, not rich blocks)
@@ -276,7 +298,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           )}
 
           <article className="prose prose-lg max-w-none mt-12">
-            <PortableText value={sanityArticle.body} />
+            <PortableText value={sanityArticle.body} components={portableTextComponents} />
           </article>
         </div>
       </main>
