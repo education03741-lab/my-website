@@ -25,13 +25,13 @@ const portableTextComponents: PortableTextComponents = {
     image: ({ value }) => {
       if (!value?.asset) return null;
       return (
-        <div className="relative my-8 h-96 w-full overflow-hidden rounded-2xl">
+        <div className="relative my-8 w-full aspect-[5/3] overflow-hidden rounded-2xl">
           <Image
             src={urlFor(value).width(1000).height(600).url()}
             alt={value.alt || " "}
             fill
             sizes="(max-width: 768px) 100vw, 768px"
-            className="object-cover"
+            className="object-contain"
           />
         </div>
       );
