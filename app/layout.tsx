@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Fraunces } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -17,7 +18,7 @@ const fraunces = Fraunces({
   style: ["normal", "italic"],
 });
 
-const siteUrl = "https://your-domain.com"; // TODO: replace with your real deployed domain
+const siteUrl = "https://glowskin.blog";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -82,6 +83,18 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${fraunces.variable} ${plusJakarta.className} antialiased bg-white text-gray-900 dark:bg-charcoal dark:text-gray-100`}
       >
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-TH7S06BTWS"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-TH7S06BTWS');
+          `}
+        </Script>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
