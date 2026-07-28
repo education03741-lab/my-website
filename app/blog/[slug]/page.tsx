@@ -18,8 +18,119 @@ interface PageProps {
   }>;
 }
 
-// Custom renderers for PortableText, so Sanity's rich text blocks (like
-// images added inside the article body) render correctly on the page
+// ✅ Converts markdown-style content to proper HTML with headings
+function formatStaticContent(content: string) {
+  if (!content) return '';
+  
+  const lines = content.split('\n');
+  let html = '';
+  let headingCount = 0;
+  let inList = false;
+  let listItems: string[] = [];
+  
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+    let trimmed = line.trim();
+    
+    if (!trimmed) {
+      if (inList) {
+        html += `<ul style="list-style-type: disc; margin-left: 24px; margin-bottom: 16px;">${listItems.join('')}</ul>`;
+        listItems = [];
+        inList = false;
+      }
+      continue;
+    }
+    
+    // Check for ### heading (H3)
+    if (trimmed.startsWith('### ')) {
+      if (inList) {
+        html += `<ul style="list-style-type: disc; margin-left: 24px; margin-bottom: 16px;">${listItems.join('')}</ul>`;
+        listItems = [];
+        inList = false;
+      }
+      headingCount++;
+      const headingText = trimmed.substring(4);
+      html += `<h3 style="font-size: 24px !important; font-weight: 700 !important; margin-top: 20px !important; margin-bottom: 12px !important; color: #111827 !important;">${headingText}</h3>`;
+      continue;
+    }
+    
+    // Check for ## heading (H2)
+    if (trimmed.startsWith('## ')) {
+      if (inList) {
+        html += `<ul style="list-style-type: disc; margin-left: 24px; margin-bottom: 16px;">${listItems.join('')}</ul>`;
+        listItems = [];
+        inList = false;
+      }
+      headingCount++;
+      const headingText = trimmed.substring(3);
+      html += `<h2 style="font-size: 30px !important; font-weight: 700 !important; margin-top: 24px !important; margin-bottom: 16px !important; color: #111827 !important;">${headingText}</h2>`;
+      continue;
+    }
+    
+    // Check for # heading (H1)
+    if (trimmed.startsWith('# ')) {
+      if (inList) {
+        html += `<ul style="list-style-type: disc; margin-left: 24px; margin-bottom: 16px;">${listItems.join('')}</ul>`;
+        listItems = [];
+        inList = false;
+      }
+      headingCount++;
+      const headingText = trimmed.substring(2);
+      html += `<h1 style="font-size: 36px !important; font-weight: 800 !important; margin-top: 32px !important; margin-bottom: 20px !important; color: #111827 !important;">${headingText}</h1>`;
+      continue;
+    }
+    
+    // ✅ Detect headings by pattern (short lines without punctuation)
+    const isHeading = (
+      trimmed.length < 80 && 
+      !trimmed.endsWith('.') && 
+      !trimmed.endsWith(':') &&
+      !trimmed.endsWith(',') &&
+      !trimmed.startsWith('-') &&
+      !trimmed.startsWith('•') &&
+      !trimmed.startsWith('"') &&
+      !trimmed.includes('  ') &&
+      !trimmed.includes(' and ') &&
+      !trimmed.includes(' of ') &&
+      !trimmed.includes(' for ') &&
+      (trimmed.length < 50 || trimmed.endsWith('?'))
+    );
+    
+    if (isHeading) {
+      if (inList) {
+        html += `<ul style="list-style-type: disc; margin-left: 24px; margin-bottom: 16px;">${listItems.join('')}</ul>`;
+        listItems = [];
+        inList = false;
+      }
+      headingCount++;
+      html += `<h3 style="font-size: 24px !important; font-weight: 700 !important; margin-top: 20px !important; margin-bottom: 12px !important; color: #111827 !important;">${trimmed}</h3>`;
+      continue;
+    }
+    
+    // Bullet points
+    if (trimmed.startsWith('- ')) {
+      inList = true;
+      listItems.push(`<li style="color: #374151; margin-bottom: 4px;">${trimmed.substring(2)}</li>`);
+      continue;
+    }
+    
+    // Regular paragraph
+    if (inList) {
+      html += `<ul style="list-style-type: disc; margin-left: 24px; margin-bottom: 16px;">${listItems.join('')}</ul>`;
+      listItems = [];
+      inList = false;
+    }
+    html += `<p style="margin-bottom: 16px; color: #374151; line-height: 1.625;">${trimmed}</p>`;
+  }
+  
+  if (inList) {
+    html += `<ul style="list-style-type: disc; margin-left: 24px; margin-bottom: 16px;">${listItems.join('')}</ul>`;
+  }
+  
+  return html;
+}
+
+// Custom renderers for PortableText for Sanity articles
 const portableTextComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
@@ -37,10 +148,65 @@ const portableTextComponents: PortableTextComponents = {
       );
     },
   },
+  block: {
+    h1: ({ children }) => (
+      <h1 style={{ fontSize: '36px', fontWeight: '800', marginTop: '32px', marginBottom: '20px', color: '#111827' }}>
+        {children}
+      </h1>
+    ),
+    h2: ({ children }) => (
+      <h2 style={{ fontSize: '30px', fontWeight: '700', marginTop: '24px', marginBottom: '16px', color: '#111827' }}>
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 style={{ fontSize: '24px', fontWeight: '700', marginTop: '20px', marginBottom: '12px', color: '#111827' }}>
+        {children}
+      </h3>
+    ),
+    h4: ({ children }) => (
+      <h4 style={{ fontSize: '20px', fontWeight: '600', marginTop: '16px', marginBottom: '8px', color: '#111827' }}>
+        {children}
+      </h4>
+    ),
+    normal: ({ children }) => (
+      <p style={{ marginBottom: '16px', color: '#374151', lineHeight: '1.625' }}>
+        {children}
+      </p>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote style={{ borderLeftWidth: '4px', borderLeftColor: '#ec4899', paddingLeft: '16px', marginTop: '16px', marginBottom: '16px', fontStyle: 'italic', color: '#4b5563' }}>
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul style={{ listStyleType: 'disc', marginLeft: '24px', marginBottom: '16px' }}>
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol style={{ listStyleType: 'decimal', marginLeft: '24px', marginBottom: '16px' }}>
+        {children}
+      </ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }) => (
+      <li style={{ color: '#374151' }}>{children}</li>
+    ),
+    number: ({ children }) => (
+      <li style={{ color: '#374151' }}>{children}</li>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => <strong style={{ fontWeight: '700', color: '#111827' }}>{children}</strong>,
+    em: ({ children }) => <em style={{ fontStyle: 'italic', color: '#374151' }}>{children}</em>,
+    underline: ({ children }) => <u style={{ textDecoration: 'underline' }}>{children}</u>,
+  },
 };
 
-// Pulls plain text out of Sanity's portable text blocks, used for meta
-// descriptions and JSON-LD (which both need plain strings, not rich blocks)
 function portableTextToPlainText(blocks: any[]): string {
   if (!blocks) return "";
   return blocks
@@ -52,8 +218,6 @@ function portableTextToPlainText(blocks: any[]): string {
     .join(" ");
 }
 
-// cache() dedupes this so generateMetadata() and the page component
-// share one Sanity fetch instead of two per page load
 const getArticle = cache(async (slug: string) => {
   const staticPost = posts.find((p) => p.slug === slug);
   if (staticPost) {
@@ -151,9 +315,12 @@ export default async function BlogPostPage({ params }: PageProps) {
     );
   }
 
+  // ✅ STATIC ARTICLE RENDER
   if (result.type === "static") {
     const post = result.data;
     const relatedPosts = posts.filter((p) => p.id !== post.id).slice(0, 2);
+
+    const formattedContent = formatStaticContent(post.content);
 
     return (
       <>
@@ -205,8 +372,8 @@ export default async function BlogPostPage({ params }: PageProps) {
               />
             </div>
 
-            <article className="prose prose-lg max-w-none mt-12">
-              <p className="whitespace-pre-line">{post.content}</p>
+            <article className="max-w-none mt-12">
+              <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
             </article>
           </div>
 
@@ -250,6 +417,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     );
   }
 
+  // ✅ SANITY ARTICLE RENDER
   const sanityArticle = result.data;
 
   return (
@@ -297,8 +465,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
           )}
 
-          <article className="prose prose-lg max-w-none mt-12">
-            <PortableText value={sanityArticle.body} components={portableTextComponents} />
+          <article className="max-w-none mt-12">
+            <PortableText 
+              value={sanityArticle.body} 
+              components={portableTextComponents} 
+            />
           </article>
         </div>
       </main>
