@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { posts } from "../data/posts";
 import { categories } from "../data/categories";
 import { client } from "../../sanity/lib/client";
 import { ARTICLES_QUERY } from "../../sanity/lib/queries";
@@ -66,6 +65,7 @@ export default async function BlogPage() {
           </nav>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {/* ✅ ONLY Sanity articles - NO duplicates */}
             {sanityArticles.map((article) => (
               <Link
                 key={article._id}
@@ -97,41 +97,7 @@ export default async function BlogPage() {
               </Link>
             ))}
 
-            {posts.map((post) => (
-              <Link
-                key={post.id}
-                href={`/blog/${post.slug}`}
-                className="group overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
-              >
-                <div className="relative h-56 w-full overflow-hidden">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-
-                <div className="p-6">
-                  <span className="text-sm font-semibold uppercase tracking-wide text-primary">
-                    {post.category}
-                  </span>
-
-                  <h2 className="mt-3 text-2xl font-semibold text-charcoal transition group-hover:text-primary">
-                    {post.title}
-                  </h2>
-
-                  <p className="mt-4 leading-relaxed text-gray-600">
-                    {post.description}
-                  </p>
-
-                  <p className="mt-6 font-semibold text-primary transition group-hover:translate-x-2">
-                    Read More →
-                  </p>
-                </div>
-              </Link>
-            ))}
+            {/* ✅ REMOVED: Static posts section - no more duplicates! */}
           </div>
         </div>
       </main>
