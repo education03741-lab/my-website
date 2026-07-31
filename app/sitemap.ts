@@ -1,8 +1,8 @@
 import { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://your-domain.com"; // TODO: replace with your real domain
+const baseUrl = "https://glowskin.blog";
 
+export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/blog",
@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return staticRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: "weekly" as const,
+    changeFrequency: "weekly",
     priority: route === "" ? 1 : 0.8,
   }));
 }
