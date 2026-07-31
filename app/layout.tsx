@@ -22,12 +22,15 @@ const siteUrl = "https://glowskin.blog";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
   title: {
     default: "GlowSkin | Science-Backed Skincare Guides",
     template: "%s | GlowSkin",
   },
+
   description:
     "Discover dermatologist-inspired skincare routines, ingredient guides, and beauty tips for every skin type.",
+
   keywords: [
     "skincare",
     "skincare routine",
@@ -36,7 +39,15 @@ export const metadata: Metadata = {
     "anti-aging skincare",
     "GlowSkin",
   ],
+
   authors: [{ name: "GlowSkin" }],
+
+  verification: {
+    other: {
+      "p:domain_verify": "59f7e62ab6542de3802b4feb4fdc3bb3",
+    },
+  },
+
   openGraph: {
     type: "website",
     url: siteUrl,
@@ -53,6 +64,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "GlowSkin | Science-Backed Skincare Guides",
@@ -60,9 +72,11 @@ export const metadata: Metadata = {
       "Discover dermatologist-inspired skincare routines, ingredient guides, and beauty tips for every skin type.",
     images: ["/logo.png"],
   },
+
   icons: {
     icon: "/logo.png",
   },
+
   robots: {
     index: true,
     follow: true,
@@ -87,6 +101,7 @@ export default function RootLayout({
           src="https://www.googletagmanager.com/gtag/js?id=G-TH7S06BTWS"
           strategy="afterInteractive"
         />
+
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -96,17 +111,26 @@ export default function RootLayout({
           `}
         </Script>
 
-        <div id="google_translate_element" className="fixed top-4 right-4 z-[9999]"></div>
+        <div
+          id="google_translate_element"
+          className="fixed top-4 right-4 z-[9999]"
+        ></div>
+
         <Script id="google-translate-init" strategy="afterInteractive">
           {`
             function googleTranslateElementInit() {
               new google.translate.TranslateElement(
-                { pageLanguage: 'en', includedLanguages: 'ur,hi,ar,fr,de,es,zh-CN', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+                {
+                  pageLanguage: 'en',
+                  includedLanguages: 'ur,hi,ar,fr,de,es,zh-CN',
+                  layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                },
                 'google_translate_element'
               );
             }
           `}
         </Script>
+
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
