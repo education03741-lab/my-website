@@ -1,3 +1,4 @@
+import SeoSchema from "./components/SeoSchema";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import WhyChooseUs from "./components/WhyChooseUs";
@@ -61,27 +62,77 @@ export default async function Home() {
   const allConcerns = [...staticConcerns, ...mappedSanityConcerns];
   const allIngredients = [...staticIngredients, ...mappedSanityIngredients];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://glowskin.blog/#organization",
+        name: "GlowSkin",
+        url: "https://glowskin.blog",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://glowskin.blog/logo.png",
+          width: 512,
+          height: 512,
+        },
+        sameAs: [
+          "https://www.pinterest.com/glowskin_official/",
+        ],
+        description:
+          "Science-backed skincare guides, ingredient education, and skincare routines.",
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://glowskin.blog/#website",
+        url: "https://glowskin.blog",
+        name: "GlowSkin",
+        publisher: {
+          "@id": "https://glowskin.blog/#organization",
+        },
+        inLanguage: "en",
+      },
+    ],
+  };
+
   return (
-    <main className="bg-white">
-      <Navbar />
-      <section id="home">
-        <Hero />
-      </section>
-      <WhyChooseUs />
-      <section id="blog">
-        <FeaturedArticles />
-      </section>
-      <section id="ingredients">
-        <Ingredients ingredients={allIngredients} />
-      </section>
-      <section id="skin-concerns">
-        <SkinConcerns concerns={allConcerns} />
-      </section>
-      <Testimonials />
-      <Newsletter />
-      <section id="contact">
-        <Footer />
-      </section>
-    </main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      />
+
+      <main className="bg-white">
+        <Navbar />
+
+        <section id="home">
+          <Hero />
+        </section>
+
+        <WhyChooseUs />
+
+        <section id="blog">
+          <FeaturedArticles />
+        </section>
+
+        <section id="ingredients">
+          <Ingredients ingredients={allIngredients} />
+        </section>
+
+        <section id="skin-concerns">
+          <SkinConcerns concerns={allConcerns} />
+        </section>
+
+        <Testimonials />
+
+        <Newsletter />
+
+        <section id="contact">
+          <Footer />
+        </section>
+      </main>
+    </>
   );
 }
