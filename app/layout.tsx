@@ -23,6 +23,10 @@ const siteUrl = "https://glowskin.blog";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
+  alternates: {
+    canonical: "https://glowskin.blog",
+  },
+
   title: {
     default: "GlowSkin | Science-Backed Skincare Guides",
     template: "%s | GlowSkin",
@@ -97,6 +101,7 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${fraunces.variable} ${plusJakarta.className} antialiased bg-white text-gray-900 dark:bg-charcoal dark:text-gray-100`}
       >
+        {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-TH7S06BTWS"
           strategy="afterInteractive"
@@ -111,6 +116,7 @@ export default function RootLayout({
           `}
         </Script>
 
+        {/* Google Translate */}
         <div
           id="google_translate_element"
           className="fixed top-4 right-4 z-[9999]"
