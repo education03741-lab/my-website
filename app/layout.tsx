@@ -98,6 +98,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google AdSense - must be beforeInteractive so it's in the initial server-rendered HTML */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8496834951038637"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body
         className={`${plusJakarta.variable} ${fraunces.variable} ${plusJakarta.className} antialiased bg-white text-gray-900 dark:bg-charcoal dark:text-gray-100`}
       >
@@ -139,14 +148,6 @@ export default function RootLayout({
 
         <Script
           src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-          strategy="afterInteractive"
-        />
-
-        {/* Google AdSense */}
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8496834951038637"
-          crossOrigin="anonymous"
           strategy="afterInteractive"
         />
 
