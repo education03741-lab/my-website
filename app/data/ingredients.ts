@@ -1,6 +1,6 @@
 export interface FAQ {
   question: string;
-  answer: string;
+  answer: string | unknown[];
 }
 
 export interface KeyBenefit {
@@ -14,15 +14,19 @@ export interface Ingredient {
   slug: string;
   image: string;
   description: string;
-  benefits: string[]; // short teaser chips used on the card grid
-  howItWorks: string;
-  keyBenefits: KeyBenefit[];
-  bestFor: string[];
-  howToUse: string;
-  pairsWith: string[];
-  avoidWith: string[];
-  proTip: string;
+  // New CMS article-style fields
+  introduction?: unknown[];
+  benefits?: string[] | unknown[];
+  howItWorks: string | unknown[];
+  bestFor: string[] | unknown[];
+  howToUse: string | unknown[];
+  pairsWith: string[] | unknown[];
+  avoidWith: string[] | unknown[];
+  proTip: string | unknown[];
   faqs: FAQ[];
+  // Kept temporarily so the existing static ingredient data
+  // continues to work during the CMS transition.
+  keyBenefits?: KeyBenefit[];
 }
 
 export const ingredients: Ingredient[] = [

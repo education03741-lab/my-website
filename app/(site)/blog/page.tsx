@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { categories } from "../data/categories";
-import { client } from "../../sanity/lib/client";
-import { ARTICLES_QUERY } from "../../sanity/lib/queries";
-import { urlFor } from "../../sanity/lib/image";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import { categories } from "@/app/data/categories";
+import { client } from "@/sanity/lib/client";
+import { ARTICLES_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 60;
 

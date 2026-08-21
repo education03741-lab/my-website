@@ -1,0 +1,48 @@
+// @ts-nocheck
+// fix-imports.js
+// Run with: node fix-imports.js
+// Fixes broken relative imports in app/(site)/** after the folder move,
+// converting them to the @/ alias which always works regardless of depth.
+
+const fs = require("fs");
+const path = require("path");
+
+const targetDir = path.join(__dirname, "app", "(site)");
+
+// Patterns: [regex to match import path, replacement prefix]
+const replacements = [
+  [/from\s+["']\.\.?\/(\.\.\/)*components\//g, 'from "@/app/components/'],
+  [/from\s+["']\.\.?\/(\.\.\/)*data\//g, 'from "@/app/data/'],
+  [/from\s+["']\.\.?\/(\.\.\/)*sanity\/lib\//g, 'from "@/sanity/lib/'],
+  [/from\s+["']\.\.?\/(\.\.\/)*context\//g, 'from "@/app/context/'],
+];
+
+function walk(dir) {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      walk(fullPath);
+    } else if (entry.isFile() && /\.(tsx?|jsx?)$/.test(entry.name)) {
+      let content = fs.readFileSync(fullPath, "utf8");
+      let original = content;
+
+      for (const [pattern, replacement] of replacements) {
+        content = content.replace(pattern, replacement);
+      }
+
+      if (content !== original) {
+        fs.writeFileSync(fullPath, content, "utf8");
+        console.log("Fixed imports in:", path.relative(__dirname, fullPath));
+      }
+    }
+  }
+}
+
+if (!fs.existsSync(targetDir)) {
+  console.error("Could not find app/(site) folder. Make sure you run this from your project root (glowskin/).");
+  process.exit(1);
+}
+
+walk(targetDir);
+console.log("Done. Review the changed files above before restarting your dev server.");

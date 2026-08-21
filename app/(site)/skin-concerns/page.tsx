@@ -1,10 +1,10 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import SkinConcerns from "../components/SkinConcerns";
-import { concerns as staticConcerns, Concern } from "../data/concerns";
-import { client } from "../../sanity/lib/client";
-import { CONCERNS_QUERY } from "../../sanity/lib/queries";
-import { urlFor } from "../../sanity/lib/image";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import SkinConcerns from "@/app/components/SkinConcerns";
+import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
+import { client } from "@/sanity/lib/client";
+import { CONCERNS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 
 export default async function SkinConcernsPage() {
   const sanityConcerns = await client.fetch(CONCERNS_QUERY);

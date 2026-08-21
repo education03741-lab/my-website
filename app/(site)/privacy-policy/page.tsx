@@ -1,7 +1,7 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
 
-export default function TermsPage() {
+export default function PrivacyPolicyPage() {
   return (
     <>
       <Navbar />
@@ -13,7 +13,7 @@ export default function TermsPage() {
           </span>
 
           <h1 className="mt-6 text-5xl font-semibold text-charcoal">
-            Terms &amp; Conditions
+            Privacy Policy
           </h1>
 
           <p className="mt-4 text-gray-500">
@@ -23,87 +23,88 @@ export default function TermsPage() {
           <div className="prose prose-lg mt-12 max-w-none text-gray-600">
             <section className="mb-10">
               <h2 className="text-2xl font-semibold text-charcoal">
-                1. Acceptance of Terms
+                1. Introduction
               </h2>
               <p className="mt-4 leading-7">
-                By accessing and using GlowSkin, you agree to be bound by
-                these Terms & Conditions. If you do not agree with any part
-                of these terms, please discontinue use of the site.
+                This Privacy Policy explains how GlowSkin ("we," "us," or
+                "our") collects, uses, and protects information when you
+                visit our website. By using this site, you agree to the
+                practices described below.
               </p>
             </section>
 
             <section className="mb-10">
               <h2 className="text-2xl font-semibold text-charcoal">
-                2. Educational Purpose Only
+                2. Information We Collect
               </h2>
               <p className="mt-4 leading-7">
-                Content on GlowSkin, including articles, routines, and
-                ingredient guides, is provided for general informational
-                and educational purposes only. It is not intended as
-                medical advice, diagnosis, or treatment. Always consult a
-                qualified dermatologist or healthcare provider before
-                starting a new skincare regimen, especially if you have a
-                pre-existing skin condition.
+                We may collect information you voluntarily provide, such as
+                your email address when subscribing to our newsletter or
+                submitting a contact form. We may also collect standard
+                technical data automatically, such as browser type, device
+                information, and pages visited, to help us understand how
+                our site is used.
               </p>
             </section>
 
             <section className="mb-10">
               <h2 className="text-2xl font-semibold text-charcoal">
-                3. Product Recommendations
+                3. How We Use Your Information
               </h2>
               <p className="mt-4 leading-7">
-                Any products mentioned or featured on this site are shared
-                based on ingredient research and general suitability. We
-                do not guarantee results, and individual skin reactions
-                may vary. Always patch test new products before full use.
+                Information we collect is used to operate and improve the
+                site, respond to inquiries, send newsletter updates to
+                subscribers who opt in, and understand overall site
+                performance. We do not sell your personal information to
+                third parties.
               </p>
             </section>
 
             <section className="mb-10">
               <h2 className="text-2xl font-semibold text-charcoal">
-                4. Intellectual Property
+                4. Cookies
               </h2>
               <p className="mt-4 leading-7">
-                All content on GlowSkin, including text, graphics, and
-                images, is the property of GlowSkin unless otherwise
-                stated, and may not be reproduced or distributed without
-                permission.
+                Our site may use cookies or similar technologies to improve
+                your browsing experience, remember preferences, and gather
+                analytics. You can disable cookies through your browser
+                settings, though some site features may not function as
+                intended.
               </p>
             </section>
 
             <section className="mb-10">
               <h2 className="text-2xl font-semibold text-charcoal">
-                5. External Links
+                5. Third-Party Links
               </h2>
               <p className="mt-4 leading-7">
-                Our site may contain links to third-party websites,
-                including retailers for recommended products. We are not
-                responsible for the content, accuracy, or practices of
-                these external sites.
+                Our site may contain links to third-party websites or
+                products. We are not responsible for the privacy practices
+                or content of these external sites, and encourage you to
+                review their policies separately.
               </p>
             </section>
 
             <section className="mb-10">
               <h2 className="text-2xl font-semibold text-charcoal">
-                6. Limitation of Liability
+                6. Your Choices
               </h2>
               <p className="mt-4 leading-7">
-                GlowSkin is not liable for any damages or adverse effects
-                resulting from the use of information, routines, or
-                product recommendations found on this site. Use of any
-                guidance provided is at your own discretion and risk.
+                You may unsubscribe from our newsletter at any time using
+                the link provided in our emails. You may also contact us
+                directly to request information about data we hold
+                relating to you.
               </p>
             </section>
 
             <section className="mb-10">
               <h2 className="text-2xl font-semibold text-charcoal">
-                7. Changes to These Terms
+                7. Changes to This Policy
               </h2>
               <p className="mt-4 leading-7">
-                We may revise these Terms & Conditions at any time. Updates
-                will be reflected on this page with a new "Last updated"
-                date. Continued use of the site after changes constitutes
-                acceptance of the revised terms.
+                We may update this Privacy Policy from time to time. Any
+                changes will be reflected on this page with an updated
+                "Last updated" date.
               </p>
             </section>
 
@@ -112,8 +113,8 @@ export default function TermsPage() {
                 8. Contact Us
               </h2>
               <p className="mt-4 leading-7">
-                Questions about these Terms & Conditions can be sent via
-                our{" "}
+                If you have questions about this Privacy Policy, please
+                reach out via our{" "}
                 <a href="/contact" className="text-primary hover:underline">
                   Contact page
                 </a>

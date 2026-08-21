@@ -4,13 +4,13 @@ import { PortableText } from "@portabletext/react";
 import type { PortableTextComponents } from "@portabletext/react";
 import { cache } from "react";
 import type { Metadata } from "next";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import ComingSoon from "../../components/ComingSoon";
-import { posts } from "../../data/posts";
-import { client } from "../../../sanity/lib/client";
-import { ARTICLE_BY_SLUG_QUERY } from "../../../sanity/lib/queries";
-import { urlFor } from "../../../sanity/lib/image";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import ComingSoon from "@/app/components/ComingSoon";
+import { posts } from "@/app/data/posts";
+import { client } from "@/sanity/lib/client";
+import { ARTICLE_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 
 interface PageProps {
   params: Promise<{

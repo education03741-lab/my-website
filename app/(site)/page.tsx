@@ -1,18 +1,18 @@
-import SeoSchema from "./components/SeoSchema";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import WhyChooseUs from "./components/WhyChooseUs";
-import FeaturedArticles from "./components/FeaturedArticles";
-import SkinConcerns from "./components/SkinConcerns";
-import Ingredients from "./components/Ingredients";
-import Testimonials from "./components/Testimonials";
-import Newsletter from "./components/Newsletter";
-import Footer from "./components/Footer";
-import { concerns as staticConcerns, Concern } from "./data/concerns";
-import { ingredients as staticIngredients, Ingredient } from "./data/ingredients";
-import { client } from "../sanity/lib/client";
-import { CONCERNS_QUERY, INGREDIENTS_QUERY } from "../sanity/lib/queries";
-import { urlFor } from "../sanity/lib/image";
+import SeoSchema from "@/app/components/SeoSchema";
+import Navbar from "@/app/components/Navbar";
+import Hero from "@/app/components/Hero";
+import WhyChooseUs from "@/app/components/WhyChooseUs";
+import FeaturedArticles from "@/app/components/FeaturedArticles";
+import SkinConcerns from "@/app/components/SkinConcerns";
+import Ingredients from "@/app/components/Ingredients";
+import Testimonials from "@/app/components/Testimonials";
+import Newsletter from "@/app/components/Newsletter";
+import Footer from "@/app/components/Footer";
+import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
+import { ingredients as staticIngredients, Ingredient } from "@/app/data/ingredients";
+import { client } from "@/sanity/lib/client";
+import { CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
 
 export default async function Home() {
   const sanityConcerns = await client.fetch(CONCERNS_QUERY);

@@ -99,16 +99,19 @@ export const INGREDIENTS_QUERY = `*[_type == "ingredient"]{
   slug,
   image,
   description,
-  benefits,
+  introduction,
   howItWorks,
-  keyBenefits,
+  benefits,
   bestFor,
   howToUse,
   pairsWith,
   avoidWith,
   proTip,
-  faqs
-}`
+  faqs[]{
+    question,
+    answer
+  }
+}`;
 
 export const INGREDIENT_BY_SLUG_QUERY = `*[_type == "ingredient" && slug.current == $slug][0]{
   _id,
@@ -116,13 +119,16 @@ export const INGREDIENT_BY_SLUG_QUERY = `*[_type == "ingredient" && slug.current
   slug,
   image,
   description,
-  benefits,
+  introduction,
   howItWorks,
-  keyBenefits,
+  benefits,
   bestFor,
   howToUse,
   pairsWith,
   avoidWith,
   proTip,
-  faqs
-}`
+  faqs[]{
+    question,
+    answer
+  }
+}`;

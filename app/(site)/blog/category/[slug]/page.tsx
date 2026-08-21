@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
-import { posts } from "../../../data/posts";
-import { categories } from "../../../data/categories";
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer";
+import { posts } from "@/app/data/posts";
+import { categories } from "@/app/data/categories";
 
 interface PageProps {
   params: Promise<{
