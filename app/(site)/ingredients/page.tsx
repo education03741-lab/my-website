@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { ingredients as staticIngredients, Ingredient } from "@/app/data/ingredients";
+import { Ingredient } from "@/app/data/ingredients";
 import { client } from "@/sanity/lib/client";
 import { INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -31,7 +31,7 @@ export default async function IngredientsPage() {
     })
   );
 
-  const allIngredients = [...staticIngredients, ...mappedSanityIngredients];
+  const allIngredients = mappedSanityIngredients;
 
   return (
     <>
