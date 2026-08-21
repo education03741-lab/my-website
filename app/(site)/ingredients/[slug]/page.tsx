@@ -9,13 +9,13 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import ComingSoon from "@/app/components/ComingSoon";
 
-import {
-  ingredients as staticIngredients,
-  Ingredient,
-} from "@/app/data/ingredients";
+import type { Ingredient } from "@/app/data/ingredients";
 
 import { client } from "@/sanity/lib/client";
-import { INGREDIENT_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import {
+  INGREDIENT_BY_SLUG_QUERY,
+  INGREDIENTS_QUERY,
+} from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 interface PageProps {
@@ -89,8 +89,7 @@ function hasContent(value: unknown) {
 
 const portableTextComponents = {
   block: {
-    normal: ({ children }: { children?: React.ReactNode }) => (
-      <p className="mb-5 leading-8 text-gray-600 dark:text-gray-300">
+    normal: ({ children }: { children?: React.ReactNode }) => (      <p className="mb-5 leading-8 text-gray-600 dark:text-gray-300">
         {children}
       </p>
     ),
@@ -109,83 +108,107 @@ const portableTextComponents = {
   },
 
   list: {
-    bullet: ({ children }: { children?: React.ReactNode }) => (
-      <ul className="mb-6 ml-6 list-disc space-y-2 text-gray-600 dark:text-gray-300">
+    bullet: ({ children }: { children?: React.ReactNode }) => (      <ul className="mb-6 ml-6 list-disc space-y-2 text-gray-600 dark:text-gray-300">
         {children}
       </ul>
     ),
 
-    number: ({ children }: { children?: React.ReactNode }) => (
-      <ol className="mb-6 ml-6 list-decimal space-y-2 text-gray-600 dark:text-gray-300">
+    number: ({ children }: { children?: React.ReactNode }) => (      <ol className="mb-6 ml-6 list-decimal space-y-2 text-gray-600 dark:text-gray-300">
         {children}
       </ol>
     ),
   },
 
   listItem: {
-    bullet: ({ children }: { children?: React.ReactNode }) => (
-      <li className="leading-7">{children}</li>
+    bullet: ({ children }: { children?: React.ReactNode }) => (      <li className="leading-7">{children}</li>
     ),
 
-    number: ({ children }: { children?: React.ReactNode }) => (
-      <li className="leading-7">{children}</li>
+    number: ({ children }: { children?: React.ReactNode }) => (      <li className="leading-7">{children}</li>
     ),
   },
 };
 
 const getIngredient = cache(
   async (slug: string): Promise<Ingredient | undefined> => {
-    /*
-     * Sanity is now the primary source.
-     */
     const sanityIngredient: SanityIngredient | null = await client.fetch(
       INGREDIENT_BY_SLUG_QUERY,
       { slug }
     );
 
-    if (sanityIngredient) {
-      return {
-        id: 9999,
-        name: sanityIngredient.name,
-        slug: sanityIngredient.slug?.current ?? slug,
+    if (!sanityIngredient) {
+      return undefined;
+    }
 
-        image: sanityIngredient.image
-          ? urlFor(sanityIngredient.image)
-              .width(1200)
-              .height(700)
-              .url()
+    return {
+      id: 9999,
+      name: sanityIngredient.name,
+      slug: sanityIngredient.slug?.current ?? slug,
+
+      image: sanityIngredient.image
+        ? urlFor(sanityIngredient.image)
+            .width(1200)
+            .height(700)
+            .url()
+        : "",
+
+      description: sanityIngredient.description ?? "",
+
+      introduction: sanityIngredient.introduction ?? [],
+
+      howItWorks: sanityIngredient.howItWorks ?? [],
+
+      benefits: sanityIngredient.benefits ?? [],
+
+      bestFor: sanityIngredient.bestFor ?? [],
+
+      howToUse: sanityIngredient.howToUse ?? [],
+
+      pairsWith: sanityIngredient.pairsWith ?? [],
+
+      avoidWith: sanityIngredient.avoidWith ?? [],
+
+      proTip: sanityIngredient.proTip ?? [],
+
+      faqs:
+        sanityIngredient.faqs?.map((faq) => ({
+          question: faq.question,
+          answer: faq.answer ?? [],
+        })) ?? [],
+    };
+  }
+);
+
+const getRelatedIngredients = cache(
+  async (currentSlug: string): Promise<Ingredient[]> => {
+    const sanityIngredients: SanityIngredient[] = await client.fetch(
+      INGREDIENTS_QUERY
+    );
+
+    return sanityIngredients
+      .filter((item) => item.slug?.current !== currentSlug)
+      .slice(0, 3)
+      .map((item, index) => ({
+        id: 3000 + index,
+        name: item.name,
+        slug: item.slug?.current ?? "",
+        image: item.image
+          ? urlFor(item.image).width(600).height(400).url()
           : "",
-
-        description: sanityIngredient.description ?? "",
-
-        introduction: sanityIngredient.introduction ?? [],
-
-        howItWorks: sanityIngredient.howItWorks ?? [],
-
-        benefits: sanityIngredient.benefits ?? [],
-
-        bestFor: sanityIngredient.bestFor ?? [],
-
-        howToUse: sanityIngredient.howToUse ?? [],
-
-        pairsWith: sanityIngredient.pairsWith ?? [],
-
-        avoidWith: sanityIngredient.avoidWith ?? [],
-
-        proTip: sanityIngredient.proTip ?? [],
-
+        description: item.description ?? "",
+        introduction: item.introduction ?? [],
+        howItWorks: item.howItWorks ?? [],
+        benefits: item.benefits ?? [],
+        bestFor: item.bestFor ?? [],
+        howToUse: item.howToUse ?? [],
+        pairsWith: item.pairsWith ?? [],
+        avoidWith: item.avoidWith ?? [],
+        proTip: item.proTip ?? [],
         faqs:
-          sanityIngredient.faqs?.map((faq) => ({
+          item.faqs?.map((faq) => ({
             question: faq.question,
             answer: faq.answer ?? [],
           })) ?? [],
-      };
-    }
-
-    /*
-     * Static data remains as a fallback.
-     */
-    return staticIngredients.find((item) => item.slug === slug);
+      }));
   }
 );
 
@@ -209,7 +232,7 @@ export async function generateMetadata({
 
   const description =
     ingredient.description?.slice(0, 155) ||
-    `Learn about ${ingredient.name} — benefits, how it works, and how to use it.`;
+    `Learn about ${ingredient.name} ΓÇö benefits, how it works, and how to use it.`;
 
   return {
     title,
@@ -264,9 +287,7 @@ export default async function IngredientPage({ params }: PageProps) {
     );
   }
 
-  const relatedIngredients = staticIngredients
-    .filter((item) => item.slug !== ingredient.slug)
-    .slice(0, 3);
+  const relatedIngredients = await getRelatedIngredients(ingredient.slug);
 
   const faqSchema =
     ingredient.faqs.length > 0

@@ -9,7 +9,7 @@ import Testimonials from "@/app/components/Testimonials";
 import Newsletter from "@/app/components/Newsletter";
 import Footer from "@/app/components/Footer";
 import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
-import { ingredients as staticIngredients, Ingredient } from "@/app/data/ingredients";
+import { Ingredient } from "@/app/data/ingredients";
 import { client } from "@/sanity/lib/client";
 import { CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -60,7 +60,7 @@ export default async function Home() {
   );
 
   const allConcerns = [...staticConcerns, ...mappedSanityConcerns];
-  const allIngredients = [...staticIngredients, ...mappedSanityIngredients];
+  const allIngredients = mappedSanityIngredients;
 
   const jsonLd = {
     "@context": "https://schema.org",
