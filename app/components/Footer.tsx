@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
 
           <div>
-            <h2 className="text-3xl font-bold text-white">
+            <h2 className="text-3xl font-bold !text-white" style={{ color: "#ffffff" }}>
               Glow<span className="text-primary">Skin</span>
             </h2>
 
@@ -36,7 +36,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wide text-white">Explore</h3>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-wide !text-white" style={{ color: "#ffffff" }}>Explore</h3>
             <ul className="space-y-4">
               <li><Link href="/" className="text-gray-400 transition hover:text-primary-light">Home</Link></li>
               <li><Link href="/blog" className="text-gray-400 transition hover:text-primary-light">Blog</Link></li>
@@ -46,7 +46,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wide text-white">Company</h3>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-wide !text-white" style={{ color: "#ffffff" }}>Company</h3>
             <ul className="space-y-4">
               <li><Link href="/about" className="text-gray-400 transition hover:text-primary-light">About Us</Link></li>
               <li><Link href="/contact" className="text-gray-400 transition hover:text-primary-light">Contact</Link></li>
@@ -56,7 +56,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wide text-white">Stay Updated</h3>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-wide !text-white" style={{ color: "#ffffff" }}>Stay Updated</h3>
             <p className="mb-6 text-gray-400">Get weekly skincare tips and ingredient guides.</p>
             <div className="flex overflow-hidden rounded-xl border border-gray-800 bg-gray-900 focus-within:border-primary">
               <input type="email" placeholder="Your email" className="w-full bg-transparent px-4 py-3 text-white outline-none placeholder:text-gray-500" />
