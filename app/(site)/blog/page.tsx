@@ -73,13 +73,13 @@ export default async function BlogPage() {
                 className="group overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
               >
                 {article.mainImage && (
-                  <div className="relative h-56 w-full overflow-hidden">
+                  <div className="relative h-56 w-full overflow-hidden bg-white">
                     <Image
-                      src={urlFor(article.mainImage).width(600).height(400).url()}
+                      src={urlFor(article.mainImage).width(1200).url()}
                       alt={article.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
                 )}

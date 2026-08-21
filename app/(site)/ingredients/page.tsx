@@ -7,6 +7,8 @@ import { client } from "@/sanity/lib/client";
 import { INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+export const revalidate = 60;
+
 export default async function IngredientsPage() {
   const sanityIngredients = await client.fetch(INGREDIENTS_QUERY);
 
