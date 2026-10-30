@@ -14,7 +14,17 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && !(_id in path("dra
   excerpt,
   mainImage,
   body,
-  publishedAt
+  category,
+  publishedAt,
+  _updatedAt,
+  seoTitle,
+  seoDescription,
+  directAnswer,
+  faqs[]{question, answer},
+  authorName,
+  authorBio,
+  reviewerName,
+  sources[]{title, url}
 }`
 
 export const CONCERNS_QUERY = `*[_type == "concern"]{

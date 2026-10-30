@@ -220,6 +220,11 @@ function portableTextToPlainText(blocks: TextBlock[] | undefined): string {
 
 // Sanity is the source of truth for published articles. Keep the bundled
 // articles intact as a fallback for missing/incomplete CMS documents.
+// JSON-LD is embedded in a script element; escape "<" so editorial text
+// cannot accidentally terminate that element.
+const serializeJsonLd = (value: unknown): string =>
+  JSON.stringify(value).replace(/</g, "\\u003c");
+
 const getArticle = cache(async (slug: string) => {
   const staticPost = posts.find((p) => p.slug === slug);
 
@@ -286,25 +291,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const sanityArticle = result.data;
+  const title = sanityArticle.seoTitle?.trim() || sanityArticle.title;
   const description =
+    sanityArticle.seoDescription?.trim() ||
     portableTextToPlainText(sanityArticle.body).slice(0, 155) ||
+    sanityArticle.excerpt?.trim() ||
     `Read ${sanityArticle.title} on GlowSkin.`;
   const image = sanityArticle.mainImage
     ? urlFor(sanityArticle.mainImage).width(1200).height(630).url()
     : undefined;
 
   return {
-    title: sanityArticle.title,
+    title,
     description,
     openGraph: {
-      title: sanityArticle.title,
+      title,
       description,
       images: image ? [{ url: image, width: 1200, height: 630 }] : [],
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: sanityArticle.title,
+      title,
       description,
       images: image ? [image] : [],
     },
@@ -435,6 +443,44 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   // ✅ SANITY ARTICLE RENDER
   const sanityArticle = result.data;
+  const canonicalUrl = `https://glowskin.blog/blog/${slug}`;
+  const description =
+    sanityArticle.seoDescription?.trim() ||
+    portableTextToPlainText(sanityArticle.body).slice(0, 200) ||
+    sanityArticle.excerpt?.trim();
+  const directAnswer = sanityArticle.directAnswer?.trim();
+  const authorName = sanityArticle.authorName?.trim();
+  const authorBio = sanityArticle.authorBio?.trim();
+  const reviewerName = sanityArticle.reviewerName?.trim();
+  const publishedAt = sanityArticle.publishedAt && !Number.isNaN(Date.parse(sanityArticle.publishedAt))
+    ? sanityArticle.publishedAt
+    : undefined;
+  const modifiedAt = sanityArticle._updatedAt && !Number.isNaN(Date.parse(sanityArticle._updatedAt))
+    ? sanityArticle._updatedAt
+    : undefined;
+  const visibleFaqs: Array<{ question: string; answer: string }> =
+    Array.isArray(sanityArticle.faqs)
+      ? sanityArticle.faqs.filter(
+          (faq: { question?: string; answer?: string }) =>
+            typeof faq.question === "string" && faq.question.trim().length > 0 &&
+            typeof faq.answer === "string" && faq.answer.trim().length > 0
+        )
+      : [];
+  const sources: Array<{ title: string; url: string }> =
+    Array.isArray(sanityArticle.sources)
+      ? sanityArticle.sources.filter(
+          (source: { title?: string; url?: string }) => {
+            if (typeof source.title !== "string" || !source.title.trim() ||
+                typeof source.url !== "string") return false;
+            try {
+              const protocol = new URL(source.url).protocol;
+              return protocol === "https:" || protocol === "http:";
+            } catch {
+              return false;
+            }
+          }
+        )
+      : [];
 
   return (
     <>
@@ -443,17 +489,46 @@ export default async function BlogPostPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
+            "@id": `${canonicalUrl}#article`,
             headline: sanityArticle.title,
+            mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+            publisher: {
+              "@type": "Organization",
+              "@id": "https://glowskin.blog/#organization",
+              name: "GlowSkin",
+            },
+            author: authorName ? { "@type": "Person", name: authorName } : undefined,
+            reviewer: reviewerName ? { "@type": "Person", name: reviewerName } : undefined,
+            datePublished: publishedAt,
+            dateModified: modifiedAt,
+            articleSection: sanityArticle.category || undefined,
             image: sanityArticle.mainImage
               ? [urlFor(sanityArticle.mainImage).width(1200).height(630).url()]
               : undefined,
-            description: portableTextToPlainText(sanityArticle.body).slice(0, 200),
+            description,
           }),
         }}
       />
+
+      {visibleFaqs.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeJsonLd({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: visibleFaqs.map((faq) => ({
+                "@type": "Question",
+                name: faq.question,
+                acceptedAnswer: { "@type": "Answer", text: faq.answer },
+              })),
+            }),
+          }}
+        />
+      )}
 
       <main className="max-w-4xl mx-auto px-6 py-20">
         <Link
@@ -467,6 +542,17 @@ export default async function BlogPostPage({ params }: PageProps) {
           <h1 className="mt-6 text-5xl font-extrabold text-gray-900 leading-tight">
             {sanityArticle.title}
           </h1>
+          {(publishedAt || authorName || reviewerName) && (
+            <div className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-600">
+              {authorName && <span>By {authorName}</span>}
+              {publishedAt && (
+                <time dateTime={publishedAt}>
+                  Published {new Intl.DateTimeFormat("en", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(publishedAt))}
+                </time>
+              )}
+              {reviewerName && <span>Reviewed by {reviewerName}</span>}
+            </div>
+          )}
 
           {sanityArticle.mainImage && (
             <div className="relative mt-10 h-80 w-full overflow-hidden rounded-3xl">
@@ -481,12 +567,58 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
           )}
 
+          {directAnswer && (
+            <aside aria-labelledby="answer-at-glance" className="mt-10 border-l-4 border-[#A66370] bg-[#F7F3EC] px-6 py-6">
+              <h2 id="answer-at-glance" className="text-xl font-semibold text-[#282521]">
+                At a glance
+              </h2>
+              <p className="mt-3 leading-7 text-[#514C47]">{directAnswer}</p>
+            </aside>
+          )}
+
           <article className="max-w-none mt-12">
-            <PortableText 
-              value={sanityArticle.body} 
-              components={portableTextComponents} 
+            <PortableText
+              value={sanityArticle.body}
+              components={portableTextComponents}
             />
           </article>
+
+          {visibleFaqs.length > 0 && (
+            <section aria-labelledby="reader-questions" className="mt-14 border-t border-gray-200 pt-10">
+              <h2 id="reader-questions" className="text-3xl font-semibold text-gray-900">Questions readers ask</h2>
+              <div className="mt-7 space-y-7">
+                {visibleFaqs.map((faq, index) => (
+                  <div key={`${index}-${faq.question}`}>
+                    <h3 className="text-xl font-semibold text-gray-900">{faq.question}</h3>
+                    <p className="mt-2 leading-7 text-gray-700">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {sources.length > 0 && (
+            <section aria-labelledby="article-references" className="mt-14 border-t border-gray-200 pt-10">
+              <h2 id="article-references" className="text-2xl font-semibold text-gray-900">References and further reading</h2>
+              <ul className="mt-5 list-disc space-y-2 pl-6">
+                {sources.map((source, index) => (
+                  <li key={`${index}-${source.url}`}>
+                    <a href={source.url} target="_blank" rel="noopener noreferrer" className="break-words text-[#662F42] underline underline-offset-4 hover:text-[#A66370]">
+                      {source.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {authorBio && authorName && (
+            <section aria-labelledby="about-article-author" className="mt-12 border-t border-gray-200 pt-8">
+              <h2 id="about-article-author" className="text-xl font-semibold text-gray-900">About the author</h2>
+              <p className="mt-3 font-semibold text-gray-800">{authorName}</p>
+              <p className="mt-2 leading-7 text-gray-700">{authorBio}</p>
+            </section>
+          )}
         </div>
       </main>
 
