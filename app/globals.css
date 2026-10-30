@@ -170,3 +170,38 @@ body {
     scroll-behavior: auto;
   }
 }
+
+
+/* The homepage remains readable when visitors select dark reading mode. */
+.dark .gs-editorial-home,
+.dark .gs-editorial-home section {
+  background-color: #282320;
+}
+
+.dark .gs-editorial-home :is(h1, h2, h3) {
+  color: #F7F3EC !important;
+}
+
+.dark .gs-editorial-home p {
+  color: #D8CBC2;
+}
+
+.dark .gs-editorial-home a:not(.gs-story-card):not(.gs-ingredient-card) {
+  color: #EFC2CA;
+}
+
+.dark .gs-editorial-home .gs-story-card,
+.dark .gs-editorial-home .gs-ingredient-card,
+.dark .gs-editorial-home .gs-hero-note {
+  background-color: #3A302E;
+  border-color: #65544E;
+}
+
+.dark .gs-editorial-home .gs-hero-note span {
+  color: #EFC2CA;
+}
+
+.dark .gs-editorial-home .gs-ingredient-card .text-\[\#662F42\],
+.dark .gs-editorial-home .gs-story-card .text-\[\#662F42\] {
+  color: #EFC2CA;
+}
