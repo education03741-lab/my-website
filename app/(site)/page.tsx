@@ -117,7 +117,7 @@ export default async function Home() {
       />
 
       <Navbar />
-      <main className="bg-[#F7F3EC]">
+      <main className="gs-editorial-home bg-[#F7F3EC]">
         <section id="home">
           <Hero />
         </section>
