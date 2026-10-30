@@ -214,6 +214,21 @@ const portableTextComponents: PortableTextComponents = {
     strong: ({ children }) => <strong style={{ fontWeight: '700', color: '#111827' }}>{children}</strong>,
     em: ({ children }) => <em style={{ fontStyle: 'italic', color: '#374151' }}>{children}</em>,
     underline: ({ children }) => <u style={{ textDecoration: 'underline' }}>{children}</u>,
+    link: ({ children, value }) => {
+      const href = typeof value?.href === "string" ? value.href : "";
+      const external = /^https?:\/\//i.test(href);
+      if (!external && !href.startsWith("/")) return <>{children}</>;
+      return (
+        <a
+          href={href}
+          target={external ? "_blank" : undefined}
+          rel={external ? "noopener noreferrer" : undefined}
+          className="text-[#662F42] underline underline-offset-4 hover:text-[#A66370]"
+        >
+          {children}
+        </a>
+      );
+    },
   },
 };
 
