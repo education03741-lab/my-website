@@ -34,7 +34,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  // Load saved preferences on first mount
+  // Load saved preferences on first mount (client-only storage hydration).
+  /* eslint-disable react-hooks/set-state-in-effect -- Preserve existing one-time preference restoration behavior. */
   useEffect(() => {
     const savedTheme = localStorage.getItem("glowskin-theme") as Theme | null;
     const savedFontSize = localStorage.getItem("glowskin-font-size") as FontSize | null;
@@ -51,6 +52,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
     setMounted(true);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Apply theme class to <html> and save preference
   useEffect(() => {
