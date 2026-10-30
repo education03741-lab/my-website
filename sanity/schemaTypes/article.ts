@@ -44,6 +44,12 @@ export const article = defineType({
               title: 'Alternative text',
               description: 'Important for SEO and accessibility',
             },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Image caption',
+              description: 'Optional visible caption that summarizes the visual and supports the surrounding article text.',
+            },
           ],
         },
       ],

@@ -130,16 +130,31 @@ const portableTextComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
       if (!value?.asset) return null;
+      // Sanity image IDs include native dimensions (e.g. -1448x1086-png).
+      // Preserve that ratio for wide charts and portrait editorial images.
+      const assetRef = typeof value.asset._ref === "string" ? value.asset._ref : "";
+      const dimensions = assetRef.match(/-(\d+)x(\d+)-/);
+      const width = dimensions ? Number(dimensions[1]) : 1200;
+      const height = dimensions ? Number(dimensions[2]) : 900;
+      const caption = typeof value.caption === "string" ? value.caption.trim() : "";
+
       return (
-        <div className="relative my-8 w-full aspect-[5/3] overflow-hidden rounded-2xl">
+        <figure className="my-10 w-full">
           <Image
-            src={urlFor(value).width(1000).height(600).url()}
-            alt={value.alt || " "}
-            fill
+            src={urlFor(value).width(1200).url()}
+            alt={typeof value.alt === "string" ? value.alt : ""}
+            width={width}
+            height={height}
             sizes="(max-width: 768px) 100vw, 768px"
-            className="object-contain"
+            loading="lazy"
+            className="h-auto w-full rounded-xl border border-[#E5DAD0]"
           />
-        </div>
+          {caption && (
+            <figcaption className="mt-3 text-center text-sm leading-6 text-gray-600">
+              {caption}
+            </figcaption>
+          )}
+        </figure>
       );
     },
   },
@@ -199,6 +214,21 @@ const portableTextComponents: PortableTextComponents = {
     strong: ({ children }) => <strong style={{ fontWeight: '700', color: '#111827' }}>{children}</strong>,
     em: ({ children }) => <em style={{ fontStyle: 'italic', color: '#374151' }}>{children}</em>,
     underline: ({ children }) => <u style={{ textDecoration: 'underline' }}>{children}</u>,
+    link: ({ children, value }) => {
+      const href = typeof value?.href === "string" ? value.href : "";
+      const external = /^https?:\/\//i.test(href);
+      if (!external && !href.startsWith("/")) return <>{children}</>;
+      return (
+        <a
+          href={href}
+          target={external ? "_blank" : undefined}
+          rel={external ? "noopener noreferrer" : undefined}
+          className="text-[#662F42] underline underline-offset-4 hover:text-[#A66370]"
+        >
+          {children}
+        </a>
+      );
+    },
   },
 };
 
