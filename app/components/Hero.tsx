@@ -57,7 +57,7 @@ export default function Hero() {
               className="object-cover"
             />
           </div>
-          <div className="absolute -bottom-6 left-4 right-4 border border-[#E3D9D0] bg-[#FFFCF8] px-6 py-5 shadow-[0_10px_36px_rgba(48,37,33,0.10)] sm:-left-8 sm:right-auto sm:w-64">
+          <div className="gs-hero-note absolute -bottom-6 left-4 right-4 border border-[#E3D9D0] bg-[#FFFCF8] px-6 py-5 shadow-[0_10px_36px_rgba(48,37,33,0.10)] sm:-left-8 sm:right-auto sm:w-64">
             <span className="block text-[10px] font-semibold uppercase tracking-[0.23em] text-[#A66370]">Our point of view</span>
             <p className="mt-2 font-heading text-xl leading-snug text-[#282521]">
               Good skin decisions start with good information.
