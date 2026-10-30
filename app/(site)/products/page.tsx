@@ -7,7 +7,7 @@ import { PRODUCTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 type SanityProduct = Omit<Product, "id" | "slug" | "image"> & {
-  slug?: { current?: string };
+  slug: { current: string };
   image?: Parameters<typeof urlFor>[0];
 };
 
