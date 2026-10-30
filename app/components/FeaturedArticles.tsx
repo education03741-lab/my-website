@@ -8,7 +8,7 @@ function StoryCard({ post, featured = false }: { post: Post; featured?: boolean 
     <article className={featured ? "group lg:row-span-2" : "group"}>
       <Link
         href={`/blog/${post.slug}`}
-        className={`block h-full overflow-hidden border border-[#E5DAD0] bg-[#FFFCF8] transition hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] ${featured ? "" : "sm:grid sm:grid-cols-[43%_57%] lg:grid-cols-[44%_56%]"}`}
+        className={`gs-story-card block h-full overflow-hidden border border-[#E5DAD0] bg-[#FFFCF8] transition hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] ${featured ? "" : "sm:grid sm:grid-cols-[43%_57%] lg:grid-cols-[44%_56%]"}`}
       >
         <div className={`relative overflow-hidden bg-[#EEE7DE] ${featured ? "aspect-[4/3] lg:aspect-[1.5/1]" : "aspect-[4/3] sm:aspect-auto sm:min-h-52"}`}>
           <Image
