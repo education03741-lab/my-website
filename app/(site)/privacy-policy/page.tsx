@@ -26,8 +26,8 @@ export default function PrivacyPolicyPage() {
                 1. Introduction
               </h2>
               <p className="mt-4 leading-7">
-                This Privacy Policy explains how GlowSkin ("we," "us," or
-                "our") collects, uses, and protects information when you
+                This Privacy Policy explains how GlowSkin (&quot;we,&quot; &quot;us,&quot; or
+                &quot;our&quot;) collects, uses, and protects information when you
                 visit our website. By using this site, you agree to the
                 practices described below.
               </p>
@@ -104,7 +104,7 @@ export default function PrivacyPolicyPage() {
               <p className="mt-4 leading-7">
                 We may update this Privacy Policy from time to time. Any
                 changes will be reflected on this page with an updated
-                "Last updated" date.
+                &quot;Last updated&quot; date.
               </p>
             </section>
 

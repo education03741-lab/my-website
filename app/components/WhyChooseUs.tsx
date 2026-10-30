@@ -64,7 +64,7 @@ export default function WhyChooseUs() {
 
             <p className="mt-5 text-lg text-gray-600">
               We make skincare simple, trustworthy, and backed by science —
-              here's what sets us apart from the rest.
+              here&apos;s what sets us apart from the rest.
             </p>
 
             <div className="relative mt-10 h-96 w-full overflow-hidden rounded-4xl shadow-2xl">

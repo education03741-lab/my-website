@@ -1,4 +1,3 @@
-import SeoSchema from "@/app/components/SeoSchema";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
 import WhyChooseUs from "@/app/components/WhyChooseUs";
@@ -14,12 +13,22 @@ import { client } from "@/sanity/lib/client";
 import { CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+type SanityConcern = Omit<Concern, "id" | "slug" | "image"> & {
+  slug: { current: string };
+  image?: Parameters<typeof urlFor>[0];
+};
+
+type SanityIngredient = Omit<Ingredient, "id" | "slug" | "image"> & {
+  slug: { current: string };
+  image?: Parameters<typeof urlFor>[0];
+};
+
 export default async function Home() {
-  const sanityConcerns = await client.fetch(CONCERNS_QUERY);
-  const sanityIngredients = await client.fetch(INGREDIENTS_QUERY);
+  const sanityConcerns = await client.fetch<SanityConcern[]>(CONCERNS_QUERY);
+  const sanityIngredients = await client.fetch<SanityIngredient[]>(INGREDIENTS_QUERY);
 
   const mappedSanityConcerns: Concern[] = sanityConcerns.map(
-    (item: any, index: number) => ({
+    (item, index) => ({
       id: 1000 + index,
       title: item.title,
       slug: item.slug?.current,
@@ -41,7 +50,7 @@ export default async function Home() {
   );
 
   const mappedSanityIngredients: Ingredient[] = sanityIngredients.map(
-    (item: any, index: number) => ({
+    (item, index) => ({
       id: 2000 + index,
       name: item.name,
       slug: item.slug?.current,

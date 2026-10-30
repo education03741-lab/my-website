@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Standalone Node scripts intentionally use CommonJS. */
 /**
  * One-time migration script: pushes Vitamin C, Niacinamide, Retinol, and
  * Hyaluronic Acid from app/data/ingredients.ts into Sanity as real

@@ -6,11 +6,16 @@ import { client } from "@/sanity/lib/client";
 import { PRODUCTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+type SanityProduct = Omit<Product, "id" | "slug" | "image"> & {
+  slug: { current: string };
+  image?: Parameters<typeof urlFor>[0];
+};
+
 export default async function ProductsPage() {
-  const sanityProducts = await client.fetch(PRODUCTS_QUERY);
+  const sanityProducts = await client.fetch<SanityProduct[]>(PRODUCTS_QUERY);
 
   const mappedSanityProducts: Product[] = sanityProducts.map(
-    (item: any, index: number) => ({
+    (item, index) => ({
       id: 1000 + index,
       title: item.title,
       slug: item.slug?.current,

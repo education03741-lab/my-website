@@ -14,7 +14,7 @@ type SanityArticle = {
   title: string;
   slug: { current: string };
   excerpt: string;
-  mainImage: any;
+  mainImage?: Parameters<typeof urlFor>[0];
   publishedAt: string;
 };
 

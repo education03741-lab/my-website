@@ -6,11 +6,16 @@ import { client } from "@/sanity/lib/client";
 import { CONCERNS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+type SanityConcern = Omit<Concern, "id" | "slug" | "image"> & {
+  slug: { current: string };
+  image?: Parameters<typeof urlFor>[0];
+};
+
 export default async function SkinConcernsPage() {
-  const sanityConcerns = await client.fetch(CONCERNS_QUERY);
+  const sanityConcerns = await client.fetch<SanityConcern[]>(CONCERNS_QUERY);
 
   const mappedSanityConcerns: Concern[] = sanityConcerns.map(
-    (item: any, index: number) => ({
+    (item, index) => ({
       id: 1000 + index,
       title: item.title,
       slug: item.slug?.current,

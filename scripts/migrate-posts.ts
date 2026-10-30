@@ -178,7 +178,11 @@ async function migratePost(post: Post) {
   }
 
   // Create document (FIXED: removed 'date' field)
-  const doc: any = {
+  const doc: {
+    _type: string;
+    mainImage?: { _type: "image"; asset: { _type: "reference"; _ref: string } };
+    [key: string]: unknown;
+  } = {
     _type: 'post', // Must match your frontend query
     title: post.title,
     slug: { 
@@ -218,7 +222,7 @@ async function main() {
   console.log(`📁 Total posts: ${posts.length}\n`)
 
   let successCount = 0
-  let skipCount = 0
+  const skipCount = 0
   let failCount = 0
 
   for (const post of posts) {
