@@ -133,7 +133,7 @@ const portableTextComponents: PortableTextComponents = {
       // Sanity image IDs include native dimensions (e.g. -1448x1086-png).
       // Preserve that ratio for wide charts and portrait editorial images.
       const assetRef = typeof value.asset._ref === "string" ? value.asset._ref : "";
-      const dimensions = assetRef.match(/-(\\d+)x(\\d+)-/);
+      const dimensions = assetRef.match(/-(\d+)x(\d+)-/);
       const width = dimensions ? Number(dimensions[1]) : 1200;
       const height = dimensions ? Number(dimensions[2]) : 900;
       const caption = typeof value.caption === "string" ? value.caption.trim() : "";
