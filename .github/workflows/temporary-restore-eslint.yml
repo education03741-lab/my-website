@@ -1,0 +1,63 @@
+name: Temporary restore ESLint fixes onto main-based branch
+
+on:
+  push:
+    branches: [chore/restore-eslint-main]
+    paths:
+      - .github/workflows/temporary-restore-eslint.yml
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    name: Restore lint fixes without merging
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NEXT_PUBLIC_SANITY_API_VERSION: "2024-01-01"
+      NEXT_PUBLIC_SANITY_DATASET: "production"
+      NEXT_PUBLIC_SANITY_PROJECT_ID: "3x2g2pvc"
+    steps:
+      - name: Check out feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: chore/restore-eslint-main
+          fetch-depth: 0
+
+      - name: Cherry-pick reviewed lint-only commits
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/chore/restore-eslint-main"
+          git fetch origin chore/eslint-cleanup
+          git cherry-pick 94b7eb1f6fb0b09aea9d056047e290637bc900f9
+          git cherry-pick bd53c3b892910f0f4484d1b9204c739cbe16f932
+          git cherry-pick 97ec96eb95d6816767499fd241a02c952f74337e
+          git cherry-pick 8c634b4bb58f20d5163082665fe8142ac1fdde45
+
+      - name: Verify no dependency files changed
+        run: |
+          git diff --exit-code origin/main HEAD -- package.json package-lock.json
+
+      - name: Push lint restoration only to dedicated branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin HEAD:refs/heads/chore/restore-eslint-main
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Validate clean install
+        run: npm ci --no-audit --no-fund
+
+      - name: Validate ESLint
+        run: npm run lint
+
+      - name: Validate production build (can expose original Google Fonts flake)
+        run: npm run build
