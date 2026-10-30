@@ -1,137 +1,81 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
-import { FlaskConical, Stethoscope, Leaf, ShieldCheck, BookOpen, Heart, Plus, Minus } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
-const features = [
+const editorialGuides = [
   {
-    icon: FlaskConical,
-    title: "Science-Based Advice",
-    description:
-      "Our articles are based on trusted skincare research and evidence-based practices, not trends or guesswork.",
+    number: "01",
+    title: "Know the ingredients",
+    description: "Get familiar with the formulas, everyday terms, and considerations behind your skincare choices.",
+    href: "/ingredients",
+    link: "Browse the ingredient library",
   },
   {
-    icon: Stethoscope,
-    title: "Expert Inspired",
-    description:
-      "We simplify dermatologist-inspired skincare routines into practical steps you can actually follow every day.",
+    number: "02",
+    title: "Build your routine",
+    description: "Find a practical starting point, then learn how to adjust your routine to what your skin needs.",
+    href: "/blog/beginners-skincare-routine",
+    link: "Explore the beginner guide",
   },
   {
-    icon: Leaf,
-    title: "Ingredient Education",
-    description:
-      "Learn what every ingredient does, how it works, and whether it's right for your skin before you spend money.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "No Sponsored Bias",
-    description:
-      "We recommend what actually works for your skin type, not what pays the most commission.",
-  },
-  {
-    icon: BookOpen,
-    title: "Beginner Friendly",
-    description:
-      "New to skincare? Our guides are written in plain language, with no confusing jargon or assumed knowledge.",
-  },
-  {
-    icon: Heart,
-    title: "Trusted by Readers",
-    description:
-      "Thousands of skincare enthusiasts rely on GlowSkin for practical guidance they can trust and act on.",
+    number: "03",
+    title: "Understand your skin",
+    description: "Read about common skin concerns and the questions worth asking before choosing a product.",
+    href: "/skin-concerns",
+    link: "Explore skin concerns",
   },
 ];
 
 export default function WhyChooseUs() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
   return (
-    <section className="py-24 bg-linear-to-b from-white to-primary-light/15">
-      <div className="max-w-7xl mx-auto px-6">
-
-        <div className="grid gap-16 lg:grid-cols-2 items-center">
-
-          {/* Left: Image + Heading */}
-          <div>
-            <span className="inline-block rounded-full bg-primary-light px-4 py-2 text-sm font-semibold text-primary-dark">
-              Why GlowSkin?
-            </span>
-
-            <h2 className="mt-6 text-5xl font-bold text-charcoal leading-tight">
-              Why Choose GlowSkin
-            </h2>
-
-            <p className="mt-5 text-lg text-gray-600">
-              We make skincare simple, trustworthy, and backed by science —
-              here&apos;s what sets us apart from the rest.
-            </p>
-
-            <div className="relative mt-10 h-96 w-full overflow-hidden rounded-4xl shadow-2xl">
+    <section className="bg-[#FFFCF8] py-20 sm:py-28" aria-labelledby="editorial-approach">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="grid items-center gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+          <div className="relative">
+            <div className="relative aspect-[5/6] overflow-hidden rounded-t-[130px] bg-[#D8CEC4]">
               <Image
                 src="/images/why-choose/why-choose.jpg"
-                alt="GlowSkin approach to skincare education"
+                alt="GlowSkin editorial image illustrating skincare research and routines"
                 fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                sizes="(max-width: 1024px) 100vw, 38vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent" />
+            </div>
+            <div className="absolute -bottom-4 -right-3 bg-[#7B8B74] px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-white sm:-right-6">
+              Learn · Consider · Choose
             </div>
           </div>
-
-          {/* Right: Accordion */}
-          <div className="space-y-4">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              const isOpen = openIndex === index;
-
-              return (
-                <div
-                  key={feature.title}
-                  className={`rounded-2xl border transition-all duration-300 ${
-                    isOpen
-                      ? "border-primary-light bg-white shadow-[0_10px_30px_rgba(177,90,102,0.18)]"
-                      : "border-gray-100 bg-white/60"
-                  }`}
-                >
-                  <button
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="flex w-full items-center gap-4 px-6 py-5 text-left"
-                  >
-                    <div
-                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors duration-300 ${
-                        isOpen
-                          ? "bg-linear-to-br from-primary to-primary-dark text-white"
-                          : "bg-primary-light/50 text-primary"
-                      }`}
-                    >
-                      <Icon className="h-5 w-5" strokeWidth={1.8} />
-                    </div>
-
-                    <span className="flex-1 text-lg font-semibold text-charcoal">
-                      {feature.title}
-                    </span>
-
-                    <span className="text-primary">
-                      {isOpen ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
-                    </span>
-                  </button>
-
-                  {isOpen && (
-                    <div className="px-6 pb-5 pl-[4.5rem]">
-                      <p className="leading-7 text-gray-600">
-                        {feature.description}
-                      </p>
-                    </div>
-                  )}
+          <div>
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#A66370]">
+              How we approach skincare
+            </p>
+            <h2 id="editorial-approach" className="max-w-xl font-heading text-4xl font-medium leading-tight tracking-tight text-[#282521] sm:text-5xl">
+              Curiosity first.<br /><span className="italic text-[#A66370]">Hype comes last.</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-base leading-8 text-[#625A53]">
+              GlowSkin is a skincare education journal. We bring common topics into focus
+              so you can ask better questions, compare options, and build a routine that
+              makes sense to you.
+            </p>
+            <div className="mt-10 divide-y divide-[#E4DCD2] border-y border-[#E4DCD2]">
+              {editorialGuides.map((guide) => (
+                <div key={guide.number} className="grid grid-cols-[2.5rem_1fr] gap-5 py-6">
+                  <span className="pt-1 text-sm font-medium text-[#A66370]">{guide.number}</span>
+                  <div>
+                    <h3 className="font-heading text-2xl font-medium text-[#282521]">{guide.title}</h3>
+                    <p className="mt-2 max-w-lg text-sm leading-7 text-[#625A53]">{guide.description}</p>
+                    <Link href={guide.href} className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#662F42] underline-offset-4 hover:underline">
+                      {guide.link}<ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <p className="mt-6 text-sm leading-6 text-[#716962]">
+              This content is educational and cannot replace advice from a qualified healthcare professional.
+            </p>
           </div>
-
         </div>
-
       </div>
     </section>
   );

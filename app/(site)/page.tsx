@@ -5,8 +5,6 @@ import WhyChooseUs from "@/app/components/WhyChooseUs";
 import FeaturedArticles from "@/app/components/FeaturedArticles";
 import SkinConcerns from "@/app/components/SkinConcerns";
 import Ingredients from "@/app/components/Ingredients";
-import Testimonials from "@/app/components/Testimonials";
-import Newsletter from "@/app/components/Newsletter";
 import Footer from "@/app/components/Footer";
 import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
 import { Ingredient } from "@/app/data/ingredients";
@@ -118,9 +116,8 @@ export default async function Home() {
         }}
       />
 
-      <main className="bg-white">
-        <Navbar />
-
+      <Navbar />
+      <main className="gs-editorial-home bg-[#F7F3EC]">
         <section id="home">
           <Hero />
         </section>
@@ -138,15 +135,8 @@ export default async function Home() {
         <section id="skin-concerns">
           <SkinConcerns concerns={allConcerns} />
         </section>
-
-        <Testimonials />
-
-        <Newsletter />
-
-        <section id="contact">
-          <Footer />
-        </section>
       </main>
+      <Footer />
     </>
   );
 }

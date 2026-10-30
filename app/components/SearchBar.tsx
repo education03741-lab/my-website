@@ -51,6 +51,8 @@ export default function SearchBar() {
   return (
     <>
       <button
+        type="button"
+        aria-label="Search GlowSkin articles, ingredients and concerns"
         onClick={() => setOpen(true)}
         className="flex items-center gap-3 rounded-full border border-primary-light bg-primary-light/30 px-5 py-2.5 text-sm text-gray-500 transition hover:border-primary hover:bg-white hover:shadow-md"
       >
