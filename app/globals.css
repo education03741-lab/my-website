@@ -3,8 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #FDF9F4;
-  --foreground: #2D2A26;
+  --background: #F7F3EC;
+  --foreground: #282521;
 }
 
 @theme inline {
@@ -15,16 +15,16 @@
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
 
-  --color-primary: #B15A66;
-  --color-primary-light: #E8C9CB;
-  --color-primary-dark: #8C3F49;
+  --color-primary: #662F42;
+  --color-primary-light: #E8D1D3;
+  --color-primary-dark: #4B2331;
 
-  --color-accent: #6B7D5A;
-  --color-accent-light: #D4DDC7;
-  --color-accent-dark: #4E5D41;
+  --color-accent: #7B8B74;
+  --color-accent-light: #DAE1D5;
+  --color-accent-dark: #52634B;
 
-  --color-cream: #FDF9F4;
-  --color-charcoal: #2D2A26;
+  --color-cream: #F7F3EC;
+  --color-charcoal: #282521;
 }
 
 .dark {
@@ -133,4 +133,37 @@ body {
 
 #google_translate_element {
   line-height: normal;
+}
+
+/* Editorial header search button: compact at all viewports, modal remains unchanged. */
+.gs-nav-search > button {
+  display: flex;
+  width: 2.65rem;
+  height: 2.65rem;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #E5DAD0;
+  background: transparent;
+  color: #662F42;
+  box-shadow: none;
+}
+
+.gs-nav-search > button > span {
+  display: none;
+}
+
+.gs-nav-search > button:hover {
+  background: #F0E8E1;
+}
+
+.gs-nav-search > button:focus-visible {
+  outline: 2px solid #662F42;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
