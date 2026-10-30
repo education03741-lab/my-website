@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description: "Read the terms and conditions for using GlowSkin and its educational skincare content.",
+  alternates: { canonical: "/terms" },
+};
 
 export default function TermsPage() {
   return (

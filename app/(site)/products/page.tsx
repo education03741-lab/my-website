@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import Products from "@/app/components/Products";
@@ -5,6 +6,12 @@ import { products as staticProducts, Product } from "@/app/data/products";
 import { client } from "@/sanity/lib/client";
 import { PRODUCTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+
+export const metadata: Metadata = {
+  title: "Skincare Products & Guides",
+  description: "Explore skincare products, ingredients and usage guidance to make more informed product choices.",
+  alternates: { canonical: "/products" },
+};
 
 export default async function ProductsPage() {
   const sanityProducts = await client.fetch(PRODUCTS_QUERY);

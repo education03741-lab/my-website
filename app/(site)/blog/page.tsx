@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
@@ -16,6 +17,12 @@ type SanityArticle = {
   excerpt: string;
   mainImage: any;
   publishedAt: string;
+};
+
+export const metadata: Metadata = {
+  title: "Skincare Articles & Guides",
+  description: "Explore skincare routines, ingredient explainers, skin concerns and practical beauty guides on GlowSkin.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function BlogPage() {

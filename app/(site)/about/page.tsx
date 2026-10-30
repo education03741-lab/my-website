@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+
+export const metadata: Metadata = {
+  title: "About GlowSkin",
+  description: "Learn about GlowSkin's approach to skincare education, ingredient guides and practical skincare advice.",
+  alternates: { canonical: "/about" },
+};
 
 export default function AboutPage() {
   return (

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -10,6 +11,21 @@ interface PageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const category = categories.find((item) => item.slug === slug);
+
+  if (!category) {
+    return { robots: { index: false, follow: false } };
+  }
+
+  return {
+    title: `${category.label} Skincare Articles`,
+    description: `Explore ${category.label.toLowerCase()} skincare articles, practical routines and ingredient guidance on GlowSkin.`,
+    alternates: { canonical: `/blog/category/${category.slug}` },
+  };
 }
 
 export default async function CategoryPage({ params }: PageProps) {
