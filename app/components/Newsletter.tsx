@@ -117,7 +117,7 @@ export default function Newsletter() {
                     <CheckCircle2 size={32} />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-900">
-                    You're In!
+                    You&apos;re In!
                   </h3>
                   <p className="mt-3 text-gray-600">
                     Check your inbox soon for your first GlowSkin update.

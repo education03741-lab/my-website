@@ -24,7 +24,7 @@ export default function AboutPage() {
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            GlowSkin was built on a simple idea: skincare shouldn't be
+            GlowSkin was built on a simple idea: skincare shouldn&apos;t be
             confusing, overpriced, or full of marketing noise. We break down
             ingredients, routines, and skin concerns into clear, practical
             guidance you can actually use — without needing a chemistry
@@ -50,15 +50,15 @@ export default function AboutPage() {
               </h2>
               <p className="mt-4 leading-7 text-gray-600">
                 Like a lot of people, we spent years buying products that
-                didn't match our skin's actual needs. GlowSkin exists so
+                didn&apos;t match our skin&apos;s actual needs. GlowSkin exists so
                 you can skip that trial and error — and build a routine
-                that's actually right for you, from day one.
+                that&apos;s actually right for you, from day one.
               </p>
             </div>
 
             <div>
               <h2 className="text-2xl font-semibold text-charcoal">
-                What You'll Find Here
+                What You&apos;ll Find Here
               </h2>
               <p className="mt-4 leading-7 text-gray-600">
                 Ingredient breakdowns, guides organized by skin concern,
@@ -73,8 +73,8 @@ export default function AboutPage() {
                 Get In Touch
               </h2>
               <p className="mt-4 leading-7 text-gray-600">
-                Have a question, suggestion, or a skin concern you'd like
-                us to cover? We'd love to hear from you — visit our{" "}
+                Have a question, suggestion, or a skin concern you&apos;d like
+                us to cover? We&apos;d love to hear from you — visit our{" "}
                 <a href="/contact" className="text-primary hover:underline">
                   Contact page
                 </a>{" "}

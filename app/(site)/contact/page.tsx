@@ -33,9 +33,12 @@ export default function ContactPage() {
       setName("");
       setEmail("");
       setMessage("");
-    } catch (err: any) {
+    } catch (err: unknown) {
       setStatus("error");
-      setErrorMsg(err.message || "Something went wrong. Please try again.");
+      const detail = typeof err === "object" && err !== null && "message" in err && typeof err.message === "string"
+        ? err.message
+        : "Something went wrong. Please try again.";
+      setErrorMsg(detail);
     }
   }
 
@@ -50,12 +53,12 @@ export default function ContactPage() {
           </span>
 
           <h1 className="mt-6 text-5xl font-bold text-gray-900">
-            We'd Love to Hear From You
+            We&apos;d Love to Hear From You
           </h1>
 
           <p className="mt-6 text-lg text-gray-600">
             Have a question, suggestion, or business inquiry? Fill out the
-            form below and we'll get back to you as soon as possible.
+            form below and we&apos;ll get back to you as soon as possible.
           </p>
         </div>
 
@@ -63,7 +66,7 @@ export default function ContactPage() {
           <div className="mt-16 rounded-3xl bg-white p-10 shadow-lg text-center">
             <h2 className="text-2xl font-bold text-gray-900">Message sent! 🎉</h2>
             <p className="mt-3 text-gray-600">
-              Thanks for reaching out — we'll get back to you soon.
+              Thanks for reaching out — we&apos;ll get back to you soon.
             </p>
             <button
               onClick={() => setStatus("idle")}
