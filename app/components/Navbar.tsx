@@ -57,7 +57,7 @@ export default function Navbar() {
   const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#FFFCF8]/95 shadow-[0_1px_0_rgba(102,47,66,0.10)] backdrop-blur-xl dark:bg-[#282521]/95">
+    <header className="sticky top-0 z-50 bg-[#FFFCF8]/95 shadow-[0_1px_0_rgba(102,47,66,0.10)] dark:bg-[#282521]/95">
       <div className="border-b border-[#E8DED6] bg-[#662F42] text-[#FFF9F3] dark:border-white/10">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-2 text-[10px] font-semibold uppercase tracking-[0.18em]">
           <p className="truncate">The Skin Edit · A GlowSkin Journal</p>
