@@ -33,7 +33,7 @@ export default function Ingredients({ ingredients }: IngredientsProps) {
                 <Link
                   key={item.slug || item.id}
                   href={`/ingredients/${item.slug}`}
-                  className="group flex flex-col overflow-hidden border border-[#E5DAD0] bg-[#F7F3EC] transition hover:-translate-y-1 hover:border-[#A66370] hover:shadow-[0_18px_36px_rgba(60,40,45,0.08)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42]"
+                  className="gs-ingredient-card group flex flex-col overflow-hidden border border-[#E5DAD0] bg-[#F7F3EC] transition hover:-translate-y-1 hover:border-[#A66370] hover:shadow-[0_18px_36px_rgba(60,40,45,0.08)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42]"
                 >
                   <div className="relative aspect-[5/3] overflow-hidden bg-[#E8DED6]">
                     {item.image ? (
