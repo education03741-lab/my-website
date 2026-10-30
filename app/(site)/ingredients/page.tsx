@@ -10,17 +10,16 @@ import { urlFor } from "@/sanity/lib/image";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Skincare Ingredients Explained",
-  description: "Discover skincare ingredients, their benefits, how to use them and which skin concerns they may suit.",
-  alternates: { canonical: "/ingredients" },
+type SanityIngredient = Omit<Ingredient, "id" | "slug" | "image"> & {
+  slug?: { current?: string };
+  image?: Parameters<typeof urlFor>[0];
 };
 
 export default async function IngredientsPage() {
-  const sanityIngredients = await client.fetch(INGREDIENTS_QUERY);
+  const sanityIngredients = await client.fetch<SanityIngredient[]>(INGREDIENTS_QUERY);
 
   const mappedSanityIngredients: Ingredient[] = sanityIngredients.map(
-    (item: any, index: number) => ({
+    (item, index) => ({
       id: 1000 + index,
       name: item.name,
       slug: item.slug?.current,
