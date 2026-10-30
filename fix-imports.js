@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Standalone Node scripts intentionally use CommonJS. */
 ﻿const fs = require("fs");
 const path = require("path");
 

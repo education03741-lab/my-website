@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Standalone Node scripts intentionally use CommonJS. */
 // test-token.js
 require('dotenv').config({ path: '.env.local' });
 const { createClient } = require('@sanity/client');
