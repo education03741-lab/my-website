@@ -131,19 +131,19 @@ export default function Navbar() {
                   <Link href={item.href} onClick={() => setMobileOpen(false)} className="py-2 font-heading text-xl text-[#282521] dark:text-[#F7F3EC]">
                     {item.label}
                   </Link>
-                  {item.children && (
-                    <details className="group">
-                      <summary aria-label={`Explore ${item.label} topics`} className="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-full border border-[#E5DAD0] text-[#662F42] dark:text-[#F7F3EC] [&::-webkit-details-marker]:hidden">
-                        <ChevronDown className="h-4 w-4 transition group-open:rotate-180" />
-                      </summary>
-                      <div className="mt-2 flex flex-col items-end gap-2">
-                        {item.children.map((sub) => (
-                          <Link key={sub.href} href={sub.href} onClick={() => setMobileOpen(false)} className="text-sm text-[#514C47] underline-offset-4 hover:underline dark:text-[#F7F3EC]">{sub.label}</Link>
-                        ))}
-                      </div>
-                    </details>
-                  )}
                 </div>
+                {item.children && (
+                  <details className="group mt-1">
+                    <summary aria-label={`Explore ${item.label} topics`} className="flex w-fit cursor-pointer list-none items-center gap-2 pb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#662F42] dark:text-[#E8C9CB] [&::-webkit-details-marker]:hidden">
+                      Explore topics <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" aria-hidden="true" />
+                    </summary>
+                    <div className="grid grid-cols-2 gap-x-5 gap-y-3 pb-3 pt-2">
+                      {item.children.map((sub) => (
+                        <Link key={sub.href} href={sub.href} onClick={() => setMobileOpen(false)} className="text-sm text-[#514C47] underline-offset-4 hover:underline dark:text-[#F7F3EC]">{sub.label}</Link>
+                      ))}
+                    </div>
+                  </details>
+                )}
               </li>
             ))}
             <li className="py-4"><Link href="/contact" onClick={() => setMobileOpen(false)} className="text-sm font-semibold text-[#662F42] dark:text-[#E8C9CB]">Contact GlowSkin</Link></li>
