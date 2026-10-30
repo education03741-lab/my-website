@@ -31,6 +31,8 @@ jobs:
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = "refs/heads/chore/restore-eslint-main"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin chore/eslint-cleanup
           git cherry-pick 94b7eb1f6fb0b09aea9d056047e290637bc900f9
           git cherry-pick bd53c3b892910f0f4484d1b9204c739cbe16f932
