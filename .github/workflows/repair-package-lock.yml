@@ -1,0 +1,68 @@
+name: Repair package lockfile on isolated branch
+
+on:
+  push:
+    branches:
+      - build/repair-package-lock
+
+permissions:
+  contents: write
+
+jobs:
+  lockfile:
+    name: Regenerate lockfile and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NEXT_PUBLIC_SANITY_API_VERSION: "2024-01-01"
+      NEXT_PUBLIC_SANITY_DATASET: "production"
+      NEXT_PUBLIC_SANITY_PROJECT_ID: "3x2g2pvc"
+    steps:
+      - name: Checkout repair branch
+        uses: actions/checkout@v4
+        with:
+          ref: build/repair-package-lock
+          persist-credentials: true
+
+      - name: Setup Node 22 and npm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Regenerate lockfile only
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Ensure package manifest is unchanged
+        run: git diff --exit-code -- package.json
+
+      - name: Commit repaired lockfile to the feature branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF}" = "refs/heads/build/repair-package-lock"
+          git add -- package-lock.json
+          if git diff --cached --quiet; then
+            echo "Lockfile already matches package.json."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "build: synchronize npm lockfile with package manifest"
+            git push origin HEAD:refs/heads/build/repair-package-lock
+          fi
+
+      - name: Validate deterministic npm install
+        run: npm ci --no-audit --no-fund
+
+      - name: Validate production build
+        run: npm run build
+
+      - name: Validate ESLint
+        if: success() || failure()
+        run: |
+          if test -d node_modules; then
+            npm run lint
+          else
+            echo "Skipping ESLint: dependencies were not installed."
+          fi
