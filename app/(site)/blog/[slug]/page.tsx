@@ -220,6 +220,11 @@ function portableTextToPlainText(blocks: TextBlock[] | undefined): string {
 
 // Sanity is the source of truth for published articles. Keep the bundled
 // articles intact as a fallback for missing/incomplete CMS documents.
+// JSON-LD is embedded in a script element; escape "<" so editorial text
+// cannot accidentally terminate that element.
+const serializeJsonLd = (value: unknown): string =>
+  JSON.stringify(value).replace(/</g, "\\u003c");
+
 const getArticle = cache(async (slug: string) => {
   const staticPost = posts.find((p) => p.slug === slug);
 
@@ -484,7 +489,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: serializeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             "@id": `${canonicalUrl}#article`,
@@ -512,7 +517,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: serializeJsonLd({
               "@context": "https://schema.org",
               "@type": "FAQPage",
               mainEntity: visibleFaqs.map((faq) => ({
