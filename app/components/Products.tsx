@@ -22,7 +22,7 @@ export default function Products({ products }: ProductsProps) {
 
           <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600">
             Every product featured here is discussed in our articles — explore
-            what's inside, how to use it, and where to buy.
+            what&apos;s inside, how to use it, and where to buy.
           </p>
         </div>
 
@@ -32,7 +32,7 @@ export default function Products({ products }: ProductsProps) {
               No products available yet
             </p>
             <p className="mt-3 text-gray-600">
-              We're working on curating our first recommendations — check back soon!
+              We&apos;re working on curating our first recommendations — check back soon!
             </p>
           </div>
         ) : (

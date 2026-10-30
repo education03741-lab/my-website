@@ -24,13 +24,12 @@ function formatStaticContent(content: string) {
   
   const lines = content.split('\n');
   let html = '';
-  let headingCount = 0;
   let inList = false;
   let listItems: string[] = [];
   
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i];
-    let trimmed = line.trim();
+    const line = lines[i];
+    const trimmed = line.trim();
     
     if (!trimmed) {
       if (inList) {
@@ -48,7 +47,6 @@ function formatStaticContent(content: string) {
         listItems = [];
         inList = false;
       }
-      headingCount++;
       const headingText = trimmed.substring(4);
       html += `<h3 style="font-size: 24px !important; font-weight: 700 !important; margin-top: 20px !important; margin-bottom: 12px !important; color: #111827 !important;">${headingText}</h3>`;
       continue;
@@ -61,7 +59,6 @@ function formatStaticContent(content: string) {
         listItems = [];
         inList = false;
       }
-      headingCount++;
       const headingText = trimmed.substring(3);
       html += `<h2 style="font-size: 30px !important; font-weight: 700 !important; margin-top: 24px !important; margin-bottom: 16px !important; color: #111827 !important;">${headingText}</h2>`;
       continue;
@@ -74,7 +71,6 @@ function formatStaticContent(content: string) {
         listItems = [];
         inList = false;
       }
-      headingCount++;
       const headingText = trimmed.substring(2);
       html += `<h1 style="font-size: 36px !important; font-weight: 800 !important; margin-top: 32px !important; margin-bottom: 20px !important; color: #111827 !important;">${headingText}</h1>`;
       continue;
@@ -102,7 +98,6 @@ function formatStaticContent(content: string) {
         listItems = [];
         inList = false;
       }
-      headingCount++;
       html += `<h3 style="font-size: 24px !important; font-weight: 700 !important; margin-top: 20px !important; margin-bottom: 12px !important; color: #111827 !important;">${trimmed}</h3>`;
       continue;
     }
@@ -207,12 +202,17 @@ const portableTextComponents: PortableTextComponents = {
   },
 };
 
-function portableTextToPlainText(blocks: any[]): string {
+type TextBlock = {
+  _type?: string;
+  children?: Array<{ text?: string }>;
+};
+
+function portableTextToPlainText(blocks: TextBlock[] | undefined): string {
   if (!blocks) return "";
   return blocks
     .map((block) =>
       block._type === "block" && block.children
-        ? block.children.map((child: any) => child.text).join("")
+        ? block.children.map((child: { text?: string }) => (child.text ?? "")).join("")
         : ""
     )
     .join(" ");

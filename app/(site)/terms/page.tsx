@@ -108,7 +108,7 @@ export default function TermsPage() {
               </h2>
               <p className="mt-4 leading-7">
                 We may revise these Terms & Conditions at any time. Updates
-                will be reflected on this page with a new "Last updated"
+                will be reflected on this page with a new &quot;Last updated&quot;
                 date. Continued use of the site after changes constitutes
                 acceptance of the revised terms.
               </p>

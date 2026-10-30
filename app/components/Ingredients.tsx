@@ -22,7 +22,7 @@ export default function Ingredients({ ingredients }: IngredientsProps) {
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600">
-            Understand what each ingredient does, who it's best for,
+            Understand what each ingredient does, who it&apos;s best for,
             and how to build a smarter skincare routine.
           </p>
         </div>
