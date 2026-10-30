@@ -7,6 +7,12 @@ import { client } from "@/sanity/lib/client";
 import { PRODUCTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
+export const metadata: Metadata = {
+  title: "Skincare Products & Guides",
+  description: "Explore skincare products, ingredients and usage guidance to make more informed product choices.",
+  alternates: { canonical: "/products" },
+};
+
 type SanityProduct = Omit<Product, "id" | "slug" | "image"> & {
   slug: { current: string };
   image?: Parameters<typeof urlFor>[0];

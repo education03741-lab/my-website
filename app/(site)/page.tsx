@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
 import WhyChooseUs from "@/app/components/WhyChooseUs";
@@ -12,6 +13,10 @@ import { Ingredient } from "@/app/data/ingredients";
 import { client } from "@/sanity/lib/client";
 import { CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 type SanityConcern = Omit<Concern, "id" | "slug" | "image"> & {
   slug: { current: string };
