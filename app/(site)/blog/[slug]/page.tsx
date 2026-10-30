@@ -218,15 +218,31 @@ function portableTextToPlainText(blocks: TextBlock[] | undefined): string {
     .join(" ");
 }
 
+// Sanity is the source of truth for published articles. Keep the bundled
+// articles intact as a fallback for missing/incomplete CMS documents.
 const getArticle = cache(async (slug: string) => {
   const staticPost = posts.find((p) => p.slug === slug);
-  if (staticPost) {
-    return { type: "static" as const, data: staticPost };
+
+  try {
+    const sanityArticle = await client.fetch(ARTICLE_BY_SLUG_QUERY, { slug });
+
+    // Do not replace a complete legacy article with an empty CMS placeholder.
+    if (
+      sanityArticle?.title &&
+      Array.isArray(sanityArticle.body) &&
+      sanityArticle.body.length > 0
+    ) {
+      return { type: "sanity" as const, data: sanityArticle };
+    }
+  } catch (error) {
+    // For articles that exist only in Sanity, preserve the existing error
+    // behavior rather than silently serving a misleading 200 placeholder.
+    if (!staticPost) throw error;
+    console.error(`Sanity lookup failed for /blog/${slug}; using static fallback`, error);
   }
 
-  const sanityArticle = await client.fetch(ARTICLE_BY_SLUG_QUERY, { slug });
-  if (sanityArticle) {
-    return { type: "sanity" as const, data: sanityArticle };
+  if (staticPost) {
+    return { type: "static" as const, data: staticPost };
   }
 
   return null;

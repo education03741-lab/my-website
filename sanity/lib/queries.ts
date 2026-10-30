@@ -7,7 +7,7 @@ export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
   publishedAt
 }`
 
-export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && slug.current == $slug][0]{
+export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && !(_id in path("drafts.**")) && slug.current == $slug][0]{
   _id,
   title,
   slug,
