@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import SkinConcerns from "@/app/components/SkinConcerns";
@@ -5,6 +6,12 @@ import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
 import { client } from "@/sanity/lib/client";
 import { CONCERNS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+
+export const metadata: Metadata = {
+  title: "Skin Concerns & Skincare Routines",
+  description: "Understand common skin concerns and explore practical routines for acne, dry skin, oily skin and more.",
+  alternates: { canonical: "/skin-concerns" },
+};
 
 export default async function SkinConcernsPage() {
   const sanityConcerns = await client.fetch(CONCERNS_QUERY);

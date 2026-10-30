@@ -21,10 +21,6 @@ const siteUrl = "https://glowskin.blog";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
-  alternates: {
-    canonical: "https://glowskin.blog",
-  },
-
   title: {
     default: "GlowSkin | Science-Backed Skincare Guides",
     template: "%s | GlowSkin",

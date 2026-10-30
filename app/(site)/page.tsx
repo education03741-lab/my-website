@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import SeoSchema from "@/app/components/SeoSchema";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
@@ -13,6 +14,10 @@ import { Ingredient } from "@/app/data/ingredients";
 import { client } from "@/sanity/lib/client";
 import { CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   const sanityConcerns = await client.fetch(CONCERNS_QUERY);
