@@ -11,7 +11,7 @@ import { urlFor } from "@/sanity/lib/image";
 export const revalidate = 60;
 
 type SanityIngredient = Omit<Ingredient, "id" | "slug" | "image"> & {
-  slug?: { current?: string };
+  slug: { current: string };
   image?: Parameters<typeof urlFor>[0];
 };
 
