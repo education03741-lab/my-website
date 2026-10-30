@@ -289,8 +289,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = sanityArticle.seoTitle?.trim() || sanityArticle.title;
   const description =
     sanityArticle.seoDescription?.trim() ||
-    sanityArticle.excerpt?.trim() ||
     portableTextToPlainText(sanityArticle.body).slice(0, 155) ||
+    sanityArticle.excerpt?.trim() ||
     `Read ${sanityArticle.title} on GlowSkin.`;
   const image = sanityArticle.mainImage
     ? urlFor(sanityArticle.mainImage).width(1200).height(630).url()
@@ -441,8 +441,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   const canonicalUrl = `https://glowskin.blog/blog/${slug}`;
   const description =
     sanityArticle.seoDescription?.trim() ||
-    sanityArticle.excerpt?.trim() ||
-    portableTextToPlainText(sanityArticle.body).slice(0, 200);
+    portableTextToPlainText(sanityArticle.body).slice(0, 200) ||
+    sanityArticle.excerpt?.trim();
   const directAnswer = sanityArticle.directAnswer?.trim();
   const authorName = sanityArticle.authorName?.trim();
   const authorBio = sanityArticle.authorBio?.trim();
