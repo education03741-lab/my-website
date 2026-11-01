@@ -90,7 +90,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         "slug": slug.current,
         "updatedAt": _updatedAt
       }`
-    ),
+    ).catch(() => [] as SitemapDocument[]),
     client.fetch<SitemapDocument[]>(
       `*[_type == "concern" && defined(slug.current) && !(_id in path("drafts.**"))]{
         "slug": slug.current,
