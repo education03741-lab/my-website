@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { IngredientMap } from "@/app/components/AtelierMaps";
+import { EditorialPhotoCollection } from "@/app/components/EditorialPhotoCollection";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { Ingredient } from "@/app/data/ingredients";
@@ -61,7 +61,7 @@ export default async function IngredientsPage() {
           <p className="mt-5 max-w-2xl text-lg leading-8 text-[#4B5849]">
             Discover what each skincare ingredient does and how it is used in skincare.
           </p>
-          </div><IngredientMap /></div>
+          </div><EditorialPhotoCollection type="ingredients" /></div>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {allIngredients.map((ingredient, index) => (
