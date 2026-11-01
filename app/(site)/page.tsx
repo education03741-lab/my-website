@@ -129,7 +129,6 @@ export default async function Home() {
         </section>
 
         <ExploreTopics />
-        <WhyChooseUs />
 
         <section id="blog">
           <FeaturedArticles articles={sanityArticles} />
@@ -142,6 +141,8 @@ export default async function Home() {
         <section id="skin-concerns">
           <SkinConcerns concerns={allConcerns} />
         </section>
+
+        <WhyChooseUs />
       </main>
       <Footer />
     </>

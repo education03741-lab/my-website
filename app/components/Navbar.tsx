@@ -67,18 +67,18 @@ export default function Navbar() {
         </div>
       </div>
 
-      <nav aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-6 py-4">
+      <nav aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3 sm:px-6">
         <Link href="/" className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42]">
           <Logo />
         </Link>
 
-        <ul className="hidden items-center gap-4 xl:flex xl:gap-6">
+        <ul className="hidden items-center gap-3 xl:flex xl:gap-5">
           {navigation.map((item) => (
             <li key={item.href} className="flex items-center gap-0.5">
               <Link
                 href={item.href}
                 aria-current={isCurrent(item.href) ? "page" : undefined}
-                className={`whitespace-nowrap py-3 text-[13px] font-semibold tracking-[0.01em] transition hover:text-[#A66370] dark:hover:text-[#E8C9CB] ${isCurrent(item.href) ? "text-[#A66370] dark:text-[#E8C9CB]" : "text-[#3D3733] dark:text-[#F7F3EC]"}`}
+                className={`whitespace-nowrap py-3 text-[12px] font-semibold tracking-[0.01em] transition hover:text-[#A66370] dark:hover:text-[#E8C9CB] ${isCurrent(item.href) ? "text-[#A66370] dark:text-[#E8C9CB]" : "text-[#3D3733] dark:text-[#F7F3EC]"}`}
               >
                 {item.label}
               </Link>
@@ -106,7 +106,7 @@ export default function Navbar() {
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
           <div className="gs-nav-search"><SearchBar /></div>
           <div className="hidden sm:block"><ThemeToggle /></div>
-          <Link href="/contact" className="hidden items-center gap-1.5 rounded-full border border-[#662F42] px-4 py-2.5 text-xs font-semibold text-[#662F42] transition hover:bg-[#662F42] hover:text-white dark:border-[#E8C9CB] dark:text-[#E8C9CB] dark:hover:bg-[#E8C9CB] dark:hover:text-[#282521] xl:inline-flex">
+          <Link href="/contact" className="hidden items-center gap-1.5 rounded-full border border-[#662F42] px-4 py-2.5 text-xs font-semibold text-[#662F42] transition hover:bg-[#662F42] hover:text-white dark:border-[#E8C9CB] dark:text-[#E8C9CB] dark:hover:bg-[#E8C9CB] dark:hover:text-[#282521] 2xl:inline-flex">
             Get in touch <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
           <button
