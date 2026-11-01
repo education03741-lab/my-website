@@ -21,7 +21,7 @@ type SanityArticle = {
 };
 
 export const metadata: Metadata = {
-  title: "Skincare Articles & Guides",
+  title: "Skincare Blog: Routines, Ingredients & Skin Tips",
   description: "Explore skincare routines, ingredient explainers, skin concerns and practical beauty guides on GlowSkin.",
   alternates: { canonical: "/blog" },
 };
