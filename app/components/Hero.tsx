@@ -4,33 +4,33 @@ import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section aria-labelledby="home-hero-title" className="gs-luxury-hero relative overflow-hidden bg-[#F7F3EC]">
+    <section aria-labelledby="home-hero-title" className="gs-luxury-hero gs-atelier-campaign relative overflow-hidden bg-[#F7F3EC]">
       <div className="pointer-events-none absolute -left-20 top-24 h-72 w-72 rounded-full bg-[#E8D1D3]/40 blur-3xl" />
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-14 pt-12 sm:px-6 md:pb-16 md:pt-16 lg:grid-cols-[1.03fr_0.97fr] lg:gap-12 lg:py-20">
         <div className="relative z-10 max-w-2xl">
           <div className="mb-6 flex items-center gap-3">
             <span className="h-px w-10 bg-[#A66370]" />
             <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#662F42]">
-              The Skin Edit · A GlowSkin Journal
+              THE SKIN ATELIER · GLOWSKIN
             </p>
           </div>
           <h1
             id="home-hero-title"
-            className="max-w-[17ch] font-heading text-[clamp(2.8rem,5.2vw,5.4rem)] font-medium leading-[1.02] tracking-[-0.045em] !text-[#282521]"
+            className="max-w-[19ch] font-heading text-[clamp(2.8rem,5.2vw,5.4rem)] font-medium leading-[1.02] tracking-[-0.045em] !text-[#282521]"
           >
-            Healthier, clearer.<br />
-            <span className="italic !text-[#A66370]">Find your glow.</span>
+            Healthier, clearer,<br />
+            <span className="italic !text-[#A66370]">more radiant skin.</span>
           </h1>
           <p className="mt-6 max-w-lg text-base leading-7 text-[#514C47] sm:text-lg sm:leading-8">
-            Less skincare noise. More thoughtful guidance on ingredients, routines,
+            A considered world of skincare. Discover thoughtful guidance on ingredients, routines,
             and the questions you actually have about your skin.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
-              href="/blog/beginners-skincare-routine"
+              href="/blog"
               className="gs-luxury-button group inline-flex min-h-12 items-center gap-3 rounded-full bg-[#662F42] px-7 py-3 font-semibold text-white transition hover:bg-[#4B2331] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42]"
             >
-              Explore skincare guides
+              Explore the journal
               <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
             </Link>
             <Link

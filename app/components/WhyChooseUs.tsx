@@ -47,10 +47,10 @@ export default function WhyChooseUs() {
           </div>
           <div>
             <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#A66370]">
-              How we approach skincare
+              THE ATELIER PHILOSOPHY
             </p>
             <h2 id="editorial-approach" className="max-w-xl font-heading text-4xl font-medium leading-tight tracking-tight text-[#282521] sm:text-5xl">
-              Curiosity first.<br /><span className="italic text-[#A66370]">Hype comes last.</span>
+              Care beyond the surface.<br /><span className="italic text-[#A66370]">Clarity in every detail.</span>
             </h2>
             <p className="mt-6 max-w-xl text-base leading-8 text-[#625A53]">
               GlowSkin is a skincare education journal. We bring common topics into focus

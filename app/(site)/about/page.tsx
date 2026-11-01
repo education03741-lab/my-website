@@ -13,14 +13,14 @@ export default function AboutPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-cream px-6 py-20">
-        <div className="mx-auto max-w-4xl">
+      <main className="gs-atelier-about min-h-screen bg-[#F8F2EB] px-5 py-14 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-5xl rounded-[2rem] border border-[#E7D8CD] bg-[#FFFCF8] px-6 py-12 shadow-[0_22px_75px_rgba(68,39,44,.06)] sm:px-14 sm:py-20">
           <span className="inline-block rounded-full bg-primary-light px-4 py-2 text-sm font-semibold text-primary-dark">
-            About GlowSkin
+            THE SKIN ATELIER · ABOUT
           </span>
 
-          <h1 className="mt-6 text-5xl font-semibold text-charcoal">
-            Skincare, made simple and honest
+          <h1 className="mt-6 max-w-3xl font-heading text-4xl font-medium leading-tight text-[#432D35] sm:text-6xl">
+            Beauty begins with understanding.
           </h1>
 
           <p className="mt-6 text-lg leading-8 text-gray-600">
