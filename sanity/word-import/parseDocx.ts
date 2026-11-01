@@ -113,7 +113,8 @@ class DocxZip {
   }
 
   async read(name: string): Promise<Uint8Array | undefined> {
-    if (this.cached.has(name)) return this.cached.get(name)
+    const cached = this.cached.get(name)
+    if (cached) return cached
     const task = this.extract(name)
     this.cached.set(name, task)
     return task
@@ -139,7 +140,9 @@ class DocxZip {
     let decompressor: DecompressionStream
     try { decompressor = new DecompressionStream("deflate-raw") }
     catch { throw new Error("This browser does not support DOCX decompression. Please update your browser.") }
-    const output = await new Response(new Blob([compressed]).stream().pipeThrough(decompressor)).arrayBuffer()
+    const compressedBytes = new Uint8Array(compressed.byteLength)
+    compressedBytes.set(compressed)
+    const output = await new Response(new Blob([compressedBytes.buffer]).stream().pipeThrough(decompressor)).arrayBuffer()
     if (output.byteLength > MAX_ENTRY || output.byteLength !== entry.plainLength) {
       throw new Error("DOCX entry failed size validation.")
     }
@@ -341,6 +344,7 @@ export async function parseDocx(file: File): Promise<ParsedWordArticle> {
         }
         continue
       }
+      if (/^cover image\s*:/i.test(text)) continue
       if (node.style === "h1" && !article.title) {
         article.title = text.replace(/^#\s*/, "")
         continue
