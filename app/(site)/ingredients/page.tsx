@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { IngredientMap } from "@/app/components/AtelierMaps";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { Ingredient } from "@/app/data/ingredients";
@@ -49,7 +50,8 @@ export default async function IngredientsPage() {
     <>
       <Navbar />
       <main className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-20">
-        <div className="mb-14 rounded-[2rem] border border-[#D9D7C6] bg-gradient-to-r from-[#E5E9DC] via-[#F8F6EC] to-[#EEE0D0] px-6 py-14 text-left sm:px-12 sm:py-20">
+        <div className="mb-14 rounded-[2rem] border border-[#D9D7C6] bg-gradient-to-r from-[#E5E9DC] via-[#F8F6EC] to-[#EEE0D0] px-6 py-9 text-left sm:px-10 sm:py-12">
+          <div className="grid items-center gap-8 lg:grid-cols-[.85fr_1.15fr] lg:gap-12"><div>
           <span className="inline-block rounded-full bg-primary-light/40 px-4 py-2 text-sm font-semibold text-primary-dark dark:bg-primary-dark/20 dark:text-primary-light">
             THE SKIN ATELIER · FORMULA LIBRARY
           </span>
@@ -57,8 +59,9 @@ export default async function IngredientsPage() {
             Inside the <span className="italic text-[#687C61]">formula.</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-[#4B5849]">
-            Discover what each skincare ingredient does and how it benefits your skin.
+            Discover what each skincare ingredient does and how it is used in skincare.
           </p>
+          </div><IngredientMap /></div>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {allIngredients.map((ingredient, index) => (
