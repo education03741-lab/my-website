@@ -7,7 +7,7 @@ import { PortableText } from "@portabletext/react";
 
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import ComingSoon from "@/app/components/ComingSoon";
+import { notFound } from "next/navigation";
 
 import type { Ingredient } from "@/app/data/ingredients";
 
@@ -293,19 +293,7 @@ export default async function IngredientPage({ params }: PageProps) {
   const ingredient = await getIngredient(slug);
 
   if (!ingredient) {
-    return (
-      <>
-        <Navbar />
-
-        <ComingSoon
-          backHref="/ingredients"
-          backLabel="Back to Ingredients"
-          itemLabel="ingredient guide"
-        />
-
-        <Footer />
-      </>
-    );
+    notFound();
   }
 
   const relatedIngredients = await getRelatedIngredients(ingredient.slug);
