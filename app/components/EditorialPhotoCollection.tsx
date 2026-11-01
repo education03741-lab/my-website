@@ -32,11 +32,11 @@ const visualSets: Record<Theme, { kicker: string; lead: Tile; tiles: Tile[] }> =
   },
   products: {
     kicker: "THE PRODUCT WARDROBE",
-    lead: {label:"Serums",href:"/products",image:"/images/products/hydra-glow-serum.png",alt:"Hydrating skincare serum photographed as an editorial product feature"},
+    lead: {label:"The skincare ritual",href:"/products",image:"/images/concerns/sensitive-skin.jpg",alt:"Premium close-up editorial photograph of facial skin"},
     tiles: [
+      {label:"Serums",href:"/products",image:"/images/products/hydra-glow-serum.png",alt:"Hydrating serum skincare product"},
       {label:"Cleansers",href:"/products",image:"/images/products/daily-gentle-cleanser.png",alt:"Gentle cleanser skincare product"},
       {label:"Vitamin C",href:"/products",image:"/images/products/vitamin-c-brightening-serum.png",alt:"Vitamin C brightening serum skincare product"},
-      {label:"Toners",href:"/products",image:"/images/products/niacinamide-toner.png",alt:"Niacinamide toner skincare product"},
     ],
   },
   journal: {
