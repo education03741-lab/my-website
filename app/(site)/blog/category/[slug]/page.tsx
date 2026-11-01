@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
+import { SkinAtlasVisual, ProductRoutineMap, SunProtectionMap } from "@/app/components/AtelierMaps";
 import Footer from "@/app/components/Footer";
 import { posts } from "@/app/data/posts";
 import { categories } from "@/app/data/categories";
@@ -109,7 +110,8 @@ export default async function CategoryPage({ params }: PageProps) {
             ← Back to Blog
           </Link>
 
-          <div className="mb-12 mt-8 rounded-[2rem] border border-[#E6D5CA] bg-gradient-to-br from-[#F1E0DA] via-[#FFF9F2] to-[#E9E4DA] px-6 py-14 text-left sm:px-12 sm:py-20">
+          <div className="mb-12 mt-8 rounded-[2rem] border border-[#E6D5CA] bg-gradient-to-br from-[#F1E0DA] via-[#FFF9F2] to-[#E9E4DA] px-6 py-9 text-left sm:px-10 sm:py-12">
+            <div className="grid items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-12"><div>
             <span className="inline-block rounded-full bg-[#EAD7D5] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#743D4B]">
               {category.label}
             </span>
@@ -121,6 +123,9 @@ export default async function CategoryPage({ params }: PageProps) {
             <p className="mt-5 max-w-2xl text-lg leading-8 text-[#715E5C]">
               {category.intro}
             </p>
+            </div>
+            {slug === "acne-care" ? <SkinAtlasVisual compact /> : slug === "sun-protection" ? <SunProtectionMap /> : <ProductRoutineMap />}
+            </div>
           </div>
 
           {filteredPosts.length === 0 ? (
