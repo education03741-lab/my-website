@@ -7,6 +7,24 @@ export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
   publishedAt
 }`
 
+// Category landing pages list complete, published CMS articles only.
+// Legacy static cards are appended separately when a slug is not in Sanity.
+export const ARTICLES_BY_CATEGORY_QUERY = `*[
+  _type == "article" &&
+  !(_id in path("drafts.**")) &&
+  category == $category &&
+  defined(title) &&
+  defined(slug.current) &&
+  count(body) > 0
+] | order(publishedAt desc){
+  _id,
+  title,
+  slug,
+  excerpt,
+  mainImage,
+  publishedAt
+}`
+
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && !(_id in path("drafts.**")) && slug.current == $slug][0]{
   _id,
   title,
