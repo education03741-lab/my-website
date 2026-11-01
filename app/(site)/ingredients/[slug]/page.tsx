@@ -89,13 +89,13 @@ function hasContent(value: unknown) {
 
 const portableTextComponents = {
   block: {
-    normal: ({ children }: { children?: React.ReactNode }) => (      <p className="mb-5 leading-8 text-gray-600 dark:text-gray-300">
+    normal: ({ children }: { children?: React.ReactNode }) => (      <p className="mb-5 leading-8 text-[#536151] dark:text-gray-300">
         {children}
       </p>
     ),
 
     h3: ({ children }: { children?: React.ReactNode }) => (
-      <h3 className="mb-4 mt-8 text-xl font-bold text-charcoal dark:text-white">
+      <h3 className="mb-4 mt-8 text-xl font-bold text-[#304232] dark:text-white">
         {children}
       </h3>
     ),
@@ -471,7 +471,7 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* Pro Tip */}
         {hasContent(ingredient.proTip) && (
-          <section className="mt-16 flex gap-4 rounded-3xl bg-primary/10 p-6 dark:bg-primary/15">
+          <section className="mt-16 flex gap-4 rounded-2xl border border-[#D7DEC9] bg-[#F0F4E8] p-6 dark:bg-primary/15">
             <Sparkles
               className="mt-1 flex-shrink-0 text-primary"
               size={22}
