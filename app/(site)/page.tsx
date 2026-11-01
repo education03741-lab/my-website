@@ -2,19 +2,21 @@ import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
 import WhyChooseUs from "@/app/components/WhyChooseUs";
-import FeaturedArticles from "@/app/components/FeaturedArticles";
+import FeaturedArticles, { type FeaturedSanityArticle } from "@/app/components/FeaturedArticles";
 import SkinConcerns from "@/app/components/SkinConcerns";
 import Ingredients from "@/app/components/Ingredients";
 import Footer from "@/app/components/Footer";
 import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
 import { Ingredient } from "@/app/data/ingredients";
 import { client } from "@/sanity/lib/client";
-import { CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
+import { ARTICLES_QUERY, CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
+
+export const revalidate = 60;
 
 type SanityConcern = Omit<Concern, "id" | "slug" | "image"> & {
   slug: { current: string };
@@ -27,8 +29,11 @@ type SanityIngredient = Omit<Ingredient, "id" | "slug" | "image"> & {
 };
 
 export default async function Home() {
-  const sanityConcerns = await client.fetch<SanityConcern[]>(CONCERNS_QUERY);
-  const sanityIngredients = await client.fetch<SanityIngredient[]>(INGREDIENTS_QUERY);
+  const [sanityConcerns, sanityIngredients, sanityArticles] = await Promise.all([
+    client.fetch<SanityConcern[]>(CONCERNS_QUERY),
+    client.fetch<SanityIngredient[]>(INGREDIENTS_QUERY),
+    client.fetch<FeaturedSanityArticle[]>(ARTICLES_QUERY),
+  ]);
 
   const mappedSanityConcerns: Concern[] = sanityConcerns.map(
     (item, index) => ({
@@ -125,7 +130,7 @@ export default async function Home() {
         <WhyChooseUs />
 
         <section id="blog">
-          <FeaturedArticles />
+          <FeaturedArticles articles={sanityArticles} />
         </section>
 
         <section id="ingredients">
