@@ -46,8 +46,8 @@ export default function ContactPage() {
     <>
       <Navbar />
 
-      <main className="max-w-5xl mx-auto px-6 py-20">
-        <div className="text-center">
+      <main className="gs-atelier-contact mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20">
+        <div className="rounded-[2rem] border border-[#E3D2C6] bg-[#FFF9F3] px-6 py-12 text-center sm:px-12">
           <span className="inline-block rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-600">
             Contact Us
           </span>
