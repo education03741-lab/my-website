@@ -199,3 +199,27 @@ export function JournalReadingMap() {
     </div>
   );
 }
+
+export function SunProtectionMap() {
+  return (
+    <div className="rounded-[1.75rem] border border-[#E6D9B7] bg-gradient-to-b from-[#FFF9E8] to-[#F9E7D8] p-5 sm:p-7">
+      <p className="text-xs font-semibold uppercase tracking-[.2em] text-[#8B6747]">THE SUN-CARE MAP</p>
+      <svg viewBox="0 0 520 285" className="mt-3 h-auto w-full" role="img" aria-label="Sun, shade, and sunscreen illustrated as a simple sun-protection map">
+        <circle cx="265" cy="93" r="53" fill="#F4C877"/>
+        <circle cx="265" cy="93" r="33" fill="#FFE2A9"/>
+        <g stroke="#C89142" strokeWidth="5" strokeLinecap="round">
+          <path d="M265 15v14M265 156v14M190 93h15M326 93h15M213 39l11 11M307 134l11 11M316 40l-10 10M223 135l-11 11"/>
+        </g>
+        <path d="M59 215q75-91 152 0M59 215q73 25 152 0" fill="#E6BAA2" stroke="#B78D7C" strokeWidth="4"/>
+        <path d="M335 213l19-104h86l19 104Z" fill="#F9F4E8" stroke="#BE9D7F" strokeWidth="4"/>
+        <rect x="348" y="210" width="99" height="22" rx="5" fill="#D3B297"/>
+        <circle cx="397" cy="161" r="18" fill="#F5C976"/>
+        <g stroke="#D9AD86" strokeWidth="2" fill="none"><path d="M209 190h120"/><path d="M264 147v49"/></g>
+        <g fontFamily="Arial,sans-serif" fontSize="15" fontWeight="600" fill="#855A45">
+          <text x="61" y="256">Seek shade</text><text x="206" y="218">Limit exposure</text><text x="353" y="258">Use sunscreen</text>
+        </g>
+      </svg>
+      <p className="mt-2 text-sm leading-6 text-[#775C4F]">A visual reminder that sun safety includes shade, clothing and appropriately applied sunscreen.</p>
+    </div>
+  );
+}
