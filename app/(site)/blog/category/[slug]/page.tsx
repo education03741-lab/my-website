@@ -6,6 +6,31 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { posts } from "@/app/data/posts";
 import { categories } from "@/app/data/categories";
+import { client } from "@/sanity/lib/client";
+import { ARTICLES_BY_CATEGORY_QUERY } from "@/sanity/lib/queries";
+import { urlFor } from "@/sanity/lib/image";
+
+export const revalidate = 60;
+
+type CategoryArticle = {
+  _id: string;
+  title: string;
+  slug?: { current?: string };
+  excerpt?: string;
+  mainImage?: Parameters<typeof urlFor>[0];
+};
+
+type CategoryCard = {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  category: string;
+  image?: string;
+};
+
+const isValidSlug = (slug: unknown): slug is string =>
+  typeof slug === "string" && /^[a-z0-9][a-z0-9_-]*$/i.test(slug);
 
 interface PageProps {
   params: Promise<{
@@ -37,7 +62,39 @@ export default async function CategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  const filteredPosts = posts.filter((post) => post.category === category.label);
+  // Keep the page aligned with the published Sanity article source of truth.
+  const sanityArticles: CategoryArticle[] = await client.fetch(
+    ARTICLES_BY_CATEGORY_QUERY,
+    { category: category.label }
+  );
+  const publishedSlugs = new Set<string>();
+  const cmsCards: CategoryCard[] = [];
+  for (const article of sanityArticles) {
+    const articleSlug = article.slug?.current;
+    if (!isValidSlug(articleSlug) || publishedSlugs.has(articleSlug)) continue;
+    publishedSlugs.add(articleSlug);
+    cmsCards.push({
+      id: article._id,
+      title: article.title,
+      slug: articleSlug,
+      description: article.excerpt ?? "",
+      category: category.label,
+      image: article.mainImage ? urlFor(article.mainImage).width(1200).url() : undefined,
+    });
+  }
+
+  // Preserve links to valid legacy static articles without duplicating CMS cards.
+  const legacyCards: CategoryCard[] = posts
+    .filter((post) => post.category === category.label && !publishedSlugs.has(post.slug))
+    .map((post) => ({
+      id: `static-${post.id}`,
+      title: post.title,
+      slug: post.slug,
+      description: post.description,
+      category: post.category,
+      image: post.image,
+    }));
+  const filteredPosts = [...cmsCards, ...legacyCards];
 
   return (
     <>
@@ -87,15 +144,17 @@ export default async function CategoryPage({ params }: PageProps) {
                   href={`/blog/${post.slug}`}
                   className="group overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
                 >
-                  <div className="relative h-56 w-full overflow-hidden">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
+                  {post.image && (
+                    <div className="relative h-56 w-full overflow-hidden">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
 
                   <div className="p-6">
                     <span className="text-sm font-semibold uppercase tracking-wide text-primary">
