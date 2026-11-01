@@ -87,6 +87,23 @@ function hasContent(value: unknown) {
   return false;
 }
 
+
+// Convert Sanity Portable Text FAQ answers into readable JSON-LD text.
+function faqAnswerText(value: unknown): string {
+  if (typeof value === "string") return value.trim();
+  if (!Array.isArray(value)) return "";
+  return value.flatMap((block: unknown) => {
+    if (!block || typeof block !== "object" || !("children" in block)) return [];
+    const children = (block as { children?: unknown }).children;
+    if (!Array.isArray(children)) return [];
+    const words = children.flatMap((child: unknown) => {
+      if (!child || typeof child !== "object" || !("text" in child)) return [];
+      return typeof child.text === "string" ? [child.text] : [];
+    });
+    return [words.join("")];
+  }).join(" ").trim();
+}
+
 const portableTextComponents = {
   block: {
     normal: ({ children }: { children?: React.ReactNode }) => (      <p className="mb-5 leading-8 text-[#536151] dark:text-gray-300">
@@ -228,10 +245,14 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${ingredient.name}: Benefits, How to Use & More`;
+  const title = ingredient.slug === "niacinamide"
+    ? "What Does Niacinamide Do for Skin? Benefits"
+    : `${ingredient.name}: Benefits, How to Use & More`;
 
   const description =
-    ingredient.description?.slice(0, 155) ||
+    ingredient.slug === "niacinamide"
+      ? "What does niacinamide do for skin? Explore potential benefits for skin-barrier support, redness and oiliness, plus how to use it."
+      : ingredient.description?.slice(0, 155) ||
     `Learn about ${ingredient.name} ΓÇö benefits, how it works, and how to use it.`;
 
   return {
@@ -289,24 +310,20 @@ export default async function IngredientPage({ params }: PageProps) {
 
   const relatedIngredients = await getRelatedIngredients(ingredient.slug);
 
-  const faqSchema =
-    ingredient.faqs.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: ingredient.faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text:
-                typeof faq.answer === "string"
-                  ? faq.answer
-                  : "",
-            },
-          })),
-        }
-      : null;
+  const validFaqs = ingredient.faqs
+    .map((faq) => ({ question: faq.question?.trim(), answer: faqAnswerText(faq.answer) }))
+    .filter((faq) => Boolean(faq.question && faq.answer));
+  const faqSchema = validFaqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: validFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
 
   return (
     <>
@@ -371,6 +388,15 @@ export default async function IngredientPage({ params }: PageProps) {
           </p>
         </header>
 
+        {ingredient.slug === "niacinamide" && (
+          <aside className="mt-10 rounded-r-2xl border-l-4 border-[#829879] bg-[#F0F4E8] p-6" aria-labelledby="niacinamide-answer">
+            <h2 id="niacinamide-answer" className="font-heading text-xl font-medium text-[#304232]">What does niacinamide do for skin?</h2>
+            <p className="mt-3 leading-7 text-[#536151]">
+              Niacinamide is a form of vitamin B3 used in many skincare products. It may help support the skin barrier, improve the appearance of redness and reduce excess oiliness. Results depend on the formula and individual skin tolerance. Start gradually, and stop using a product if irritation develops.
+            </p>
+            <a href="https://health.clevelandclinic.org/niacinamide" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-semibold text-[#4D6953] underline underline-offset-4">Read the clinical ingredient overview</a>
+          </aside>
+        )}
         {/* Introduction */}
         {hasContent(ingredient.introduction) && (
           <section className="mt-16">

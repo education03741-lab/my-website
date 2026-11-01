@@ -15,6 +15,8 @@ import { ARTICLES_QUERY, CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
+  title: "Skincare Routines, Skin Concerns & Ingredients",
+  description: "Discover skincare routines, ingredient guides and answers to common skin concerns in GlowSkin’s skincare education journal.",
   alternates: { canonical: "/" },
 };
 
@@ -99,7 +101,7 @@ export default async function Home() {
           "https://www.pinterest.com/glowskin_official/",
         ],
         description:
-          "Science-backed skincare guides, ingredient education, and skincare routines.",
+          "Skincare guides, ingredient explanations, and practical routines for everyday skin concerns.",
       },
       {
         "@type": "WebSite",

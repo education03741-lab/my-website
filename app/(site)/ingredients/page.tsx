@@ -12,7 +12,7 @@ import { urlFor } from "@/sanity/lib/image";
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Skincare Ingredients Explained",
+  title: "Skincare Ingredients: Benefits & How to Use Them",
   description: "Discover skincare ingredients, their benefits, how to use them and which skin concerns they may suit.",
   alternates: { canonical: "/ingredients" },
 };

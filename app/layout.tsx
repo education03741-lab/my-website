@@ -22,12 +22,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: "GlowSkin | Science-Backed Skincare Guides",
+    default: "GlowSkin | Skincare Routines & Ingredient Guides",
     template: "%s | GlowSkin",
   },
 
   description:
-    "Discover dermatologist-inspired skincare routines, ingredient guides, and beauty tips for every skin type.",
+    "Explore skincare routines, ingredient explainers and practical skin-concern guides with GlowSkin. Clear advice for everyday skincare.",
 
   keywords: [
     "skincare",
@@ -49,26 +49,24 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteUrl,
-    title: "GlowSkin | Science-Backed Skincare Guides",
+    title: "GlowSkin | Skincare Routines & Ingredient Guides",
     description:
-      "Discover dermatologist-inspired skincare routines, ingredient guides, and beauty tips for every skin type.",
+      "Explore skincare routines, ingredient explainers and practical skin-concern guides with GlowSkin. Clear advice for everyday skincare.",
     siteName: "GlowSkin",
     images: [
       {
-        url: "/logo.png",
-        width: 1200,
-        height: 630,
-        alt: "GlowSkin",
+        url: "/images/hero/hero-banner.jpg",
+        alt: "GlowSkin skincare education and routines",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "GlowSkin | Science-Backed Skincare Guides",
+    title: "GlowSkin | Skincare Routines & Ingredient Guides",
     description:
-      "Discover dermatologist-inspired skincare routines, ingredient guides, and beauty tips for every skin type.",
-    images: ["/logo.png"],
+      "Explore skincare routines, ingredient explainers and practical skin-concern guides with GlowSkin. Clear advice for everyday skincare.",
+    images: ["/images/hero/hero-banner.jpg"],
   },
 
   icons: {
@@ -81,6 +79,8 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };

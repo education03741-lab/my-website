@@ -10,7 +10,7 @@ import { CONCERNS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
-  title: "Skin Concerns & Skincare Routines",
+  title: "Skin Concerns: Acne, Dryness, Oiliness & More",
   description: "Understand common skin concerns and explore practical routines for acne, dry skin, oily skin and more.",
   alternates: { canonical: "/skin-concerns" },
 };
