@@ -101,7 +101,7 @@ export default async function Home() {
           "https://www.pinterest.com/glowskin_official/",
         ],
         description:
-          "Science-backed skincare guides, ingredient education, and skincare routines.",
+          "Skincare guides, ingredient explanations, and practical routines for everyday skin concerns.",
       },
       {
         "@type": "WebSite",
