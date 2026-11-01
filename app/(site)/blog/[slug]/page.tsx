@@ -18,6 +18,29 @@ interface PageProps {
   }>;
 }
 
+// Search Console focus queries: preserve the URL and H1 while improving
+// search-snippet intent. A populated Sanity SEO title/description still wins.
+const targetSeo: Record<string, { title: string; description: string; answer: string; source: string }> = {
+  "nighttime-skincare-routine": {
+    title: "Nighttime Skincare Routine: Simple Steps & Order",
+    description: "Learn the correct order for a simple nighttime skincare routine: cleansing, optional treatment and moisturizer, with practical tips for different skin needs.",
+    answer: "A simple nighttime skincare routine starts with gentle cleansing, followed by any suitable treatment and then moisturizer. Remove makeup and sunscreen before bed, introduce active ingredients gradually, and adjust the steps to your skin's tolerance. You do not need a lengthy routine: consistency and avoiding unnecessary irritation matter more than product count.",
+    source: "https://www.aad.org/public/everyday-care/skin-care-basics/care/apply-skin-care-certain-order",
+  },
+  "vitamin-c-vs-niacinamide": {
+    title: "Vitamin C vs Niacinamide: Benefits & Differences",
+    description: "Compare vitamin C and niacinamide for uneven skin tone, hydration and barrier support. Learn how to choose based on your skin and product tolerance.",
+    answer: "Vitamin C is a skincare antioxidant often used to address uneven-looking skin tone, while niacinamide is a form of vitamin B3 that may help support the skin barrier and improve the appearance of redness or excess oil. Neither is universally better. Your choice depends on skin concerns, formulation and how well your skin tolerates each product.",
+    source: "https://health.clevelandclinic.org/skin-care-ingredients-explained",
+  },
+  "top-7-ingredients-for-acne-prone-skin": {
+    title: "7 Skincare Ingredients for Acne-Prone Skin",
+    description: "Explore common skincare ingredients for acne-prone skin, including salicylic acid and benzoyl peroxide, and how to build a gentler routine.",
+    answer: "Acne-prone skin needs an approach matched to the type of breakouts and your skin's tolerance. Salicylic acid and benzoyl peroxide are common options, while gentle cleansing and moisturizing help limit irritation. Avoid adding several strong actives at once, and consult a dermatologist if acne is persistent, painful or causing scars.",
+    source: "https://www.aad.org/public/diseases/acne/skin-care/tips",
+  },
+};
+
 // ✅ Converts markdown-style content to proper HTML with headings
 function formatStaticContent(content: string) {
   if (!content) return '';
@@ -72,7 +95,7 @@ function formatStaticContent(content: string) {
         inList = false;
       }
       const headingText = trimmed.substring(2);
-      html += `<h1 style="font-size: 36px !important; font-weight: 800 !important; margin-top: 32px !important; margin-bottom: 20px !important; color: #111827 !important;">${headingText}</h1>`;
+      html += `<h2 style="font-size: 30px !important; font-weight: 700 !important; margin-top: 32px !important; margin-bottom: 20px !important; color: #111827 !important;">${headingText}</h2>`;
       continue;
     }
     
@@ -296,23 +319,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (result.type === "static") {
     const post = result.data;
+    const curated = targetSeo[slug];
     const description =
+      curated?.description ||
       post.description?.slice(0, 155) ||
       post.content?.slice(0, 155) ||
       `Read ${post.title} on GlowSkin.`;
 
     return {
-      title: post.title,
+      title: curated?.title || post.title,
       description,
       openGraph: {
-        title: post.title,
+        title: curated?.title || post.title,
         description,
         images: post.image ? [{ url: post.image, width: 1200, height: 630 }] : [],
         type: "article",
       },
       twitter: {
         card: "summary_large_image",
-        title: post.title,
+        title: curated?.title || post.title,
         description,
         images: post.image ? [post.image] : [],
       },
@@ -321,9 +346,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const sanityArticle = result.data;
-  const title = sanityArticle.seoTitle?.trim() || sanityArticle.title;
+  const title = sanityArticle.seoTitle?.trim() || targetSeo[slug]?.title || sanityArticle.title;
   const description =
     sanityArticle.seoDescription?.trim() ||
+    targetSeo[slug]?.description ||
     portableTextToPlainText(sanityArticle.body).slice(0, 155) ||
     sanityArticle.excerpt?.trim() ||
     `Read ${sanityArticle.title} on GlowSkin.`;
@@ -372,9 +398,10 @@ export default async function BlogPostPage({ params }: PageProps) {
   // ✅ STATIC ARTICLE RENDER
   if (result.type === "static") {
     const post = result.data;
-    const relatedPosts = posts.filter((p) => p.id !== post.id).slice(0, 2);
+    const relatedPosts = posts.filter((p) => p.id !== post.id && p.category === post.category).slice(0, 2);
 
     const formattedContent = formatStaticContent(post.content);
+    const curatedAnswer = targetSeo[slug];
 
     return (
       <>
@@ -386,6 +413,10 @@ export default async function BlogPostPage({ params }: PageProps) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "BlogPosting",
+              "@id": `https://glowskin.blog/blog/${slug}#article`,
+              mainEntityOfPage: { "@type": "WebPage", "@id": `https://glowskin.blog/blog/${slug}` },
+              publisher: { "@type": "Organization", "@id": "https://glowskin.blog/#organization" },
+              author: { "@type": "Organization", name: "GlowSkin Editorial" },
               headline: post.title,
               image: post.image ? [post.image] : undefined,
               description: post.description,
@@ -426,8 +457,19 @@ export default async function BlogPostPage({ params }: PageProps) {
               />
             </div>
 
+            {curatedAnswer && (
+              <aside className="mt-10 rounded-r-2xl border-l-4 border-[#A66370] bg-[#F5E9E2] px-6 py-6" aria-label="Quick answer">
+                <h2 className="font-heading text-xl font-medium text-[#3D2930]">At a glance</h2>
+                <p className="mt-3 leading-7 text-[#514842]">{curatedAnswer.answer}</p>
+              </aside>
+            )}
             <article className="gs-atelier-article-body mx-auto mt-12 max-w-[74ch]">
               <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
+              {curatedAnswer && (
+                <p className="mt-9 border-t border-[#E8DBD0] pt-5 text-sm text-[#514842]">
+                  Further reading: <a className="text-[#662F42] underline underline-offset-4" href={curatedAnswer.source} target="_blank" rel="noopener noreferrer">Dermatology and skincare guidance from a clinical source</a>.
+                </p>
+              )}
             </article>
           </div>
 
