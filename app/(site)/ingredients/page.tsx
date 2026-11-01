@@ -48,40 +48,40 @@ export default async function IngredientsPage() {
   return (
     <>
       <Navbar />
-      <main className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
+      <main className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-20">
+        <div className="mb-14 rounded-[2rem] border border-[#D9D7C6] bg-gradient-to-r from-[#E5E9DC] via-[#F8F6EC] to-[#EEE0D0] px-6 py-14 text-left sm:px-12 sm:py-20">
           <span className="inline-block rounded-full bg-primary-light/40 px-4 py-2 text-sm font-semibold text-primary-dark dark:bg-primary-dark/20 dark:text-primary-light">
-            Ingredient Encyclopedia
+            THE SKIN ATELIER · FORMULA LIBRARY
           </span>
-          <h1 className="mt-6 text-5xl font-bold text-charcoal dark:text-white">
-            Popular Skincare Ingredients
+          <h1 className="mt-6 font-heading text-4xl font-medium tracking-tight text-[#292F27] sm:text-6xl">
+            Inside the <span className="italic text-[#687C61]">formula.</span>
           </h1>
-          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto dark:text-gray-300">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#4B5849]">
             Discover what each skincare ingredient does and how it benefits your skin.
           </p>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {allIngredients.map((ingredient, index) => (
             <Link
               key={ingredient.id}
               href={`/ingredients/${ingredient.slug}`}
-              className="overflow-hidden rounded-3xl bg-white shadow-lg transition hover:-translate-y-2 hover:shadow-2xl dark:bg-charcoal/60 dark:shadow-black/30"
+              className="group overflow-hidden rounded-t-[7rem] rounded-b-2xl border border-[#D8DFD2] bg-[#FBFCF8] shadow-[0_10px_30px_rgba(58,79,59,.06)] transition hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(58,79,59,.14)]"
             >
-              <div className="relative h-56 w-full">
+              <div className="relative aspect-[4/3] w-full bg-[#E4E9DE]">
                 <Image
                   src={ingredient.image}
                   alt={ingredient.name}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  priority={index < 4}
-                  className="object-cover"
+                  priority={index < 2}
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-charcoal dark:text-white">
+                <h2 className="font-heading text-2xl font-medium text-[#29382F]">
                   {ingredient.name}
                 </h2>
-                <p className="mt-4 text-gray-600 dark:text-gray-300">
+                <p className="mt-4 line-clamp-3 text-[#526052]">
                   {ingredient.description}
                 </p>
                 <p className="mt-6 font-semibold text-primary">
