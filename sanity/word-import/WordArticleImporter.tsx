@@ -1,6 +1,6 @@
 "use client"
 
-import {useEffect, useState} from "react"
+import {useEffect, useState, type CSSProperties} from "react"
 import Image from "next/image"
 import {useClient} from "sanity"
 import {useRouter} from "sanity/router"
@@ -20,52 +20,56 @@ type ArticleInput = keyof Pick<ParsedWordArticle,
 >
 type AssetRef = {_type: "reference"; _ref: string}
 const makeKey = () => crypto.randomUUID().slice(0, 12)
-const fieldStyle: React.CSSProperties = {
+const fieldStyle: CSSProperties = {
   width:"100%",border:"1px solid #d6c9c4",padding:"10px 12px",
   borderRadius:8,color:"#3b2932",background:"#fff",fontSize:14,
 }
-const labelStyle: React.CSSProperties = {
+const labelStyle: CSSProperties = {
   display:"block",fontSize:12,fontWeight:700,marginBottom:6,
   color:"#6b4453",letterSpacing:"0.025em",
 }
-const cardStyle: React.CSSProperties = {
+const cardStyle: CSSProperties = {
   border:"1px solid #e3d9d2",borderRadius:14,padding:20,
   background:"#fffdf9",marginBottom:18,
 }
 
-function makeBody(nodes: ImportNode[], assets: Map<string, AssetRef>, coverImageId: string) {
+type ReadyBodyNode = {
+  _type: string
+  _key: string
+  asset?: AssetRef
+  alt?: string
+  [key: string]: unknown
+}
+function makeBody(nodes: ImportNode[], assets: Map<string, AssetRef>, coverImageId: string): ReadyBodyNode[] {
+  const output: ReadyBodyNode[] = []
   let removedCover = false
-  return nodes.flatMap((node) => {
+  for (const node of nodes) {
     if (node.kind === "image") {
       const ref = assets.get(node.imageId)
-      if (!ref) return []
+      if (!ref) continue
       if (node.imageId === coverImageId && !removedCover) {
         removedCover = true
-        return []
+        continue
       }
-      return [{
-        _type:"image",_key:makeKey(),asset:ref,
-        alt: "",
-      }]
-    }
-    if (node.kind === "table") {
-      return [{
+      output.push({_type:"image",_key:makeKey(),asset:ref,alt:""})
+    } else if (node.kind === "table") {
+      output.push({
         _type:"articleTable",_key:makeKey(),
-        rows:node.rows.map((cells) => ({
-          _key:makeKey(),_type:"articleTableRow",cells,
+        rows:node.rows.map((cells)=>({_key:makeKey(),_type:"articleTableRow",cells})),
+      })
+    } else {
+      output.push({
+        _type:"block",_key:makeKey(),
+        style:node.style === "h1" ? "h2" : node.style,
+        ...(node.listItem ? {listItem:node.listItem,level:node.level || 1} : {}),
+        markDefs:node.markDefs,
+        children:node.children.map((span:RichSpan)=>({
+          _type:"span",_key:makeKey(),text:span.text,marks:span.marks,
         })),
-      }]
+      })
     }
-    return [{
-      _type:"block",_key:makeKey(),
-      style:node.style === "h1" ? "h2" : node.style,
-      ...(node.listItem ? {listItem:node.listItem,level:node.level || 1} : {}),
-      markDefs:node.markDefs,
-      children:node.children.map((child:RichSpan) => ({
-        _type:"span",_key:makeKey(),text:child.text,marks:child.marks,
-      })),
-    }]
-  })
+  }
+  return output
 }
 
 export default function WordArticleImporter() {
