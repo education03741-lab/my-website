@@ -3,7 +3,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
 export const metadata: Metadata = {
-  title: "About GlowSkin",
+  title: "About GlowSkin: Our Approach to Skincare Education",
   description: "Learn about GlowSkin's approach to skincare education, ingredient guides and practical skincare advice.",
   alternates: { canonical: "/about" },
 };
@@ -37,10 +37,10 @@ export default function AboutPage() {
                 Our Approach
               </h2>
               <p className="mt-4 leading-7 text-gray-600">
-                Every article and guide on GlowSkin is grounded in
-                dermatologist-backed principles and widely accepted skincare
-                science. We focus on what actually works — not trends,
-                fads, or products dressed up in vague promises.
+                We aim to explain skincare topics using reputable dermatology
+                resources and published research where available. Articles
+                are educational, not individual medical advice, and an
+                expert review is credited only when it actually occurred.
               </p>
             </div>
 
@@ -49,10 +49,9 @@ export default function AboutPage() {
                 Why We Started
               </h2>
               <p className="mt-4 leading-7 text-gray-600">
-                Like a lot of people, we spent years buying products that
-                didn&apos;t match our skin&apos;s actual needs. GlowSkin exists so
-                you can skip that trial and error — and build a routine
-                that&apos;s actually right for you, from day one.
+                GlowSkin focuses on explaining ingredients and routines in
+                everyday language. Our goal is to help readers make informed
+                choices without implying one routine suits every skin type.
               </p>
             </div>
 
@@ -62,9 +61,9 @@ export default function AboutPage() {
               </h2>
               <p className="mt-4 leading-7 text-gray-600">
                 Ingredient breakdowns, guides organized by skin concern,
-                beginner-friendly routines, and honest product
-                recommendations — all written to help you understand your
-                skin, not just sell you something.
+                beginner-friendly routines, and practical explanations
+                of skincare products and their ingredients. We do not
+                currently publish product ratings or shopping recommendations.
               </p>
             </div>
 
