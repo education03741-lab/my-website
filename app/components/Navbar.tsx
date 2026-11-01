@@ -72,7 +72,7 @@ export default function Navbar() {
           <Logo />
         </Link>
 
-        <ul className="hidden items-center gap-3 lg:flex xl:gap-5">
+        <ul className="hidden items-center gap-3 xl:flex xl:gap-5">
           {navigation.map((item) => (
             <li key={item.href} className="flex items-center gap-0.5">
               <Link
@@ -115,7 +115,7 @@ export default function Navbar() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMobileOpen((value) => !value)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5DAD0] text-[#662F42] transition hover:bg-[#F0E8E1] focus-visible:outline-2 focus-visible:outline-[#662F42] dark:text-[#F7F3EC] lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5DAD0] text-[#662F42] transition hover:bg-[#F0E8E1] focus-visible:outline-2 focus-visible:outline-[#662F42] dark:text-[#F7F3EC] xl:hidden"
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
