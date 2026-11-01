@@ -205,3 +205,11 @@ body {
 .dark .gs-editorial-home .gs-story-card .text-\[\#662F42\] {
   color: #EFC2CA;
 }
+
+/* Premium editorial design refinement. */
+.gs-luxury-hero { background-image: radial-gradient(ellipse at 12% 20%, rgba(239,209,194,.4), transparent 45%), linear-gradient(125deg,#fffaf5 0%,#f7f0e9 60%,#f2e5dd 100%); }
+.gs-luxury-hero h1 { letter-spacing: -.055em; text-wrap: balance; }
+.gs-luxury-button { background-image: linear-gradient(125deg,#9c5862,#662f42); box-shadow: 0 12px 32px rgba(102,47,66,.16); }
+.gs-story-card { box-shadow: 0 8px 28px rgba(65,43,40,.045); }
+.gs-story-card h3 { letter-spacing: -.025em; }
+@media (prefers-reduced-motion: reduce) { .gs-story-card { transition: none; } }

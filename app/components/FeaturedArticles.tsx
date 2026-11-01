@@ -81,7 +81,7 @@ function StoryCard({ post, featured = false }: { post: Story; featured?: boolean
     <article className={featured ? "group lg:row-span-2" : "group"}>
       <Link
         href={`/blog/${post.slug}`}
-        className={`gs-story-card block h-full overflow-hidden border border-[#E5DAD0] bg-[#FFFCF8] transition hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] ${featured ? "" : "sm:grid sm:grid-cols-[43%_57%] lg:grid-cols-[44%_56%]"}`}
+        className={`gs-story-card block h-full overflow-hidden rounded-[1.25rem] border border-[#E5DAD0] bg-[#FFFCF8] transition hover:-translate-y-1 hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] ${featured ? "" : "sm:grid sm:grid-cols-[43%_57%] lg:grid-cols-[44%_56%]"}`}
       >
         <div className={`relative overflow-hidden bg-[#EEE7DE] ${featured ? "aspect-[4/3] lg:aspect-[1.5/1]" : "aspect-[4/3] sm:aspect-auto sm:min-h-52"}`}>
           {post.image && (
@@ -121,7 +121,7 @@ export default function FeaturedArticles({ articles }: { articles: FeaturedSanit
           <div>
             <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#A66370]">The journal</p>
             <h2 id="journal-heading" className="font-heading text-4xl font-medium tracking-tight text-[#282521] sm:text-5xl">
-              Stories for your <span className="italic text-[#A66370]">skin.</span>
+              The skincare <span className="italic text-[#A66370]">edit.</span>
             </h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-[#635D56]">
               A considered collection of skincare routines, ingredients, and everyday questions.
