@@ -251,3 +251,12 @@ body {
 @media (max-width: 640px) {
   .gs-atelier-article-body { font-size: 1rem; line-height: 1.8; }
 }
+
+/* Shared Skin Atelier design language */
+.gs-atelier-campaign { background-image: radial-gradient(circle at 77% 10%,rgba(161,113,113,.25),transparent 35%),linear-gradient(110deg,#fcf7ef,#f0e1d8); }
+.gs-atelier-campaign h1 { text-wrap: balance; }
+.gs-atelier-topic { position:relative; isolation:isolate; }
+.gs-atelier-topic::after { content:"";position:absolute;inset:8px;border:1px solid rgba(137,104,90,.15);border-radius:4rem 4rem 1rem 1rem;pointer-events:none; }
+.gs-atelier-feature-card { background:linear-gradient(160deg,#fffcf8,#f7eee8); }
+.gs-atelier-about,.gs-atelier-contact { background:linear-gradient(160deg,#f8f1e9,#f2e5de); }
+@media(prefers-reduced-motion:reduce){.gs-atelier-topic,.gs-atelier-feature-card{transition:none!important;}}
