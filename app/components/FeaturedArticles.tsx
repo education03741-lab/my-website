@@ -81,7 +81,7 @@ function StoryCard({ post }: { post: Story }) {
     <article className="group min-w-0">
       <Link
         href={`/blog/${post.slug}`}
-        className={`gs-story-card block h-full overflow-hidden rounded-[1.25rem] border border-[#E5DAD0] bg-[#FFFCF8] transition hover:-translate-y-1 hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] `}
+        className={`gs-story-card gs-atelier-feature-card block h-full overflow-hidden rounded-[1.25rem] border border-[#E5DAD0] bg-[#FFFCF8] transition hover:-translate-y-1 hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] `}
       >
         <div className={`relative overflow-hidden bg-[#EEE7DE] aspect-[4/3]`}>
           {post.image && (
@@ -119,9 +119,9 @@ export default function FeaturedArticles({ articles }: { articles: FeaturedSanit
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-12 flex flex-col items-start justify-between gap-6 border-b border-[#D9CBC0] pb-9 md:flex-row md:items-end">
           <div>
-            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#A66370]">The journal</p>
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#A66370]">THE ATELIER · JOURNAL</p>
             <h2 id="journal-heading" className="font-heading text-4xl font-medium tracking-tight text-[#282521] sm:text-5xl">
-              The skincare <span className="italic text-[#A66370]">edit.</span>
+              Stories worth <span className="italic text-[#A66370]">staying for.</span>
             </h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-[#635D56]">
               A considered collection of skincare routines, ingredients, and everyday questions.
