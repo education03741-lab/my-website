@@ -148,16 +148,16 @@ export default async function ProductPage({ params }: PageProps) {
         }}
       />
 
-      <main className="max-w-4xl mx-auto px-6 py-20">
+      <main className="gs-atelier-product mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20">
         <Link
           href="/products"
-          className="text-pink-600 font-semibold hover:underline"
+          className="text-[#896B49] font-semibold hover:underline"
         >
           ← Back to Products
         </Link>
 
-        <div className="mt-8 grid md:grid-cols-2 gap-10">
-          <div className="relative h-96 w-full overflow-hidden rounded-3xl">
+        <div className="mt-8 grid gap-10 rounded-[2rem] border border-[#E0D4C4] bg-[#FFFAF2] p-6 shadow-[0_18px_55px_rgba(70,58,38,.08)] sm:p-10 md:grid-cols-2">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[9rem] rounded-b-2xl bg-[#E9DED0]">
             {product.image && (
               <Image
                 src={product.image}
@@ -171,9 +171,9 @@ export default async function ProductPage({ params }: PageProps) {
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-pink-600">{product.brand}</p>
+            <p className="text-sm font-semibold text-[#9D7653]">{product.brand}</p>
 
-            <h1 className="mt-2 text-4xl font-extrabold text-gray-900 leading-tight">
+            <h1 className="mt-4 font-heading text-4xl font-medium leading-tight tracking-tight text-[#3E302B] sm:text-5xl">
               {product.title}
             </h1>
 
@@ -197,13 +197,13 @@ export default async function ProductPage({ params }: PageProps) {
         </div>
 
         <section className="mt-16">
-          <h2 className="text-3xl font-bold mb-4">Key Features</h2>
+          <h2 className="font-heading text-3xl font-medium mb-4 text-[#3E302B]">Key Features</h2>
           <p className="text-gray-600 mb-6">{product.featuresIntro}</p>
           <ul className="grid sm:grid-cols-2 gap-3">
             {product.features.map((feature) => (
               <li
                 key={feature}
-                className="rounded-2xl bg-pink-50 px-5 py-3 text-gray-800"
+                className="rounded-2xl border border-[#E3D8C9] bg-[#F7F0E7] px-5 py-4 text-[#54463B]"
               >
                 {feature}
               </li>
@@ -226,7 +226,7 @@ export default async function ProductPage({ params }: PageProps) {
             <h2 className="text-3xl font-bold mb-6">Customer Reviews</h2>
             <div className="space-y-4">
               {product.reviews.map((review, i) => (
-                <div key={i} className="rounded-2xl bg-white shadow-sm p-6">
+                <div key={i} className="rounded-2xl border border-[#E3D8C9] bg-[#FFFAF5] p-6 shadow-sm">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-gray-900">
                       {review.name}

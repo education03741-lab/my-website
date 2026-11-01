@@ -127,27 +127,27 @@ export default async function SkinConcernPage({ params }: PageProps) {
         }}
       />
 
-      <main className="max-w-4xl mx-auto px-6 py-20">
+      <main className="gs-atelier-concern mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20">
         <Link
           href="/skin-concerns"
-          className="text-pink-600 font-semibold hover:underline"
+          className="text-[#82485A] font-semibold hover:underline"
         >
           ← Back to Skin Concerns
         </Link>
 
-        <div className="mt-8">
-          <span className="inline-block rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-600">
+        <div className="mt-8 rounded-[2rem] border border-[#E4D3CD] bg-[#FFF9F4] px-6 py-10 shadow-[0_18px_55px_rgba(79,44,54,.06)] sm:px-12 sm:py-14">
+          <span className="inline-block rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-[#95556B]">
             {concern.emoji} {concern.title}
           </span>
 
-          <h1 className="mt-6 text-5xl font-extrabold text-gray-900 leading-tight">
+          <h1 className="mt-6 font-heading text-4xl font-medium leading-tight tracking-tight text-[#4E303B] sm:text-6xl">
             {concern.title}
           </h1>
 
           <p className="mt-4 text-gray-500">{concern.description}</p>
 
           {concern.image && (
-            <div className="relative mt-10 h-80 w-full overflow-hidden rounded-3xl">
+            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[8rem] rounded-b-2xl bg-[#EBDDD8]">
               <Image
                 src={concern.image}
                 alt={concern.title}
@@ -164,13 +164,13 @@ export default async function SkinConcernPage({ params }: PageProps) {
           </article>
 
           <section className="mt-16">
-            <h2 className="text-3xl font-bold mb-4">What Causes It</h2>
+            <h2 className="font-heading text-3xl font-medium mb-4 text-[#4E303B]">What Causes It</h2>
             <p className="text-gray-600 mb-6">{concern.causesIntro}</p>
             <ul className="grid sm:grid-cols-2 gap-3">
               {concern.causes.map((cause) => (
                 <li
                   key={cause}
-                  className="rounded-2xl bg-pink-50 px-5 py-3 text-gray-800"
+                  className="rounded-2xl border border-[#E9D9D3] bg-[#F8EFEB] px-5 py-4 text-[#554348]"
                 >
                   {cause}
                 </li>
@@ -213,7 +213,7 @@ export default async function SkinConcernPage({ params }: PageProps) {
               {concern.routine.map((block) => (
                 <div
                   key={block.time}
-                  className="rounded-3xl bg-white shadow-sm p-6"
+                  className="rounded-2xl border border-[#E5D5CF] bg-[#FFFCF9] p-7 shadow-sm"
                 >
                   <h3 className="text-xl font-bold text-pink-600 mb-4">
                     {block.time} Routine
