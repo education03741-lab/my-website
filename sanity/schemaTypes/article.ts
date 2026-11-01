@@ -12,7 +12,20 @@ export const article = defineType({
   fields: [
     defineField({ name: 'title', type: 'string' }),
     defineField({ name: 'slug', type: 'slug', options: { source: 'title' } }),
-    defineField({ name: 'mainImage', type: 'image', options: { hotspot: true } }),
+    defineField({
+      name: 'mainImage',
+      title: 'Cover image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Cover image alt text',
+          type: 'string',
+          description: 'Describe the actual image accurately for screen readers and search.',
+        }),
+      ],
+    }),
     defineField({ name: 'excerpt', type: 'text' }),
     defineField({
       name: 'category',
@@ -34,6 +47,25 @@ export const article = defineType({
       type: 'array',
       of: [
         { type: 'block' },
+        {
+          type: 'object',
+          name: 'articleTable',
+          title: 'Comparison table',
+          fields: [
+            defineField({
+              name: 'rows',
+              type: 'array',
+              of: [{
+                type: 'object',
+                name: 'articleTableRow',
+                fields: [
+                  defineField({name: 'cells', type: 'array', of: [{type: 'string'}]}),
+                ],
+              }],
+            }),
+          ],
+          preview: {prepare: () => ({title: 'Article comparison table'})},
+        },
         {
           type: 'image',
           options: { hotspot: true },

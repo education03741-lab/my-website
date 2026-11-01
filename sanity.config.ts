@@ -4,6 +4,7 @@ import { visionTool } from '@sanity/vision'
 import { apiVersion, dataset } from './sanity/env'
 import { schema } from './sanity/schemaTypes'
 import { replyAction } from './sanity/actions/replyAction'
+import WordArticleImporter from './sanity/word-import/WordArticleImporter'
 
 export default defineConfig({
   basePath: '/studio',
@@ -38,6 +39,7 @@ export default defineConfig({
     }),
     visionTool({ defaultApiVersion: apiVersion }),
   ],
+  tools: [{ name: 'word-import', title: 'Import from Word', component: WordArticleImporter }],
   document: {
     actions: (prev, context) => {
       if (context.schemaType === 'message') {
