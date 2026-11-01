@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SkinAtlasVisual } from "./AtelierMaps";
 import Link from "next/link";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
@@ -48,14 +48,7 @@ export default function Hero() {
         <div className="relative mx-auto w-full max-w-xl">
           <div className="absolute -left-5 top-8 hidden h-[86%] w-[86%] rounded-t-[220px] bg-[#DFC9C6] sm:block" />
           <div className="relative aspect-[5/4] overflow-hidden rounded-t-[100px] rounded-b-[16px] bg-[#D8C4BE] shadow-[0_32px_80px_rgba(68,43,43,0.13)] sm:rounded-t-[180px]">
-            <Image
-              src="/images/hero/hero-product.jpg"
-              alt="GlowSkin skincare editorial image"
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 45vw"
-              className="object-cover"
-            />
+            <SkinAtlasVisual compact />
           </div>
           <div className="gs-hero-note absolute -bottom-3 left-4 right-4 border border-[#E3D9D0] bg-[#FFFCF8] px-6 py-5 shadow-[0_10px_36px_rgba(48,37,33,0.10)] sm:-left-5 sm:right-auto sm:w-60">
             <span className="block text-[10px] font-semibold uppercase tracking-[0.23em] text-[#A66370]">Our point of view</span>
