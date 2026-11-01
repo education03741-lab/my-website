@@ -151,6 +151,36 @@ function formatStaticContent(content: string) {
 // Custom renderers for PortableText for Sanity articles
 const portableTextComponents: PortableTextComponents = {
   types: {
+    articleTable: ({ value }) => {
+      const rows = (value as { rows?: Array<{ cells?: string[] }> })?.rows;
+      if (!Array.isArray(rows) || rows.length === 0) return null;
+      return (
+        <div className="my-9 max-w-full overflow-x-auto rounded-xl border border-[#E5DAD0]">
+          <table className="w-full min-w-[420px] border-collapse text-left text-sm">
+            <thead className="bg-[#F5E9E2]">
+              <tr>
+                {(rows[0].cells || []).map((cell, index) => (
+                  <th key={index} scope="col" className="border-b border-[#DDC8C3] px-4 py-3 font-semibold text-[#4A3039]">
+                    {cell}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.slice(1).map((row, rowIndex) => (
+                <tr key={rowIndex} className="odd:bg-[#FFFCF8] even:bg-[#F9F3EE]">
+                  {(row.cells || []).map((cell, index) => (
+                    <td key={index} className="border-b border-[#ECE1D9] px-4 py-3 align-top text-[#554B48]">
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    },
     image: ({ value }) => {
       if (!value?.asset) return null;
       // Sanity image IDs include native dimensions (e.g. -1448x1086-png).
@@ -633,7 +663,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]">
               <Image
                 src={urlFor(sanityArticle.mainImage).width(1200).height(700).url()}
-                alt={sanityArticle.title}
+                alt={sanityArticle.mainImage?.alt || sanityArticle.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
                 className="object-cover"
