@@ -1,9 +1,82 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { posts, type Post } from "../data/posts";
+import { posts } from "../data/posts";
+import { urlFor } from "@/sanity/lib/image";
 
-function StoryCard({ post, featured = false }: { post: Post; featured?: boolean }) {
+export type FeaturedSanityArticle = {
+  _id: string;
+  title: string;
+  slug?: { current?: string };
+  excerpt?: string;
+  category?: string;
+  mainImage?: Parameters<typeof urlFor>[0];
+};
+
+type Story = {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  description: string;
+  image?: string;
+};
+
+// Prioritize pages that already had Google Search Console impressions.
+// The other four slots automatically follow Sanity's publication-date order.
+const prioritySlugs = [
+  "nighttime-skincare-routine",
+  "top-7-ingredients-for-acne-prone-skin",
+  "vitamin-c-vs-niacinamide",
+];
+
+const isValidSlug = (slug: unknown): slug is string =>
+  typeof slug === "string" && /^[a-z0-9][a-z0-9_-]*$/i.test(slug);
+
+function selectStories(articles: FeaturedSanityArticle[]): Story[] {
+  const bySlug = new Map<string, Story>();
+  for (const article of articles) {
+    const slug = article.slug?.current;
+    if (!isValidSlug(slug) || bySlug.has(slug) || !article.title?.trim()) continue;
+    const legacy = posts.find((post) => post.slug === slug);
+    bySlug.set(slug, {
+      id: article._id,
+      slug,
+      title: article.title,
+      category: article.category || legacy?.category || "Skincare Guide",
+      description: article.excerpt || legacy?.description || "",
+      image: article.mainImage
+        ? urlFor(article.mainImage).width(1200).url()
+        : legacy?.image,
+    });
+  }
+
+  const selected: Story[] = [];
+  const seen = new Set<string>();
+  const add = (story: Story | undefined) => {
+    if (!story || seen.has(story.slug) || selected.length >= 7) return;
+    seen.add(story.slug);
+    selected.push(story);
+  };
+
+  for (const slug of prioritySlugs) add(bySlug.get(slug));
+  for (const story of bySlug.values()) add(story);
+
+  // Legacy cards are a fallback if there are fewer than seven complete CMS articles.
+  for (const post of posts) {
+    add({
+      id: `legacy-${post.id}`,
+      slug: post.slug,
+      title: post.title,
+      category: post.category,
+      description: post.description,
+      image: post.image,
+    });
+  }
+  return selected;
+}
+
+function StoryCard({ post, featured = false }: { post: Story; featured?: boolean }) {
   return (
     <article className={featured ? "group lg:row-span-2" : "group"}>
       <Link
@@ -11,13 +84,15 @@ function StoryCard({ post, featured = false }: { post: Post; featured?: boolean 
         className={`gs-story-card block h-full overflow-hidden border border-[#E5DAD0] bg-[#FFFCF8] transition hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] ${featured ? "" : "sm:grid sm:grid-cols-[43%_57%] lg:grid-cols-[44%_56%]"}`}
       >
         <div className={`relative overflow-hidden bg-[#EEE7DE] ${featured ? "aspect-[4/3] lg:aspect-[1.5/1]" : "aspect-[4/3] sm:aspect-auto sm:min-h-52"}`}>
-          <Image
-            src={post.image}
-            alt={post.title}
-            fill
-            sizes={featured ? "(max-width: 1024px) 100vw, 55vw" : "(max-width: 1024px) 100vw, 25vw"}
-            className="object-cover transition duration-500 group-hover:scale-[1.03]"
-          />
+          {post.image && (
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              sizes={featured ? "(max-width: 1024px) 100vw, 55vw" : "(max-width: 1024px) 100vw, 25vw"}
+              className="object-cover transition duration-500 group-hover:scale-[1.03]"
+            />
+          )}
         </div>
         <div className={`flex flex-col justify-between ${featured ? "p-7 sm:p-9" : "p-6"}`}>
           <div>
@@ -36,8 +111,8 @@ function StoryCard({ post, featured = false }: { post: Post; featured?: boolean 
   );
 }
 
-export default function FeaturedArticles() {
-  const [lead, ...more] = posts;
+export default function FeaturedArticles({ articles }: { articles: FeaturedSanityArticle[] }) {
+  const [lead, ...more] = selectStories(articles);
 
   return (
     <section className="bg-[#F7F3EC] py-20 sm:py-28" aria-labelledby="journal-heading">

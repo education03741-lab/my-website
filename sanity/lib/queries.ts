@@ -1,10 +1,18 @@
-export const ARTICLES_QUERY = `*[_type == "article"] | order(publishedAt desc){
+// The blog index and homepage must only link to complete, published articles.
+export const ARTICLES_QUERY = `*[
+  _type == "article" &&
+  !(_id in path("drafts.**")) &&
+  defined(title) &&
+  defined(slug.current) &&
+  count(body) > 0
+] | order(publishedAt desc){
   _id,
   title,
   slug,
   excerpt,
   mainImage,
-  publishedAt
+  publishedAt,
+  category
 }`
 
 // Category landing pages list complete, published CMS articles only.
@@ -23,6 +31,21 @@ export const ARTICLES_BY_CATEGORY_QUERY = `*[
   excerpt,
   mainImage,
   publishedAt
+}`
+
+// Contextual links use only complete, published articles in the same topic cluster.
+export const RELATED_ARTICLES_QUERY = `*[
+  _type == "article" &&
+  !(_id in path("drafts.**")) &&
+  defined(title) &&
+  defined(slug.current) &&
+  count(body) > 0 &&
+  category == $category &&
+  slug.current != $slug
+] | order(publishedAt desc)[0...3]{
+  _id,
+  title,
+  slug
 }`
 
 export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && !(_id in path("drafts.**")) && slug.current == $slug][0]{

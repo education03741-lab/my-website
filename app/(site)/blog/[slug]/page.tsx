@@ -9,7 +9,7 @@ import Footer from "@/app/components/Footer";
 import ComingSoon from "@/app/components/ComingSoon";
 import { posts } from "@/app/data/posts";
 import { client } from "@/sanity/lib/client";
-import { ARTICLE_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import { ARTICLE_BY_SLUG_QUERY, RELATED_ARTICLES_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 
 interface PageProps {
@@ -496,6 +496,19 @@ export default async function BlogPostPage({ params }: PageProps) {
             typeof faq.answer === "string" && faq.answer.trim().length > 0
         )
       : [];
+  const related: Array<{ _id: string; title: string; slug?: { current?: string } }> =
+    typeof sanityArticle.category === "string" && sanityArticle.category.trim()
+      ? await client.fetch(RELATED_ARTICLES_QUERY, { category: sanityArticle.category, slug })
+      : [];
+  const relatedGuides = related.flatMap((guide) => {
+    const relatedSlug = guide.slug?.current;
+    if (
+      typeof guide.title !== "string" || !guide.title.trim() ||
+      typeof relatedSlug !== "string" ||
+      !/^[a-z0-9][a-z0-9_-]*$/i.test(relatedSlug)
+    ) return [];
+    return [{ _id: guide._id, title: guide.title, slug: relatedSlug }];
+  });
   const sources: Array<{ title: string; url: string }> =
     Array.isArray(sanityArticle.sources)
       ? sanityArticle.sources.filter(
@@ -648,6 +661,24 @@ export default async function BlogPostPage({ params }: PageProps) {
               <p className="mt-3 font-semibold text-gray-800">{authorName}</p>
               <p className="mt-2 leading-7 text-gray-700">{authorBio}</p>
             </section>
+          )}
+
+          {relatedGuides.length > 0 && (
+            <nav aria-label="Related skincare guides" className="mt-12 border-t border-gray-200 pt-8">
+              <h2 className="text-2xl font-semibold text-gray-900">Related skincare guides</h2>
+              <ul className="mt-5 list-disc space-y-3 pl-6">
+                {relatedGuides.map((guide) => (
+                  <li key={guide._id}>
+                    <Link
+                      href={`/blog/${guide.slug}`}
+                      className="font-medium text-[#662F42] underline underline-offset-4 hover:text-[#A66370]"
+                    >
+                      {guide.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           )}
         </div>
       </main>
