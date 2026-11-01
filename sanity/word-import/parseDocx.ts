@@ -186,6 +186,29 @@ export async function parseDocx(file: File): Promise<ParsedWordArticle> {
       }
     }
   }
+  // Word stores numbered-versus-bulleted list styles in a separate
+  // numbering document. Preserve those semantics when they are present.
+  const numberKinds = new Map<string, "bullet" | "number">()
+  const numToAbstract = new Map<string, string>()
+  const abstractFormats = new Map<string, "bullet" | "number">()
+  const numberingXml = await zip.read("word/numbering.xml")
+  if (numberingXml) {
+    const numberingDoc = xmlDoc(decoder.decode(numberingXml))
+    for (const abstract of descendants(numberingDoc.documentElement, "abstractNum")) {
+      const id = val(abstract, "abstractNumId")
+      const levelZero = children(abstract).find((node) => node.localName === "lvl" && val(node,"ilvl") === "0")
+      const format = val(levelZero ? child(levelZero,"numFmt") : undefined,"val")
+      abstractFormats.set(id, format === "bullet" ? "bullet" : "number")
+    }
+    for (const num of descendants(numberingDoc.documentElement, "num")) {
+      const id = val(num,"numId")
+      const abstractId = val(child(num,"abstractNumId"),"val")
+      if (id && abstractId) numToAbstract.set(id,abstractId)
+    }
+    for (const [id,abstractId] of numToAbstract) {
+      numberKinds.set(id,abstractFormats.get(abstractId) || "bullet")
+    }
+  }
   const imageMap = new Map<string, ImportedImage>()
   const parsed: ImportNode[] = []
 
@@ -199,8 +222,12 @@ export async function parseDocx(file: File): Promise<ParsedWordArticle> {
     if (/^heading4|heading 4$/.test(pStyle)) style = "h4"
     const list = properties && child(properties, "numPr")
     const numbered = /listnumber|list number/.test(pStyle)
+    const listNumId = list ? val(child(list,"numId"),"val") : ""
     const listItem = list || /listbullet|listnumber|list paragraph/.test(pStyle)
-      ? numbered ? "number" as const : "bullet" as const : undefined
+      ? listNumId && numberKinds.has(listNumId)
+        ? numberKinds.get(listNumId)
+        : numbered ? "number" as const : "bullet" as const
+      : undefined
     const level = list ? Math.min(10, Number(val(child(list, "ilvl"), "val") || "0") + 1) : undefined
     const markDefs: LinkDefinition[] = []
     let spans: RichSpan[] = []
