@@ -15,6 +15,8 @@ import { ARTICLES_QUERY, CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/
 import { urlFor } from "@/sanity/lib/image";
 
 export const metadata: Metadata = {
+  title: "Skincare Routines, Skin Concerns & Ingredients",
+  description: "Discover skincare routines, ingredient guides and answers to common skin concerns in GlowSkin’s skincare education journal.",
   alternates: { canonical: "/" },
 };
 
