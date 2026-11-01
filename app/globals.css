@@ -213,3 +213,41 @@ body {
 .gs-story-card { box-shadow: 0 8px 28px rgba(65,43,40,.045); }
 .gs-story-card h3 { letter-spacing: -.025em; }
 @media (prefers-reduced-motion: reduce) { .gs-story-card { transition: none; } }
+
+/* Skin Atelier article experience: scoped so existing CMS content stays intact. */
+.gs-atelier-reading {
+  background: linear-gradient(180deg, #f8f1eb 0%, #fffaf5 28%, #f9f5ef 100%);
+}
+.gs-atelier-article-body {
+  color: #514842;
+  font-size: 1.0625rem;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+.gs-atelier-article-body :is(h2,h3,h4) {
+  color: #3d2930 !important;
+  font-family: var(--font-heading), Georgia, serif !important;
+  font-weight: 500 !important;
+  letter-spacing: -.025em;
+  line-height: 1.22;
+}
+.gs-atelier-article-body h2 {
+  border-top: 1px solid #e8dbd0;
+  padding-top: 1.5rem;
+}
+.gs-atelier-article-body :is(p,li) {
+  color: #514842 !important;
+  line-height: 1.9 !important;
+}
+.gs-atelier-article-body :is(img,figure,table) {
+  max-width: 100%;
+}
+.gs-atelier-article-body blockquote {
+  background: #f5e9e2;
+  border-left-color: #9c6670 !important;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 1rem 1rem 0;
+}
+@media (max-width: 640px) {
+  .gs-atelier-article-body { font-size: 1rem; line-height: 1.8; }
+}
