@@ -394,20 +394,20 @@ export default async function BlogPostPage({ params }: PageProps) {
           }}
         />
 
-        <main className="max-w-4xl mx-auto px-6 py-20">
+        <main className="gs-atelier-reading mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20">
           <Link
             href="/blog"
-            className="text-pink-600 font-semibold hover:underline"
+            className="font-semibold text-[#82485A] underline-offset-4 hover:underline"
           >
             ← Back to Blog
           </Link>
 
-          <div className="mt-8">
+          <div className="gs-atelier-story mt-8 rounded-[1.75rem] border border-[#E4D8D0] bg-[#FFFCF8] px-5 py-9 shadow-[0_18px_55px_rgba(79,44,54,.05)] sm:px-10 sm:py-12">
             <span className="inline-block rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-pink-600">
               {post.category}
             </span>
 
-            <h1 className="mt-6 text-5xl font-extrabold text-gray-900 leading-tight">
+            <h1 className="mt-6 max-w-4xl font-heading text-4xl font-medium leading-[1.12] tracking-tight text-[#36272A] sm:text-5xl lg:text-6xl">
               {post.title}
             </h1>
 
@@ -415,7 +415,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               5 min read • GlowSkin Editorial
             </p>
 
-            <div className="relative mt-10 h-80 w-full overflow-hidden rounded-3xl">
+            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]">
               <Image
                 src={post.image}
                 alt={post.title}
@@ -426,7 +426,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               />
             </div>
 
-            <article className="max-w-none mt-12">
+            <article className="gs-atelier-article-body mx-auto mt-12 max-w-[74ch]">
               <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
             </article>
           </div>
@@ -573,16 +573,16 @@ export default async function BlogPostPage({ params }: PageProps) {
         />
       )}
 
-      <main className="max-w-4xl mx-auto px-6 py-20">
+      <main className="gs-atelier-reading mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20">
         <Link
           href="/blog"
-          className="text-pink-600 font-semibold hover:underline"
+          className="font-semibold text-[#82485A] underline-offset-4 hover:underline"
         >
           ← Back to Blog
         </Link>
 
-        <div className="mt-8">
-          <h1 className="mt-6 text-5xl font-extrabold text-gray-900 leading-tight">
+        <div className="gs-atelier-story mt-8 rounded-[1.75rem] border border-[#E4D8D0] bg-[#FFFCF8] px-5 py-9 shadow-[0_18px_55px_rgba(79,44,54,.05)] sm:px-10 sm:py-12">
+          <h1 className="mt-6 max-w-4xl font-heading text-4xl font-medium leading-[1.12] tracking-tight text-[#36272A] sm:text-5xl lg:text-6xl">
             {sanityArticle.title}
           </h1>
           {(publishedAt || authorName || reviewerName) && (
@@ -598,7 +598,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           )}
 
           {sanityArticle.mainImage && (
-            <div className="relative mt-10 h-80 w-full overflow-hidden rounded-3xl">
+            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]">
               <Image
                 src={urlFor(sanityArticle.mainImage).width(1200).height(700).url()}
                 alt={sanityArticle.title}
@@ -611,7 +611,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           )}
 
           {directAnswer && (
-            <aside aria-labelledby="answer-at-glance" className="mt-10 border-l-4 border-[#A66370] bg-[#F7F3EC] px-6 py-6">
+            <aside aria-labelledby="answer-at-glance" className="mt-10 rounded-r-2xl border-l-4 border-[#A66370] bg-[#F5E9E2] px-6 py-7 sm:px-9">
               <h2 id="answer-at-glance" className="text-xl font-semibold text-[#282521]">
                 At a glance
               </h2>
@@ -619,7 +619,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             </aside>
           )}
 
-          <article className="max-w-none mt-12">
+          <article className="gs-atelier-article-body mx-auto mt-12 max-w-[74ch]">
             <PortableText
               value={sanityArticle.body}
               components={portableTextComponents}
