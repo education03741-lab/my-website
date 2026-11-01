@@ -23,6 +23,16 @@ export default defineConfig({
                 S.list()
                   .title('Content')
                   .items([
+                    // Make Word upload discoverable where authors manage articles.
+                    // The standalone /studio/word-import tool stays available too.
+                    S.listItem()
+                      .id('import-word-article')
+                      .title('Import Article from Word (.docx)')
+                      .child(
+                        S.component(WordArticleImporter)
+                          .id('word-article-import-pane')
+                          .title('Import Article from Word')
+                      ),
                     S.documentTypeListItem('article').title('Articles'),
                     S.documentTypeListItem('product').title('Products'),
                     S.documentTypeListItem('ingredient').title('Ingredients'),
