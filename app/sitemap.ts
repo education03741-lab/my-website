@@ -90,7 +90,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ingredient records unless the application actually serves them.
   const [articles, cmsConcerns, ingredients, cmsProducts] = await Promise.all([
     client.fetch<SitemapDocument[]>(
-      `*[_type == "article" && defined(slug.current) && !(_id in path("drafts.**"))]{
+      // Match the blog renderer: incomplete CMS placeholders are not articles.
+      // Static fallback posts above remain indexable even if their CMS copy is incomplete.
+      `*[_type == "article" && defined(slug.current) && defined(title) && count(body) > 0 && !(_id in path("drafts.**"))]{
         "slug": slug.current,
         "updatedAt": _updatedAt
       }`
