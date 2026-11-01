@@ -372,9 +372,17 @@ export async function parseDocx(file: File): Promise<ParsedWordArticle> {
         continue
       }
       if (/^cover image\s*:/i.test(text)) continue
-      if (node.style === "h1" && !article.title) {
-        article.title = text.replace(/^#\s*/, "")
-        continue
+      if (node.style === "h1") {
+        if (!article.title) {
+          article.title = text.replace(/^#\s*/, "")
+          continue
+        }
+        // The public article template already renders the title as H1.
+        // Avoid repeating an identical Word cover/title heading inside the body.
+        if (slugify(text) === slugify(article.title)) {
+          leading = false
+          continue
+        }
       }
       if (!article.title && bodyBlocks.length === 0) {
         article.title = text.replace(/^#\s*/, "")
