@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Hero from "@/app/components/Hero";
 import ExploreTopics from "@/app/components/ExploreTopics";
+import SkinStoryDiscovery from "@/app/components/SkinStoryDiscovery";
 import WhyChooseUs from "@/app/components/WhyChooseUs";
 import FeaturedArticles, { type FeaturedSanityArticle } from "@/app/components/FeaturedArticles";
 import SkinConcerns from "@/app/components/SkinConcerns";
@@ -128,6 +129,7 @@ export default async function Home() {
           <Hero />
         </section>
 
+        <SkinStoryDiscovery />
         <ExploreTopics />
 
         <section id="blog">
