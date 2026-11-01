@@ -500,11 +500,15 @@ export default async function BlogPostPage({ params }: PageProps) {
     typeof sanityArticle.category === "string" && sanityArticle.category.trim()
       ? await client.fetch(RELATED_ARTICLES_QUERY, { category: sanityArticle.category, slug })
       : [];
-  const relatedGuides = related.filter((guide) =>
-    typeof guide.title === "string" && guide.title.trim().length > 0 &&
-    typeof guide.slug?.current === "string" &&
-    /^[a-z0-9][a-z0-9_-]*$/i.test(guide.slug.current)
-  );
+  const relatedGuides = related.flatMap((guide) => {
+    const relatedSlug = guide.slug?.current;
+    if (
+      typeof guide.title !== "string" || !guide.title.trim() ||
+      typeof relatedSlug !== "string" ||
+      !/^[a-z0-9][a-z0-9_-]*$/i.test(relatedSlug)
+    ) return [];
+    return [{ _id: guide._id, title: guide.title, slug: relatedSlug }];
+  });
   const sources: Array<{ title: string; url: string }> =
     Array.isArray(sanityArticle.sources)
       ? sanityArticle.sources.filter(
@@ -666,7 +670,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 {relatedGuides.map((guide) => (
                   <li key={guide._id}>
                     <Link
-                      href={`/blog/${guide.slug!.current}`}
+                      href={`/blog/${guide.slug}`}
                       className="font-medium text-[#662F42] underline underline-offset-4 hover:text-[#A66370]"
                     >
                       {guide.title}
