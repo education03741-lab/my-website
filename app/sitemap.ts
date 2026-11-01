@@ -3,7 +3,6 @@ import { createClient } from "@sanity/client";
 import { categories } from "@/app/data/categories";
 import { posts } from "@/app/data/posts";
 import { concerns as staticConcerns } from "@/app/data/concerns";
-import { products as staticProducts } from "@/app/data/products";
 
 const client = createClient({
   projectId: "3x2g2pvc",
@@ -49,7 +48,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ["/blog", 0.9],
     ["/ingredients", 0.8],
     ["/skin-concerns", 0.8],
-    ["/products", 0.7],
     ["/about", 0.5],
     ["/contact", 0.5],
     ["/privacy-policy", 0.3],
@@ -72,23 +70,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Concern and product detail routes serve these static records first.
-  // Add them before Sanity records so duplicate slugs occur only once.
+  // Add real concern-guide routes. Unpublished product pages are noindex
+  // and intentionally excluded from discovery until verified.
   for (const concern of staticConcerns) {
     if (isValidSlug(concern.slug)) {
       addUrl(`/skin-concerns/${concern.slug}`, 0.7);
     }
   }
 
-  for (const product of staticProducts) {
-    if (isValidSlug(product.slug)) {
-      addUrl(`/products/${product.slug}`, 0.6);
-    }
-  }
-
   // Ingredient detail pages are Sanity-only; do not include static
   // ingredient records unless the application actually serves them.
-  const [articles, cmsConcerns, ingredients, cmsProducts] = await Promise.all([
+  // A temporary CMS/network failure must not turn the sitemap into a 500:
+  // keep the known indexable static URLs available for Google.
+  const [articles, cmsConcerns, ingredients] = await Promise.all([
     client.fetch<SitemapDocument[]>(
       // Match the blog renderer: incomplete CMS placeholders are not articles.
       // Static fallback posts above remain indexable even if their CMS copy is incomplete.
@@ -102,19 +96,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         "slug": slug.current,
         "updatedAt": _updatedAt
       }`
-    ),
+    ).catch(() => [] as SitemapDocument[]),
     client.fetch<SitemapDocument[]>(
       `*[_type == "ingredient" && defined(slug.current) && !(_id in path("drafts.**"))]{
         "slug": slug.current,
         "updatedAt": _updatedAt
       }`
-    ),
-    client.fetch<SitemapDocument[]>(
-      `*[_type == "product" && defined(slug.current) && !(_id in path("drafts.**"))]{
-        "slug": slug.current,
-        "updatedAt": _updatedAt
-      }`
-    ),
+    ).catch(() => [] as SitemapDocument[]),
   ]);
 
   for (const article of articles) {
@@ -132,12 +120,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const ingredient of ingredients) {
     if (isValidSlug(ingredient.slug)) {
       addUrl(`/ingredients/${ingredient.slug}`, 0.7, ingredient.updatedAt);
-    }
-  }
-
-  for (const product of cmsProducts) {
-    if (isValidSlug(product.slug)) {
-      addUrl(`/products/${product.slug}`, 0.6, product.updatedAt);
     }
   }
 
