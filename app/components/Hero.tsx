@@ -1,4 +1,5 @@
 import Image from "next/image";
+import AtelierImage from "./AtelierImage";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
@@ -24,7 +25,7 @@ export default function Hero() {
         <div className="relative mx-auto w-full max-w-[650px] pt-3 sm:pb-9">
           <div className="absolute -right-3 top-0 h-[87%] w-[75%] rounded-t-[12rem] rounded-b-2xl border border-[#CDAEAD] bg-[#EDD8D1] sm:-right-6" aria-hidden="true"/>
           <div className="relative ml-2 aspect-[5/5.6] w-[88%] overflow-hidden rounded-t-[12rem] rounded-b-[1.25rem] bg-[#DDC9BD] shadow-[0_30px_65px_rgba(76,40,48,.18)] sm:ml-6 sm:rounded-t-[15rem]">
-            <Image src="/images/concerns/sensitive-skin.jpg" alt="Close-up editorial photograph of a person’s natural skin" fill priority sizes="(max-width:1024px) 90vw, 44vw" className="object-cover"/>
+            <AtelierImage src="/images/skin-atelier/atelier-hero-wide.webp" fallbackSrc="/images/concerns/sensitive-skin.jpg" alt="Skincare editorial portrait featuring natural skin texture" priority sizes="(max-width:1024px) 90vw, 44vw" className="object-cover"/>
             <span className="absolute inset-0 bg-gradient-to-t from-[#39232F]/40 via-transparent to-transparent" aria-hidden="true"/>
             <span className="absolute bottom-7 left-6 text-xs font-bold uppercase tracking-[.22em] text-white">KNOW YOUR SKIN · BEYOND THE SURFACE</span>
           </div>
