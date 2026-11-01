@@ -5,6 +5,7 @@ import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 import { EditorialPhotoCollection } from "@/app/components/EditorialPhotoCollection";
 import { categories } from "@/app/data/categories";
+import { posts } from "@/app/data/posts";
 import { client } from "@/sanity/lib/client";
 import { ARTICLES_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
@@ -15,10 +16,22 @@ type SanityArticle = {
   _id: string;
   title: string;
   slug: { current: string };
-  excerpt: string;
+  excerpt?: string;
   mainImage?: Parameters<typeof urlFor>[0];
-  publishedAt: string;
+  publishedAt?: string;
 };
+
+type ArticleCard = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image?: string;
+};
+
+const validSlug = (value: unknown): value is string =>
+  typeof value === "string" && /^[a-z0-9][a-z0-9_-]*$/i.test(value);
+
 
 export const metadata: Metadata = {
   title: "Skincare Blog: Routines, Ingredients & Skin Tips",
@@ -28,6 +41,34 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const sanityArticles: SanityArticle[] = await client.fetch(ARTICLES_QUERY);
+  // Show complete CMS stories first and published legacy stories as a
+  // fallback, without duplicating URLs. This makes older indexable articles
+  // discoverable directly from the journal index.
+  const cards: ArticleCard[] = [];
+  const seen = new Set<string>();
+  for (const article of sanityArticles) {
+    const slug = article.slug?.current;
+    if (!validSlug(slug) || !article.title?.trim() || seen.has(slug)) continue;
+    seen.add(slug);
+    cards.push({
+      id: article._id,
+      slug,
+      title: article.title,
+      description: article.excerpt ?? "",
+      image: article.mainImage ? urlFor(article.mainImage).width(1200).url() : undefined,
+    });
+  }
+  for (const post of posts) {
+    if (!validSlug(post.slug) || seen.has(post.slug)) continue;
+    seen.add(post.slug);
+    cards.push({
+      id: `legacy-${post.id}`,
+      slug: post.slug,
+      title: post.title,
+      description: post.description,
+      image: post.image,
+    });
+  }
 
   return (
     <>
@@ -75,17 +116,16 @@ export default async function BlogPage() {
           </nav>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* ✅ ONLY Sanity articles - NO duplicates */}
-            {sanityArticles.map((article) => (
+            {cards.map((article) => (
               <Link
-                key={article._id}
-                href={`/blog/${article.slug.current}`}
+                key={article.id}
+                href={`/blog/${article.slug}`}
                 className="group overflow-hidden rounded-t-[7rem] rounded-b-[1.5rem] border border-[#E5D7CD] bg-[#FFF9F4] shadow-[0_8px_30px_rgba(66,45,40,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(66,45,40,.13)]"
               >
-                {article.mainImage && (
+                {article.image && (
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#E5D7CD]">
                     <Image
-                      src={urlFor(article.mainImage).width(1200).url()}
+                      src={article.image}
                       alt={article.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -98,7 +138,7 @@ export default async function BlogPage() {
                     {article.title}
                   </h2>
                   <p className="mt-4 line-clamp-3 leading-relaxed text-[#695C57]">
-                    {article.excerpt}
+                    {article.description}
                   </p>
                   <p className="mt-6 font-semibold text-primary transition group-hover:translate-x-2">
                     Read More →
@@ -107,7 +147,6 @@ export default async function BlogPage() {
               </Link>
             ))}
 
-            {/* ✅ REMOVED: Static posts section - no more duplicates! */}
           </div>
         </div>
       </main>

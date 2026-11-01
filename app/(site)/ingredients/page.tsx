@@ -63,6 +63,18 @@ export default async function IngredientsPage() {
           </p>
           </div><EditorialPhotoCollection type="ingredients" /></div>
         </div>
+        <section aria-labelledby="ingredient-guide-intro" className="mb-10 max-w-3xl">
+          <h2 id="ingredient-guide-intro" className="font-heading text-2xl font-medium text-[#29382F] sm:text-3xl">
+            Skincare ingredients, explained
+          </h2>
+          <p className="mt-4 leading-8 text-[#526052]">
+            Each ingredient has a different role in a skincare formula. Explore
+            what ingredients are commonly used for, how to introduce them
+            thoughtfully, and which questions to consider for your skin type.
+            Formulation, concentration and personal tolerance matter as much
+            as an ingredient name.
+          </p>
+        </section>
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {allIngredients.map((ingredient, index) => (
             <Link
@@ -70,16 +82,18 @@ export default async function IngredientsPage() {
               href={`/ingredients/${ingredient.slug}`}
               className="group overflow-hidden rounded-t-[7rem] rounded-b-2xl border border-[#D8DFD2] bg-[#FBFCF8] shadow-[0_10px_30px_rgba(58,79,59,.06)] transition hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(58,79,59,.14)]"
             >
-              <div className="relative aspect-[4/3] w-full bg-[#E4E9DE]">
-                <Image
-                  src={ingredient.image}
-                  alt={ingredient.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  priority={index < 2}
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+              {ingredient.image && (
+                <div className="relative aspect-[4/3] w-full bg-[#E4E9DE]">
+                  <Image
+                    src={ingredient.image}
+                    alt={ingredient.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    priority={index < 2}
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              )}
               <div className="p-6">
                 <h2 className="font-heading text-2xl font-medium text-[#29382F]">
                   {ingredient.name}

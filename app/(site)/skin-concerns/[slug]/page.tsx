@@ -4,7 +4,7 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import ComingSoon from "@/app/components/ComingSoon";
+import { notFound } from "next/navigation";
 import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
 import { client } from "@/sanity/lib/client";
 import { CONCERN_BY_SLUG_QUERY } from "@/sanity/lib/queries";
@@ -93,17 +93,7 @@ export default async function SkinConcernPage({ params }: PageProps) {
   const concern = await getConcern(slug);
 
   if (!concern) {
-    return (
-      <>
-        <Navbar />
-        <ComingSoon
-          backHref="/skin-concerns"
-          backLabel="Back to Skin Concerns"
-          itemLabel="skin concern guide"
-        />
-        <Footer />
-      </>
-    );
+    notFound();
   }
 
   const relatedConcerns = staticConcerns
