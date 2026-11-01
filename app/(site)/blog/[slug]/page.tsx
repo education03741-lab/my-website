@@ -6,7 +6,7 @@ import { cache } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import ComingSoon from "@/app/components/ComingSoon";
+import { notFound } from "next/navigation";
 import { posts } from "@/app/data/posts";
 import { client } from "@/sanity/lib/client";
 import { ARTICLE_BY_SLUG_QUERY, RELATED_ARTICLES_QUERY } from "@/sanity/lib/queries";
@@ -382,17 +382,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const result = await getArticle(slug);
 
   if (!result) {
-    return (
-      <>
-        <Navbar />
-        <ComingSoon
-          backHref="/blog"
-          backLabel="Back to Blog"
-          itemLabel="article"
-        />
-        <Footer />
-      </>
-    );
+    notFound();
   }
 
   // ✅ STATIC ARTICLE RENDER
