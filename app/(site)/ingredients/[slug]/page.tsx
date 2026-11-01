@@ -245,10 +245,14 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${ingredient.name}: Benefits, How to Use & More`;
+  const title = ingredient.slug === "niacinamide"
+    ? "What Does Niacinamide Do for Skin? Benefits"
+    : `${ingredient.name}: Benefits, How to Use & More`;
 
   const description =
-    ingredient.description?.slice(0, 155) ||
+    ingredient.slug === "niacinamide"
+      ? "What does niacinamide do for skin? Explore potential benefits for skin-barrier support, redness and oiliness, plus how to use it."
+      : ingredient.description?.slice(0, 155) ||
     `Learn about ${ingredient.name} ΓÇö benefits, how it works, and how to use it.`;
 
   return {
@@ -384,6 +388,15 @@ export default async function IngredientPage({ params }: PageProps) {
           </p>
         </header>
 
+        {ingredient.slug === "niacinamide" && (
+          <aside className="mt-10 rounded-r-2xl border-l-4 border-[#829879] bg-[#F0F4E8] p-6" aria-labelledby="niacinamide-answer">
+            <h2 id="niacinamide-answer" className="font-heading text-xl font-medium text-[#304232]">What does niacinamide do for skin?</h2>
+            <p className="mt-3 leading-7 text-[#536151]">
+              Niacinamide is a form of vitamin B3 used in many skincare products. It may help support the skin barrier, improve the appearance of redness and reduce excess oiliness. Results depend on the formula and individual skin tolerance. Start gradually, and stop using a product if irritation develops.
+            </p>
+            <a href="https://health.clevelandclinic.org/niacinamide" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-semibold text-[#4D6953] underline underline-offset-4">Read the clinical ingredient overview</a>
+          </aside>
+        )}
         {/* Introduction */}
         {hasContent(ingredient.introduction) && (
           <section className="mt-16">
