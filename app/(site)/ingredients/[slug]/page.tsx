@@ -87,6 +87,23 @@ function hasContent(value: unknown) {
   return false;
 }
 
+
+// Convert Sanity Portable Text FAQ answers into readable JSON-LD text.
+function faqAnswerText(value: unknown): string {
+  if (typeof value === "string") return value.trim();
+  if (!Array.isArray(value)) return "";
+  return value.flatMap((block: unknown) => {
+    if (!block || typeof block !== "object" || !("children" in block)) return [];
+    const children = (block as { children?: unknown }).children;
+    if (!Array.isArray(children)) return [];
+    const words = children.flatMap((child: unknown) => {
+      if (!child || typeof child !== "object" || !("text" in child)) return [];
+      return typeof child.text === "string" ? [child.text] : [];
+    });
+    return [words.join("")];
+  }).join(" ").trim();
+}
+
 const portableTextComponents = {
   block: {
     normal: ({ children }: { children?: React.ReactNode }) => (      <p className="mb-5 leading-8 text-[#536151] dark:text-gray-300">
@@ -289,24 +306,20 @@ export default async function IngredientPage({ params }: PageProps) {
 
   const relatedIngredients = await getRelatedIngredients(ingredient.slug);
 
-  const faqSchema =
-    ingredient.faqs.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: ingredient.faqs.map((faq) => ({
-            "@type": "Question",
-            name: faq.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text:
-                typeof faq.answer === "string"
-                  ? faq.answer
-                  : "",
-            },
-          })),
-        }
-      : null;
+  const validFaqs = ingredient.faqs
+    .map((faq) => ({ question: faq.question?.trim(), answer: faqAnswerText(faq.answer) }))
+    .filter((faq) => Boolean(faq.question && faq.answer));
+  const faqSchema = validFaqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: validFaqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
 
   return (
     <>
