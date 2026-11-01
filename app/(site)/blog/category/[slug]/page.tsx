@@ -100,25 +100,25 @@ export default async function CategoryPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-cream px-6 py-20">
+      <main className="min-h-screen bg-[#F7F1EA] px-5 py-12 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-7xl">
           <Link
             href="/blog"
-            className="text-pink-600 font-semibold hover:underline"
+            className="text-[#82485A] font-semibold hover:underline"
           >
             ← Back to Blog
           </Link>
 
-          <div className="mb-12 mt-8 text-center">
-            <span className="inline-block rounded-full bg-primary-light px-4 py-2 text-sm font-semibold text-primary-dark">
+          <div className="mb-12 mt-8 rounded-[2rem] border border-[#E6D5CA] bg-gradient-to-br from-[#F1E0DA] via-[#FFF9F2] to-[#E9E4DA] px-6 py-14 text-left sm:px-12 sm:py-20">
+            <span className="inline-block rounded-full bg-[#EAD7D5] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#743D4B]">
               {category.label}
             </span>
 
-            <h1 className="mt-6 text-5xl font-semibold text-charcoal">
+            <h1 className="mt-6 font-heading text-4xl font-medium text-[#35262B] sm:text-6xl">
               {category.label}
             </h1>
 
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#715E5C]">
               {category.intro}
             </p>
           </div>
@@ -137,15 +137,15 @@ export default async function CategoryPage({ params }: PageProps) {
               </Link>
             </div>
           ) : (
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredPosts.map((post) => (
                 <Link
                   key={post.id}
                   href={`/blog/${post.slug}`}
-                  className="group overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                  className="group overflow-hidden rounded-t-[7rem] rounded-b-[1.5rem] border border-[#E4D5CE] bg-[#FFFBF6] shadow-[0_8px_28px_rgba(60,40,45,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(60,40,45,.12)]"
                 >
                   {post.image && (
-                    <div className="relative h-56 w-full overflow-hidden">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EADCD4]">
                       <Image
                         src={post.image}
                         alt={post.title}
@@ -161,11 +161,11 @@ export default async function CategoryPage({ params }: PageProps) {
                       {post.category}
                     </span>
 
-                    <h2 className="mt-3 text-2xl font-semibold text-charcoal transition group-hover:text-primary">
+                    <h2 className="mt-3 font-heading text-2xl font-medium text-[#342B2B] transition group-hover:text-primary">
                       {post.title}
                     </h2>
 
-                    <p className="mt-4 leading-relaxed text-gray-600">
+                    <p className="mt-4 line-clamp-3 leading-relaxed text-[#6D625C]">
                       {post.description}
                     </p>
 
