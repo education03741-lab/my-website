@@ -82,19 +82,11 @@ export default function WordArticleImporter() {
   const [error,setError] = useState("")
   const [createdId,setCreatedId] = useState("")
   const [previews,setPreviews] = useState<Record<string,string>>({})
-  const images = draft?.images
-
+  // Revoke temporary browser previews when a new Word file replaces them
+  // or when the editor leaves the importer.
   useEffect(() => {
-    if (!images) {setPreviews({});return}
-    const objectUrls: Record<string,string> = {}
-    for (const image of images) {
-      const bytes = new Uint8Array(image.bytes.byteLength)
-      bytes.set(image.bytes)
-      objectUrls[image.id] = URL.createObjectURL(new Blob([bytes.buffer],{type:image.mimeType}))
-    }
-    setPreviews(objectUrls)
-    return () => Object.values(objectUrls).forEach((url) => URL.revokeObjectURL(url))
-  },[images])
+    return () => Object.values(previews).forEach((url) => URL.revokeObjectURL(url))
+  },[previews])
 
   const update = (field:ArticleInput,value:string) => {
     setCreatedId("")
@@ -107,6 +99,13 @@ export default function WordArticleImporter() {
     setBusy(true);setProgress("Reading Word document…")
     try {
       const parsed = await parseDocx(file)
+      const objectUrls: Record<string,string> = {}
+      for (const image of parsed.images) {
+        const bytes = new Uint8Array(image.bytes.byteLength)
+        bytes.set(image.bytes)
+        objectUrls[image.id] = URL.createObjectURL(new Blob([bytes.buffer],{type:image.mimeType}))
+      }
+      setPreviews(objectUrls)
       setDraft(parsed)
       setProgress("")
     } catch (reason) {
