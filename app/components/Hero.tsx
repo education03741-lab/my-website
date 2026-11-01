@@ -1,60 +1,38 @@
-import { SkinAtlasVisual } from "./AtelierMaps";
+import Image from "next/image";
+import AtelierImage from "./AtelierImage";
 import Link from "next/link";
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section aria-labelledby="home-hero-title" className="gs-luxury-hero gs-atelier-campaign relative overflow-hidden bg-[#F7F3EC]">
-      <div className="pointer-events-none absolute -left-20 top-24 h-72 w-72 rounded-full bg-[#E8D1D3]/40 blur-3xl" />
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-14 pt-12 sm:px-6 md:pb-16 md:pt-16 lg:grid-cols-[1.03fr_0.97fr] lg:gap-12 lg:py-20">
-        <div className="relative z-10 max-w-2xl">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="h-px w-10 bg-[#A66370]" />
-            <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-[#662F42]">
-              THE SKIN ATELIER · GLOWSKIN
-            </p>
-          </div>
-          <h1
-            id="home-hero-title"
-            className="max-w-[19ch] font-heading text-[clamp(2.8rem,5.2vw,5.4rem)] font-medium leading-[1.02] tracking-[-0.045em] !text-[#282521]"
-          >
-            Healthier, clearer,<br />
-            <span className="italic !text-[#A66370]">more radiant skin.</span>
+    <section aria-labelledby="home-hero-title" className="gs-atelier-campaign relative overflow-hidden bg-[#F8F1E9]">
+      <div className="pointer-events-none absolute -right-32 -top-32 h-[28rem] w-[28rem] rounded-full bg-[#DBAEB0]/20 blur-3xl"/>
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:grid-cols-[.94fr_1.06fr] lg:gap-14">
+        <div className="relative z-10">
+          <p className="mb-7 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[.27em] text-[#8C5B60]"><span className="h-px w-9 bg-[#AF8285]"/>THE SKIN ATELIER · ISSUE 01</p>
+          <h1 id="home-hero-title" className="max-w-[13ch] font-heading text-[clamp(3.15rem,6.5vw,6.4rem)] font-medium leading-[1.01] tracking-[-.055em] !text-[#32282B]">
+            Healthier, clearer, <span className="italic !text-[#995B67]">more radiant skin.</span>
           </h1>
-          <p className="mt-6 max-w-lg text-base leading-7 text-[#514C47] sm:text-lg sm:leading-8">
-            A considered world of skincare. Discover thoughtful guidance on ingredients, routines,
-            and the questions you actually have about your skin.
+          <p className="mt-7 max-w-lg text-base leading-8 text-[#665B56] sm:text-lg">
+            Expert-informed skincare guidance, curated ingredient stories and considered routines — for skin that is uniquely yours.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Link
-              href="/blog"
-              className="gs-luxury-button group inline-flex min-h-12 items-center gap-3 rounded-full bg-[#662F42] px-7 py-3 font-semibold text-white transition hover:bg-[#4B2331] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42]"
-            >
-              Explore the journal
-              <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
-            </Link>
-            <Link
-              href="/ingredients"
-              className="inline-flex min-h-12 items-center gap-2 border-b border-[#662F42] px-1 py-3 font-semibold text-[#662F42] transition hover:border-[#A66370] hover:text-[#A66370]"
-            >
-              Explore ingredients <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link href="/blog" className="gs-luxury-button inline-flex min-h-12 items-center gap-2 rounded-full bg-[#6B3045] px-7 py-3 text-sm font-semibold text-white hover:bg-[#4D2334] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6B3045]">Explore the journal <ArrowUpRight className="h-4 w-4" aria-hidden="true"/></Link>
+            <Link href="/skin-concerns" className="inline-flex min-h-12 items-center gap-2 rounded-full border border-[#AB8F80] px-7 py-3 text-sm font-semibold text-[#67384A] transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6B3045]">Explore your skin <ArrowUpRight className="h-4 w-4" aria-hidden="true"/></Link>
           </div>
-          <div className="mt-10 flex items-center gap-4 border-t border-[#DAD0C5] pt-5 text-xs uppercase tracking-[0.17em] text-[#6B635C]">
-            <span>Skincare, explained simply</span>
-            <ArrowDownRight className="h-4 w-4 text-[#A66370]" aria-hidden="true" />
-          </div>
+          <p className="mt-12 border-t border-[#DCCFC6] pt-5 text-xs uppercase tracking-[.17em] text-[#84736D]">A new perspective on everyday skincare</p>
         </div>
-        <div className="relative mx-auto w-full max-w-xl">
-          <div className="absolute -left-5 top-8 hidden h-[86%] w-[86%] rounded-t-[220px] bg-[#DFC9C6] sm:block" />
-          <div className="relative rounded-[1.75rem] bg-[#F5E5DE] shadow-[0_32px_80px_rgba(68,43,43,0.13)]">
-            <SkinAtlasVisual compact />
+        <div className="relative mx-auto w-full max-w-[650px] pt-3 sm:pb-9">
+          <div className="absolute -right-3 top-0 h-[87%] w-[75%] rounded-t-[12rem] rounded-b-2xl border border-[#CDAEAD] bg-[#EDD8D1] sm:-right-6" aria-hidden="true"/>
+          <div className="relative ml-2 aspect-[5/5.6] w-[88%] overflow-hidden rounded-t-[12rem] rounded-b-[1.25rem] bg-[#DDC9BD] shadow-[0_30px_65px_rgba(76,40,48,.18)] sm:ml-6 sm:rounded-t-[15rem]">
+            <AtelierImage src="/images/skin-atelier/atelier-hero-wide.webp" fallbackSrc="/images/concerns/sensitive-skin.jpg" alt="Skincare editorial portrait featuring natural skin texture" priority sizes="(max-width:1024px) 90vw, 44vw" className="object-cover"/>
+            <span className="absolute inset-0 bg-gradient-to-t from-[#39232F]/40 via-transparent to-transparent" aria-hidden="true"/>
+            <span className="absolute bottom-7 left-6 text-xs font-bold uppercase tracking-[.22em] text-white">KNOW YOUR SKIN · BEYOND THE SURFACE</span>
           </div>
-          <div className="gs-hero-note relative mt-4 border border-[#E3D9D0] bg-[#FFFCF8] px-6 py-5 shadow-[0_10px_36px_rgba(48,37,33,0.10)] sm:w-full">
-            <span className="block text-[10px] font-semibold uppercase tracking-[0.23em] text-[#A66370]">Explore your skin map</span>
-            <p className="mt-2 font-heading text-xl leading-snug text-[#282521]">
-              Every concern has a guide. Explore the atlas above.
-            </p>
+          <div className="absolute -bottom-2 right-0 w-[40%] overflow-hidden rounded-t-[5rem] rounded-b-xl border-[5px] border-[#F9F3EC] bg-[#E9D7CD] shadow-[0_18px_42px_rgba(62,38,43,.19)] sm:bottom-0 sm:right-1 sm:w-[36%]">
+            <div className="relative aspect-[4/5]">
+              <Image src="/images/hero/hero-product.jpg" alt="Skincare product editorial detail" fill sizes="(max-width:768px) 35vw, 16vw" className="object-cover"/>
+            </div>
           </div>
         </div>
       </div>

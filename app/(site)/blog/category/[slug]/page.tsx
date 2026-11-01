@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
-import { SkinAtlasVisual, ProductRoutineMap, SunProtectionMap } from "@/app/components/AtelierMaps";
+import { CategoryCoverPhoto } from "@/app/components/EditorialPhotoCollection";
 import Footer from "@/app/components/Footer";
 import { posts } from "@/app/data/posts";
 import { categories } from "@/app/data/categories";
@@ -124,7 +124,7 @@ export default async function CategoryPage({ params }: PageProps) {
               {category.intro}
             </p>
             </div>
-            {slug === "acne-care" ? <SkinAtlasVisual compact /> : slug === "sun-protection" ? <SunProtectionMap /> : <ProductRoutineMap />}
+            <CategoryCoverPhoto slug={slug} />
             </div>
           </div>
 

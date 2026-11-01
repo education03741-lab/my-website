@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { JournalReadingMap } from "@/app/components/AtelierMaps";
+import { EditorialPhotoCollection } from "@/app/components/EditorialPhotoCollection";
 import { categories } from "@/app/data/categories";
 import { client } from "@/sanity/lib/client";
 import { ARTICLES_QUERY } from "@/sanity/lib/queries";
@@ -49,7 +49,7 @@ export default async function BlogPage() {
               Discover considered skincare routines, ingredient guides,
               practical skin education, and beauty advice.
             </p>
-            </div><JournalReadingMap /></div>
+            </div><EditorialPhotoCollection type="journal" /></div>
           </div>
 
           <nav
