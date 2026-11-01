@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+import { JournalReadingMap } from "@/app/components/AtelierMaps";
 import { categories } from "@/app/data/categories";
 import { client } from "@/sanity/lib/client";
 import { ARTICLES_QUERY } from "@/sanity/lib/queries";
@@ -34,7 +35,8 @@ export default async function BlogPage() {
 
       <main className="min-h-screen bg-[#F7F1EA] px-5 py-12 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="relative mb-12 overflow-hidden rounded-[2rem] border border-[#E4D2C7] bg-gradient-to-br from-[#F2DDD6] via-[#FFF9F4] to-[#E6E5D8] px-6 py-14 text-center shadow-[0_25px_75px_rgba(78,43,49,.08)] sm:px-12 sm:py-20">
+          <div className="relative mb-12 overflow-hidden rounded-[2rem] border border-[#E4D2C7] bg-gradient-to-br from-[#F2DDD6] via-[#FFF9F4] to-[#E6E5D8] px-6 py-9 text-left shadow-[0_25px_75px_rgba(78,43,49,.08)] sm:px-10 sm:py-12">
+            <div className="grid items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-12"><div>
             <span className="inline-block rounded-full bg-primary-light px-4 py-2 text-sm font-semibold text-primary-dark">
               THE SKIN ATELIER · THE JOURNAL
             </span>
@@ -43,10 +45,11 @@ export default async function BlogPage() {
               Stories worth <span className="italic text-[#8E4857]">your time.</span>
             </h1>
 
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
+            <p className="mt-4 max-w-2xl text-lg text-[#5D514F]">
               Discover considered skincare routines, ingredient guides,
-              dermatologist-inspired tips, and beauty advice.
+              practical skin education, and beauty advice.
             </p>
+            </div><JournalReadingMap /></div>
           </div>
 
           <nav
