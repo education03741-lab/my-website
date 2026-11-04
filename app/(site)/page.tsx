@@ -66,7 +66,7 @@ export default async function Home() {
       id: 2000 + index,
       name: item.name,
       slug: item.slug?.current,
-      image: item.image ? urlFor(item.image).width(800).height(600).url() : "",
+      image: item.image ? urlFor(item.image).width(800).url() : "",
       description: item.description ?? "",
       benefits: item.benefits ?? [],
       howItWorks: item.howItWorks ?? "",
