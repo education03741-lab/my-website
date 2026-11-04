@@ -302,3 +302,15 @@ body {
 .gs-nav-search > button:hover { background: #EAF0E3; }
 .gs-nav-search > button:focus-visible { outline-color: #2B552D; }
 .dark .gs-editorial-home a:not(.gs-story-card):not(.gs-ingredient-card) { color: #BED7B2; }
+
+/* Dark reading mode: maintain legible navigation and mineral surfaces. */
+.dark .gs-nav-search > button {
+  color: #D5E8CB;
+  border-color: #586D58;
+}
+.dark .gs-nav-search > button:hover { background: #344B38; }
+.dark .gs-editorial-home .gs-botanical-journal,
+.dark .gs-editorial-home .gs-botanical-topics,
+.dark .gs-editorial-home .gs-botanical-hero {
+  background-color: #253128;
+}
