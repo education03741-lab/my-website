@@ -28,7 +28,7 @@ export const concerns: Concern[] = [
     id: 1,
     title: "Acne",
     slug: "acne",
-    image: "/images/concerns/acne.jpg",
+    image: "/images/covers/acne.webp",
     emoji: "✨",
     description:
       "Acne is one of the most common skin conditions caused by clogged pores, excess oil, bacteria, and inflammation.",
@@ -92,7 +92,7 @@ export const concerns: Concern[] = [
     id: 2,
     title: "Dry Skin",
     slug: "dry-skin",
-    image: "/images/concerns/dry-skin.jpg",
+    image: "/images/covers/dry-skin.webp",
     emoji: "💧",
     description:
       "Dry skin lacks moisture and often feels tight, rough, or flaky.",
@@ -156,7 +156,7 @@ export const concerns: Concern[] = [
     id: 3,
     title: "Oily Skin",
     slug: "oily-skin",
-    image: "/images/concerns/oily-skin.jpg",
+    image: "/images/covers/oily-skin.webp",
     emoji: "🌿",
     description:
       "Oily skin produces excess sebum which can lead to enlarged pores and acne.",
@@ -221,7 +221,7 @@ export const concerns: Concern[] = [
     id: 4,
     title: "Sensitive Skin",
     slug: "sensitive-skin",
-    image: "/images/concerns/sensitive-skin.jpg",
+    image: "/images/covers/sensitive-skin.webp",
     emoji: "🩷",
     description:
       "Sensitive skin reacts easily to skincare products and environmental factors.",
@@ -284,7 +284,7 @@ export const concerns: Concern[] = [
     id: 5,
     title: "Pigmentation",
     slug: "pigmentation",
-    image: "/images/concerns/pigmentation.jpg",
+    image: "/images/covers/pigmentation.webp",
     emoji: "☀️",
     description:
       "Pigmentation causes uneven skin tone and dark patches.",
@@ -348,7 +348,7 @@ export const concerns: Concern[] = [
     id: 6,
     title: "Anti-Aging",
     slug: "anti-aging",
-    image: "/images/concerns/anti-aging.jpg",
+    image: "/images/covers/anti-aging.webp",
     emoji: "⭐",
     description:
       "Fine lines and wrinkles develop naturally as collagen production decreases with age.",
