@@ -240,7 +240,7 @@ Neither ingredient is objectively "better" — they target different concerns. I
     id: 6,
     title: "Understanding Your Skin Barrier",
     category: "Skin Science",
-    image: "/images/blog/understanding-skin-barrier.png",
+    image: "/images/covers/understanding-skin-barrier.webp",
     description:
       "What the skin barrier actually is, how it gets damaged, and the fastest ways to repair it.",
     slug: "understanding-skin-barrier",
