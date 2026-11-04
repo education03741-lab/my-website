@@ -146,9 +146,9 @@ body {
   padding: 0;
   align-items: center;
   justify-content: center;
-  border: 1px solid #E5DAD0;
+  border: 1px solid #DCE5D8;
   background: transparent;
-  color: #662F42;
+  color: #2B552D;
   box-shadow: none;
 }
 
@@ -297,3 +297,8 @@ body {
 .dark .gs-botanical-home, .dark .gs-botanical-topics, .dark .gs-botanical-journal, .dark .gs-botanical-index { background-color: #253128; }
 .dark .gs-botanical-card { background-color: #303D33; border-color: #536B55; }
 .dark .gs-botanical-card > div:first-child { border-color: #536B55; background-color: #435444; }
+
+/* Keep the shared search control in the same visual language. */
+.gs-nav-search > button:hover { background: #EAF0E3; }
+.gs-nav-search > button:focus-visible { outline-color: #2B552D; }
+.dark .gs-editorial-home a:not(.gs-story-card):not(.gs-ingredient-card) { color: #BED7B2; }
