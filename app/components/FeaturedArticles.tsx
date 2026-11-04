@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { posts } from "../data/posts";
 import { urlFor } from "@/sanity/lib/image";
+import { getArticleCover } from "@/app/data/approvedCovers";
 
 export type FeaturedSanityArticle = {
   _id: string;
@@ -45,9 +46,9 @@ function selectStories(articles: FeaturedSanityArticle[]): Story[] {
       title: article.title,
       category: article.category || legacy?.category || "Skincare Guide",
       description: article.excerpt || legacy?.description || "",
-      image: article.mainImage
+      image: getArticleCover(slug) ?? (article.mainImage
         ? urlFor(article.mainImage).width(1200).url()
-        : legacy?.image,
+        : legacy?.image),
     });
   }
 

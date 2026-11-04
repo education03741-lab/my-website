@@ -8,6 +8,7 @@ import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
 import { client } from "@/sanity/lib/client";
 import { CONCERNS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getConcernCover } from "@/app/data/approvedCovers";
 
 export const metadata: Metadata = {
   title: "Skin Concerns: Acne, Dryness, Oiliness & More",
@@ -28,7 +29,7 @@ export default async function SkinConcernsPage() {
       id: 1000 + index,
       title: item.title,
       slug: item.slug?.current,
-      image: item.image ? urlFor(item.image).width(800).url() : "",
+      image: getConcernCover(item.slug?.current) ?? (item.image ? urlFor(item.image).width(800).url() : ""),
       emoji: item.emoji ?? "",
       description: item.description ?? "",
       overview: item.overview ?? "",

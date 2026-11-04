@@ -11,6 +11,7 @@ import { posts } from "@/app/data/posts";
 import { client } from "@/sanity/lib/client";
 import { ARTICLE_BY_SLUG_QUERY, RELATED_ARTICLES_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getArticleCover } from "@/app/data/approvedCovers";
 
 interface PageProps {
   params: Promise<{
@@ -362,7 +363,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       openGraph: {
         title: curated?.title || post.title,
         description,
-        images: post.image ? [{ url: post.image, width: 1200, height: 630 }] : [],
+        images: post.image ? [{ url: post.image, width: 1200, height: getArticleCover(slug) ? 750 : 630 }] : [],
         type: "article",
       },
       twitter: {
@@ -383,9 +384,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     portableTextToPlainText(sanityArticle.body).slice(0, 155) ||
     sanityArticle.excerpt?.trim() ||
     `Read ${sanityArticle.title} on GlowSkin.`;
-  const image = sanityArticle.mainImage
+  const image = getArticleCover(slug) ?? (sanityArticle.mainImage
     ? urlFor(sanityArticle.mainImage).width(1200).height(630).url()
-    : undefined;
+    : undefined);
 
   return {
     title,
@@ -393,7 +394,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      images: image ? [{ url: image, width: 1200, height: 630 }] : [],
+      images: image ? [{ url: image, width: 1200, height: getArticleCover(slug) ? 750 : 630 }] : [],
       type: "article",
     },
     twitter: {
@@ -414,6 +415,8 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!result) {
     notFound();
   }
+
+  const approvedCover = getArticleCover(slug);
 
   // ✅ STATIC ARTICLE RENDER
   if (result.type === "static") {
@@ -466,13 +469,13 @@ export default async function BlogPostPage({ params }: PageProps) {
               5 min read • GlowSkin Editorial
             </p>
 
-            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]">
+            <div className={approvedCover ? "relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] bg-[#F5F2EB]" : "relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]"}>
               <Image
                 src={post.image}
                 alt={post.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
-                className="object-cover"
+                className={approvedCover ? "object-contain" : "object-cover"}
                 priority
               />
             </div>
@@ -509,7 +512,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover"
+                      className={getArticleCover(item.slug) ? "object-contain p-2" : "object-cover"}
                     />
                   </div>
 
@@ -610,9 +613,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             datePublished: publishedAt,
             dateModified: modifiedAt,
             articleSection: sanityArticle.category || undefined,
-            image: sanityArticle.mainImage
-              ? [urlFor(sanityArticle.mainImage).width(1200).height(630).url()]
-              : undefined,
+            image: approvedCover
+              ? [`https://glowskin.blog${approvedCover}`]
+              : sanityArticle.mainImage
+                ? [urlFor(sanityArticle.mainImage).width(1200).height(630).url()]
+                : undefined,
             description,
           }),
         }}
@@ -659,14 +664,14 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
           )}
 
-          {sanityArticle.mainImage && (
-            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]">
+          {(approvedCover || sanityArticle.mainImage) && (
+            <div className={approvedCover ? "relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] bg-[#F5F2EB]" : "relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]"}>
               <Image
-                src={urlFor(sanityArticle.mainImage).width(1200).height(700).url()}
+                src={approvedCover ?? (sanityArticle.mainImage ? urlFor(sanityArticle.mainImage).width(1200).height(700).url() : "")}
                 alt={sanityArticle.mainImage?.alt || sanityArticle.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
-                className="object-cover"
+                className={approvedCover ? "object-contain" : "object-cover"}
                 priority
               />
             </div>

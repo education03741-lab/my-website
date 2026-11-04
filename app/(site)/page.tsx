@@ -13,6 +13,7 @@ import { Ingredient } from "@/app/data/ingredients";
 import { client } from "@/sanity/lib/client";
 import { ARTICLES_QUERY, CONCERNS_QUERY, INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getConcernCover, getIngredientCover } from "@/app/data/approvedCovers";
 
 export const metadata: Metadata = {
   title: "Skincare Routines, Skin Concerns & Ingredients",
@@ -44,7 +45,7 @@ export default async function Home() {
       id: 1000 + index,
       title: item.title,
       slug: item.slug?.current,
-      image: item.image ? urlFor(item.image).width(800).url() : "",
+      image: getConcernCover(item.slug?.current) ?? (item.image ? urlFor(item.image).width(800).url() : ""),
       emoji: item.emoji ?? "",
       description: item.description ?? "",
       overview: item.overview ?? "",
@@ -66,7 +67,7 @@ export default async function Home() {
       id: 2000 + index,
       name: item.name,
       slug: item.slug?.current,
-      image: item.image ? urlFor(item.image).width(800).url() : "",
+      image: getIngredientCover(item.slug?.current) ?? (item.image ? urlFor(item.image).width(800).url() : ""),
       description: item.description ?? "",
       benefits: item.benefits ?? [],
       howItWorks: item.howItWorks ?? "",

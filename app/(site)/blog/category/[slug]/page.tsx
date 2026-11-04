@@ -11,6 +11,7 @@ import { categories } from "@/app/data/categories";
 import { client } from "@/sanity/lib/client";
 import { ARTICLES_BY_CATEGORY_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getArticleCover } from "@/app/data/approvedCovers";
 
 export const revalidate = 60;
 
@@ -81,7 +82,7 @@ export default async function CategoryPage({ params }: PageProps) {
       slug: articleSlug,
       description: article.excerpt ?? "",
       category: category.label,
-      image: article.mainImage ? urlFor(article.mainImage).width(1200).url() : undefined,
+      image: getArticleCover(articleSlug) ?? (article.mainImage ? urlFor(article.mainImage).width(1200).url() : undefined),
     });
   }
 

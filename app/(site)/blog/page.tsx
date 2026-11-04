@@ -9,6 +9,7 @@ import { posts } from "@/app/data/posts";
 import { client } from "@/sanity/lib/client";
 import { ARTICLES_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getArticleCover } from "@/app/data/approvedCovers";
 
 export const revalidate = 60;
 
@@ -55,7 +56,7 @@ export default async function BlogPage() {
       slug,
       title: article.title,
       description: article.excerpt ?? "",
-      image: article.mainImage ? urlFor(article.mainImage).width(1200).url() : undefined,
+      image: getArticleCover(slug) ?? (article.mainImage ? urlFor(article.mainImage).width(1200).url() : undefined),
     });
   }
   for (const post of posts) {
