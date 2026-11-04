@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, BookOpen, Droplets, HeartPulse, Leaf, Sparkles, FlaskConical } from "lucide-react";
+import { BookOpen, Droplets, HeartPulse, Leaf, Sparkles, FlaskConical, ArrowUpRight } from "lucide-react";
 
 const topics = [
   { title: "Routines", href: "/blog/category/beginner-guide", Icon: BookOpen },
@@ -12,21 +12,20 @@ const topics = [
 
 export default function ExploreTopics() {
   return (
-    <section aria-labelledby="explore-topics-heading" className="bg-[#FFFCF8] py-14 sm:py-18">
+    <section aria-labelledby="explore-topics-heading" className="gs-botanical-topics border-b border-[#E5E8DD] bg-[#F9F9F3] py-10 sm:py-12">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-10 text-center">
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#8C5A55]">THE ATELIER · EXPLORE</p>
-          <h2 id="explore-topics-heading" className="font-heading text-4xl font-medium text-[#282521] sm:text-5xl">
-            Find your <span className="italic text-[#A66370]">point of view.</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#625A53]">Find practical guides and thoughtful answers for your skin goals.</p>
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[.23em] text-[#4D6B4E] dark:text-[#B8CEAC]">FIND YOUR STARTING POINT</p>
+            <h2 id="explore-topics-heading" className="font-heading text-3xl font-medium tracking-[-.035em] !text-[#26382A] dark:!text-[#F4F6EE] sm:text-4xl">Explore by topic</h2>
+          </div>
+          <Link href="/blog" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#2D5830] underline-offset-4 hover:underline dark:text-[#C5DDB9]">All guides <ArrowUpRight className="h-4 w-4" aria-hidden="true" /></Link>
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {topics.map(({ title, href, Icon }) => (
-            <Link key={title} href={href} className="gs-atelier-topic group flex min-h-40 flex-col items-center justify-center rounded-t-[4rem] rounded-b-2xl border border-[#EADDD3] bg-gradient-to-b from-[#F7EAE8] via-[#FFF8F1] to-[#F5EFE8] px-3 py-6 text-center transition hover:-translate-y-1 hover:border-[#BB9C80] hover:shadow-[0_18px_36px_rgba(84,54,45,.1)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42]">
-              <Icon aria-hidden="true" className="mb-5 h-7 w-7 stroke-[1.3] text-[#956B52]" />
-              <span className="font-heading text-lg font-medium text-[#342B27]">{title}</span>
-              <ArrowUpRight aria-hidden="true" className="mt-4 h-4 w-4 text-[#956B52] transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <Link key={title} href={href} className="gs-botanical-chip group flex min-h-20 items-center justify-center gap-3 rounded-2xl border border-[#DDE5D8] bg-[#FFFEFA] px-3 py-4 text-center text-sm font-semibold text-[#2E4931] transition hover:-translate-y-0.5 hover:border-[#7B9776] hover:bg-[#EFF4E8] hover:shadow-[0_9px_24px_rgba(35,62,37,.07)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2D5830] dark:border-[#536A54] dark:bg-[#344238] dark:text-[#F4F7F1]">
+              <Icon aria-hidden="true" className="h-5 w-5 shrink-0 stroke-[1.6] text-[#5E7C57] dark:text-[#B7D1AA]" />
+              <span>{title}</span>
             </Link>
           ))}
         </div>
