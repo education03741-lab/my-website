@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import Navbar from "@/app/components/Navbar";
 import { CategoryCoverPhoto } from "@/app/components/EditorialPhotoCollection";
@@ -101,26 +102,26 @@ export default async function CategoryPage({ params }: PageProps) {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-[#F7F1EA] px-5 py-12 sm:px-6 sm:py-20">
+      <main className="gs-botanical-index min-h-screen bg-[#F9F8F2] px-5 py-12 sm:px-6 sm:py-16">
         <div className="mx-auto max-w-7xl">
           <Link
             href="/blog"
-            className="text-[#82485A] font-semibold hover:underline"
+            className="font-semibold text-[#2D5830] hover:underline"
           >
             ← Back to Blog
           </Link>
 
-          <div className="mb-12 mt-8 rounded-[2rem] border border-[#E6D5CA] bg-gradient-to-br from-[#F1E0DA] via-[#FFF9F2] to-[#E9E4DA] px-6 py-9 text-left sm:px-10 sm:py-12">
-            <div className="grid items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-12"><div>
-            <span className="inline-block rounded-full bg-[#EAD7D5] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#743D4B]">
+          <div className="gs-mineral-surface relative isolate mb-12 mt-8 overflow-hidden rounded-[2rem] border border-[#DDE2D4] px-6 py-9 text-left sm:px-10 sm:py-12">
+            <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-12"><div>
+            <span className="inline-block rounded-full bg-[#E4EDD9] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#28502E]">
               {category.label}
             </span>
 
-            <h1 className="mt-6 font-heading text-4xl font-medium text-[#35262B] sm:text-6xl">
+            <h1 className="mt-6 font-heading text-4xl font-medium text-[#29372B] sm:text-6xl">
               {category.label}
             </h1>
 
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#715E5C]">
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[#4D5B4E]">
               {category.intro}
             </p>
             </div>
@@ -147,36 +148,36 @@ export default async function CategoryPage({ params }: PageProps) {
                 <Link
                   key={post.id}
                   href={`/blog/${post.slug}`}
-                  className="group overflow-hidden rounded-t-[7rem] rounded-b-[1.5rem] border border-[#E4D5CE] bg-[#FFFBF6] shadow-[0_8px_28px_rgba(60,40,45,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(60,40,45,.12)]"
+                  className="gs-botanical-card group flex h-full flex-col overflow-hidden rounded-[1.3rem] border border-[#DCE3D6] bg-[#FFFEFB] shadow-[0_8px_26px_rgba(44,59,42,.045)] transition hover:-translate-y-1 hover:border-[#8DA784] hover:shadow-[0_20px_46px_rgba(44,59,42,.11)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2D5830]"
                 >
                   {post.image && (
-                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EADCD4]">
+                    <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-[#E6E9DE] bg-[#EFF1E7]">
                       <Image
                         src={post.image}
                         alt={post.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.015]"
                       />
                     </div>
                   )}
 
-                  <div className="p-6">
+                  <div className="flex flex-1 flex-col p-6">
                     <span className="text-sm font-semibold uppercase tracking-wide text-primary">
                       {post.category}
                     </span>
 
-                    <h2 className="mt-3 font-heading text-2xl font-medium text-[#342B2B] transition group-hover:text-primary">
+                    <h2 className="mt-3 font-heading text-2xl font-medium !text-[#29372B] transition group-hover:!text-[#356338] dark:!text-[#F3F7F0]">
                       {post.title}
                     </h2>
 
-                    <p className="mt-4 line-clamp-3 leading-relaxed text-[#6D625C]">
+                    <p className="mt-3 line-clamp-3 leading-relaxed text-[#5B685B] dark:text-[#D4DEC8]">
                       {post.description}
                     </p>
 
-                    <p className="mt-6 font-semibold text-primary transition group-hover:translate-x-2">
-                      Read More →
-                    </p>
+                    <span className="mt-auto flex items-center justify-between gap-3 border-t border-[#E3E9DF] pt-5 text-sm font-semibold text-[#2D5830] dark:border-[#566B56] dark:text-[#C7E0BA]">
+                      Read article <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E6EDD9] text-[#315835] transition group-hover:bg-[#2D5830] group-hover:text-white"><ArrowUpRight className="h-4 w-4" /></span>
+                    </span>
                   </div>
                 </Link>
               ))}
