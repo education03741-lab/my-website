@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-import { EditorialPhotoCollection } from "@/app/components/EditorialPhotoCollection";
+import { ArrowUpRight, Leaf } from "lucide-react";
 import { categories } from "@/app/data/categories";
 import { posts } from "@/app/data/posts";
 import { client } from "@/sanity/lib/client";
@@ -74,23 +74,29 @@ export default async function BlogPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-[#F7F1EA] px-5 py-12 sm:px-6 sm:py-20">
+      <main className="gs-botanical-index min-h-screen bg-[#F9F8F2] px-5 py-12 sm:px-6 sm:py-16">
         <div className="mx-auto max-w-7xl">
-          <div className="relative mb-12 overflow-hidden rounded-[2rem] border border-[#E4D2C7] bg-gradient-to-br from-[#F2DDD6] via-[#FFF9F4] to-[#E6E5D8] px-6 py-9 text-left shadow-[0_25px_75px_rgba(78,43,49,.08)] sm:px-10 sm:py-12">
-            <div className="grid items-center gap-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-12"><div>
+          <div className="gs-mineral-surface relative isolate mb-12 overflow-hidden rounded-[2rem] border border-[#DDE2D4] px-6 py-9 text-left shadow-[0_18px_48px_rgba(44,59,42,.06)] sm:px-10 sm:py-12">
+            <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[1.4fr_.6fr] lg:gap-12"><div>
             <span className="inline-block rounded-full bg-primary-light px-4 py-2 text-sm font-semibold text-primary-dark">
-              THE SKIN ATELIER · THE JOURNAL
+              THE GLOW SKIN JOURNAL
             </span>
 
-            <h1 className="mt-6 font-heading text-4xl font-medium tracking-tight text-[#342325] sm:text-6xl">
-              Stories worth <span className="italic text-[#8E4857]">your time.</span>
+            <h1 className="mt-6 font-heading text-4xl font-medium tracking-tight text-[#29372B] sm:text-6xl">
+              Skincare guides, <span className="italic text-[#436D3E]">beautifully simple.</span>
             </h1>
 
-            <p className="mt-4 max-w-2xl text-lg text-[#5D514F]">
+            <p className="mt-4 max-w-2xl text-lg text-[#4D5B4E]">
               Discover considered skincare routines, ingredient guides,
               practical skin education, and beauty advice.
             </p>
-            </div><EditorialPhotoCollection type="journal" /></div>
+            </div>
+              <div className="hidden items-center justify-center lg:flex" aria-hidden="true">
+                <div className="flex h-48 w-48 items-center justify-center rounded-full border border-[#C8D5C0] bg-[#E8EFDF]/60 shadow-[0_14px_35px_rgba(44,59,42,.06)]">
+                  <Leaf className="h-20 w-20 stroke-[.75] text-[#55774D]" />
+                </div>
+              </div>
+            </div>
           </div>
 
           <nav
@@ -120,29 +126,29 @@ export default async function BlogPage() {
               <Link
                 key={article.id}
                 href={`/blog/${article.slug}`}
-                className="group overflow-hidden rounded-t-[7rem] rounded-b-[1.5rem] border border-[#E5D7CD] bg-[#FFF9F4] shadow-[0_8px_30px_rgba(66,45,40,.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_rgba(66,45,40,.13)]"
+                className="gs-botanical-card group flex h-full flex-col overflow-hidden rounded-[1.3rem] border border-[#DCE3D6] bg-[#FFFEFB] shadow-[0_8px_26px_rgba(44,59,42,.045)] transition hover:-translate-y-1 hover:border-[#8DA784] hover:shadow-[0_20px_46px_rgba(44,59,42,.11)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2D5830]"
               >
                 {article.image && (
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#E5D7CD]">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-[#E6E9DE] bg-[#EFF1E7]">
                     <Image
                       src={article.image}
                       alt={article.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.015]"
                     />
                   </div>
                 )}
-                <div className="p-6">
-                  <h2 className="mt-3 font-heading text-2xl font-medium leading-tight text-[#342325] transition group-hover:text-primary">
+                <div className="flex flex-1 flex-col p-6">
+                  <h2 className="mt-1 font-heading text-2xl font-medium leading-tight !text-[#29372B] transition group-hover:!text-[#356338] dark:!text-[#F3F7F0]">
                     {article.title}
                   </h2>
-                  <p className="mt-4 line-clamp-3 leading-relaxed text-[#695C57]">
+                  <p className="mt-3 line-clamp-3 leading-relaxed text-[#5B685B] dark:text-[#D4DEC8]">
                     {article.description}
                   </p>
-                  <p className="mt-6 font-semibold text-primary transition group-hover:translate-x-2">
-                    Read More →
-                  </p>
+                  <span className="mt-auto flex items-center justify-between gap-3 border-t border-[#E3E9DF] pt-5 text-sm font-semibold text-[#2D5830] dark:border-[#566B56] dark:text-[#C7E0BA]">
+                    Read article <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E6EDD9] text-[#315835] transition group-hover:bg-[#2D5830] group-hover:text-white"><ArrowUpRight className="h-4 w-4" /></span>
+                  </span>
                 </div>
               </Link>
             ))}
