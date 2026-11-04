@@ -17,6 +17,7 @@ import {
   INGREDIENTS_QUERY,
 } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getIngredientCover } from "@/app/data/approvedCovers";
 
 interface PageProps {
   params: Promise<{
@@ -161,11 +162,11 @@ const getIngredient = cache(
       name: sanityIngredient.name,
       slug: sanityIngredient.slug?.current ?? slug,
 
-      image: sanityIngredient.image
-        ? urlFor(sanityIngredient.image)
-            .width(1200)
-            .url()
-        : "",
+      image:
+        getIngredientCover(sanityIngredient.slug?.current ?? slug) ??
+        (sanityIngredient.image
+          ? urlFor(sanityIngredient.image).width(1200).url()
+          : ""),
 
       description: sanityIngredient.description ?? "",
 
@@ -207,9 +208,9 @@ const getRelatedIngredients = cache(
         id: 3000 + index,
         name: item.name,
         slug: item.slug?.current ?? "",
-        image: item.image
-          ? urlFor(item.image).width(600).url()
-          : "",
+        image:
+          getIngredientCover(item.slug?.current) ??
+          (item.image ? urlFor(item.image).width(600).url() : ""),
         description: item.description ?? "",
         introduction: item.introduction ?? [],
         howItWorks: item.howItWorks ?? [],
@@ -266,7 +267,7 @@ export async function generateMetadata({
             {
               url: ingredient.image,
               width: 1200,
-              height: 700,
+              height: getIngredientCover(ingredient.slug) ? 750 : 700,
             },
           ]
         : [],
