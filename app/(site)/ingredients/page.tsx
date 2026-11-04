@@ -8,6 +8,7 @@ import { Ingredient } from "@/app/data/ingredients";
 import { client } from "@/sanity/lib/client";
 import { INGREDIENTS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getIngredientCover } from "@/app/data/approvedCovers";
 
 export const revalidate = 60;
 
@@ -30,7 +31,7 @@ export default async function IngredientsPage() {
       id: 1000 + index,
       name: item.name,
       slug: item.slug?.current,
-      image: item.image ? urlFor(item.image).width(900).url() : "",
+      image: getIngredientCover(item.slug?.current) ?? (item.image ? urlFor(item.image).width(900).url() : ""),
       description: item.description ?? "",
       benefits: item.benefits ?? [],
       howItWorks: item.howItWorks ?? "",
