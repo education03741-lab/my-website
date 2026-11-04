@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, FlaskConical, Sparkles } from "lucide-react";
 import { cache } from "react";
 import type { Metadata } from "next";
 import { PortableText } from "@portabletext/react";
@@ -164,7 +164,6 @@ const getIngredient = cache(
       image: sanityIngredient.image
         ? urlFor(sanityIngredient.image)
             .width(1200)
-            .height(700)
             .url()
         : "",
 
@@ -209,7 +208,7 @@ const getRelatedIngredients = cache(
         name: item.name,
         slug: item.slug?.current ?? "",
         image: item.image
-          ? urlFor(item.image).width(600).height(400).url()
+          ? urlFor(item.image).width(600).url()
           : "",
         description: item.description ?? "",
         introduction: item.introduction ?? [],
@@ -343,43 +342,49 @@ export default async function IngredientPage({ params }: PageProps) {
         />
       )}
 
-      <main className="mx-auto max-w-4xl px-6 py-20">
+      <main className="gs-ingredient-guide min-h-screen bg-[#F9F8F2] px-5 pb-20 pt-10 dark:bg-[#253128] sm:px-6 sm:pt-16">
+        <div className="mx-auto max-w-5xl">
         {/* Back */}
         <Link
           href="/ingredients"
-          className="inline-flex items-center gap-2 font-semibold text-primary hover:underline"
+          className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#2D5830] underline-offset-4 hover:underline dark:text-[#C7DDBB]"
         >
           <ArrowLeft size={18} />
           Back to Ingredients
         </Link>
 
-        {/* Header */}
-        <header className="mt-10">
-          {ingredient.image && (
-            <div className="relative h-96 w-full overflow-hidden rounded-3xl">
-              <Image
-                src={ingredient.image}
-                alt={ingredient.name}
-                fill
-                priority
-                className="object-cover"
-              />
+        {/* Ingredient editorial header */}
+        <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[2rem] border border-[#DCE4D5] px-6 py-10 shadow-[0_16px_45px_rgba(46,63,42,.06)] sm:px-10 sm:py-12">
+          <div className={`relative z-10 grid items-center gap-9 ${ingredient.image ? "lg:grid-cols-[1.05fr_.95fr]" : ""}`}>
+            <div>
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[.23em] text-[#52754D] dark:text-[#C5DCBB]">THE GLOW SKIN INGREDIENT LIBRARY</p>
+              <h1 className="mt-0 font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-6xl">
+                {ingredient.name}
+              </h1>
+              <p className="mt-6 text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
+                {ingredient.description}
+              </p>
             </div>
-          )}
-
-          <h1 className="mt-8 font-heading text-5xl font-bold text-charcoal dark:text-white">
-            {ingredient.name}
-          </h1>
-
-          <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">
-            {ingredient.description}
-          </p>
+            {ingredient.image && (
+              <div className="relative aspect-[16/11] overflow-hidden rounded-[1.3rem] border border-[#D6E0D1] bg-[#EFF2E8] dark:border-[#536B55] dark:bg-[#435444]">
+                <Image
+                  src={ingredient.image}
+                  alt={ingredient.name}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="object-contain p-3"
+                />
+              </div>
+            )}
+          </div>
         </header>
 
+        <div className="mx-auto max-w-3xl">
         {ingredient.slug === "niacinamide" && (
-          <aside className="mt-10 rounded-r-2xl border-l-4 border-[#829879] bg-[#F0F4E8] p-6" aria-labelledby="niacinamide-answer">
-            <h2 id="niacinamide-answer" className="font-heading text-xl font-medium text-[#304232]">What does niacinamide do for skin?</h2>
-            <p className="mt-3 leading-7 text-[#536151]">
+          <aside className="mt-10 rounded-[1.3rem] border border-[#C7D7BE] bg-[#EDF3E8] p-6 shadow-[0_8px_24px_rgba(44,59,42,.04)] dark:border-[#567354] dark:bg-[#304534]" aria-labelledby="niacinamide-answer">
+            <h2 id="niacinamide-answer" className="font-heading text-xl font-medium !text-[#304232] dark:!text-[#F7F6EF]">What does niacinamide do for skin?</h2>
+            <p className="mt-3 leading-7 text-[#536151] dark:text-[#D4E0CE]">
               Niacinamide is a form of vitamin B3 used in many skincare products. It may help support the skin barrier, improve the appearance of redness and reduce excess oiliness. Results depend on the formula and individual skin tolerance. Start gradually, and stop using a product if irritation develops.
             </p>
             <a href="https://health.clevelandclinic.org/niacinamide" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm font-semibold text-[#4D6953] underline underline-offset-4">Read the clinical ingredient overview</a>
@@ -387,8 +392,8 @@ export default async function IngredientPage({ params }: PageProps) {
         )}
         {/* Introduction */}
         {hasContent(ingredient.introduction) && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="mb-5 font-heading text-3xl font-medium leading-tight !text-[#29372B] dark:!text-[#F7F6EF]">
               What Is {ingredient.name}?
             </h2>
 
@@ -401,8 +406,8 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* How It Works */}
         {hasContent(ingredient.howItWorks) && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="mb-5 font-heading text-3xl font-medium leading-tight !text-[#29372B] dark:!text-[#F7F6EF]">
               How It Works
             </h2>
 
@@ -415,8 +420,8 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* Benefits */}
         {hasContent(ingredient.benefits) && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="mb-5 font-heading text-3xl font-medium leading-tight !text-[#29372B] dark:!text-[#F7F6EF]">
               Benefits
             </h2>
 
@@ -429,8 +434,8 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* Best For */}
         {hasContent(ingredient.bestFor) && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="mb-5 font-heading text-3xl font-medium leading-tight !text-[#29372B] dark:!text-[#F7F6EF]">
               Best For
             </h2>
 
@@ -443,8 +448,8 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* How To Use */}
         {hasContent(ingredient.howToUse) && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="mb-5 font-heading text-3xl font-medium leading-tight !text-[#29372B] dark:!text-[#F7F6EF]">
               How to Use
             </h2>
 
@@ -457,8 +462,8 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* Pairs With */}
         {hasContent(ingredient.pairsWith) && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="mb-5 font-heading text-3xl font-medium leading-tight !text-[#29372B] dark:!text-[#F7F6EF]">
               Pairs Well With
             </h2>
 
@@ -471,8 +476,8 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* Use With Caution */}
         {hasContent(ingredient.avoidWith) && (
-          <section className="mt-16">
-            <h2 className="mb-6 text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="mb-5 font-heading text-3xl font-medium leading-tight !text-[#29372B] dark:!text-[#F7F6EF]">
               Use With Caution
             </h2>
 
@@ -485,14 +490,14 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* Pro Tip */}
         {hasContent(ingredient.proTip) && (
-          <section className="mt-16 flex gap-4 rounded-2xl border border-[#D7DEC9] bg-[#F0F4E8] p-6 dark:bg-primary/15">
+          <section className="mt-12 flex gap-4 rounded-[1.3rem] border border-[#C7D7BE] bg-[#EDF3E8] p-6 dark:border-[#567354] dark:bg-[#304534]">
             <Sparkles
               className="mt-1 flex-shrink-0 text-primary"
               size={22}
             />
 
             <div>
-              <h2 className="font-bold text-charcoal dark:text-white">
+              <h2 className="font-heading text-xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">
                 Pro Tip
               </h2>
 
@@ -508,8 +513,8 @@ export default async function IngredientPage({ params }: PageProps) {
 
         {/* FAQs */}
         {ingredient.faqs.length > 0 && (
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold text-charcoal dark:text-white">
+          <section className="gs-ingredient-prose-section mt-12 border-t border-[#D9E2D5] pt-9 dark:border-[#536B55]">
+            <h2 className="font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">
               Frequently Asked Questions
             </h2>
 
@@ -517,9 +522,9 @@ export default async function IngredientPage({ params }: PageProps) {
               {ingredient.faqs.map((faq, index) => (
                 <div
                   key={`${faq.question}-${index}`}
-                  className="rounded-2xl border border-primary-light p-5 dark:border-primary-dark/40"
+                  className="rounded-[1.1rem] border border-[#D9E2D5] bg-white/75 p-5 dark:border-[#567354] dark:bg-[#304034]"
                 >
-                  <h3 className="font-semibold text-charcoal dark:text-white">
+                  <h3 className="font-heading text-lg font-medium !text-[#29372B] dark:!text-[#F7F6EF]">
                     {faq.question}
                   </h3>
 
@@ -541,41 +546,51 @@ export default async function IngredientPage({ params }: PageProps) {
           </section>
         )}
 
+        </div>
+
         {/* Related Ingredients */}
-        <section className="mt-24">
-          <h2 className="mb-8 text-3xl font-bold text-charcoal dark:text-white">
+        <section className="mt-20 border-t border-[#D9E2D5] pt-12 dark:border-[#536B55]">
+          <h2 className="mb-8 font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">
             Related Ingredients
           </h2>
 
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {relatedIngredients.map((item) => (
               <Link
                 key={item.id}
                 href={`/ingredients/${item.slug}`}
-                className="overflow-hidden rounded-3xl bg-white shadow-lg transition hover:shadow-2xl dark:bg-charcoal"
+                className="gs-botanical-card group flex h-full flex-col overflow-hidden rounded-[1.3rem] border border-[#DCE3D6] bg-[#FFFEFB] shadow-[0_8px_26px_rgba(44,59,42,.045)] transition hover:-translate-y-1 hover:border-[#8DA784] hover:shadow-[0_20px_46px_rgba(44,59,42,.11)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2D5830] dark:bg-[#303D33]"
               >
-                <div className="relative h-52 w-full">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    className="object-cover"
-                  />
+                <div className="relative aspect-[16/10] overflow-hidden border-b border-[#E6E9DE] bg-[#EFF1E7] dark:border-[#536B55] dark:bg-[#435444]">
+                  {item.image ? (
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.015]"
+                    />
+                  ) : (
+                    <div className="flex h-full items-center justify-center" aria-hidden="true"><FlaskConical className="h-12 w-12 stroke-[1.2] text-[#829E78]" /></div>
+                  )}
                 </div>
-
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-charcoal dark:text-white">
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <h3 className="font-heading text-2xl font-medium leading-tight !text-[#29372B] dark:!text-[#F6F7F0]">
                     {item.name}
                   </h3>
-
-                  <p className="mt-3 text-gray-600 dark:text-gray-300">
+                  <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#5B685B] dark:text-[#D4DEC8]">
                     {item.description}
                   </p>
+                  <span className="mt-auto flex items-center justify-between gap-2 border-t border-[#E3E9DF] pt-5 text-sm font-semibold text-[#2D5830] dark:border-[#566B56] dark:text-[#C7E0BA]">
+                    Read ingredient guide
+                    <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E6EDD9] text-[#315835] transition group-hover:bg-[#2D5830] group-hover:text-white"><ArrowUpRight className="h-4 w-4" /></span>
+                  </span>
                 </div>
               </Link>
             ))}
           </div>
         </section>
+        </div>
       </main>
 
       <Footer />
