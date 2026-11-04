@@ -126,17 +126,18 @@ export default async function Home() {
       />
 
       <Navbar />
-      <main className="gs-editorial-home bg-[#F7F3EC]">
+      <main className="gs-editorial-home gs-botanical-home bg-[#F9F8F2]">
         <section id="home">
           <Hero />
         </section>
 
-        <SkinStoryDiscovery />
         <ExploreTopics />
 
         <section id="blog">
           <FeaturedArticles articles={sanityArticles} />
         </section>
+
+        <SkinStoryDiscovery />
 
         <section id="ingredients">
           <Ingredients ingredients={allIngredients} />

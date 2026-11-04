@@ -15,13 +15,13 @@
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
 
-  --color-primary: #662F42;
-  --color-primary-light: #E8D1D3;
-  --color-primary-dark: #4B2331;
+  --color-primary: #2B552D;
+  --color-primary-light: #E4EDD9;
+  --color-primary-dark: #1D4124;
 
-  --color-accent: #7B8B74;
-  --color-accent-light: #DAE1D5;
-  --color-accent-dark: #52634B;
+  --color-accent: #6D8C64;
+  --color-accent-light: #DFE9D8;
+  --color-accent-dark: #37583B;
 
   --color-cream: #F7F3EC;
   --color-charcoal: #282521;
@@ -146,9 +146,9 @@ body {
   padding: 0;
   align-items: center;
   justify-content: center;
-  border: 1px solid #E5DAD0;
+  border: 1px solid #DCE5D8;
   background: transparent;
-  color: #662F42;
+  color: #2B552D;
   box-shadow: none;
 }
 
@@ -260,3 +260,57 @@ body {
 .gs-atelier-feature-card { background:linear-gradient(160deg,#fffcf8,#f7eee8); }
 .gs-atelier-about,.gs-atelier-contact { background:linear-gradient(160deg,#f8f1e9,#f2e5de); }
 @media(prefers-reduced-motion:reduce){.gs-atelier-topic,.gs-atelier-feature-card{transition:none!important;}}
+
+
+/* Botanical Mineral: scoped texture, restraint and legible article imagery. */
+.gs-mineral-surface {
+  background-color: #F8F6EE;
+  background-image:
+    radial-gradient(ellipse at 88% 8%, rgba(201, 218, 185, .43), transparent 46%),
+    radial-gradient(ellipse at 4% 90%, rgba(234, 224, 204, .52), transparent 48%),
+    linear-gradient(140deg, #FBF9F3, #F1F0E7);
+}
+.gs-mineral-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .17;
+  background-size: 250px 250px;
+  background-repeat: repeat;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+}
+.gs-botanical-card { box-shadow: 0 8px 26px rgba(44, 59, 42, .045); }
+.gs-botanical-card h3 { text-wrap: pretty; }
+.gs-botanical-card img { image-rendering: auto; }
+.gs-botanical-home { color: #26382A; }
+@media (prefers-reduced-motion: reduce) {
+  .gs-botanical-card, .gs-botanical-card img, .gs-botanical-chip { transition: none !important; transform: none !important; }
+}
+.dark .gs-mineral-surface {
+  background-color: #27352A;
+  background-image: radial-gradient(ellipse at 80% 0%, rgba(92, 119, 81, .23), transparent 55%), linear-gradient(135deg, #26382B, #29362C);
+}
+.dark .gs-mineral-surface::before { opacity: .07; mix-blend-mode: screen; }
+.dark .gs-botanical-home, .dark .gs-botanical-topics, .dark .gs-botanical-journal, .dark .gs-botanical-index { background-color: #253128; }
+.dark .gs-botanical-card { background-color: #303D33; border-color: #536B55; }
+.dark .gs-botanical-card > div:first-child { border-color: #536B55; background-color: #435444; }
+
+/* Keep the shared search control in the same visual language. */
+.gs-nav-search > button:hover { background: #EAF0E3; }
+.gs-nav-search > button:focus-visible { outline-color: #2B552D; }
+.dark .gs-editorial-home a:not(.gs-story-card):not(.gs-ingredient-card) { color: #BED7B2; }
+
+/* Dark reading mode: maintain legible navigation and mineral surfaces. */
+.dark .gs-nav-search > button {
+  color: #D5E8CB;
+  border-color: #586D58;
+}
+.dark .gs-nav-search > button:hover { background: #344B38; }
+.dark .gs-editorial-home .gs-botanical-journal,
+.dark .gs-editorial-home .gs-botanical-topics,
+.dark .gs-editorial-home .gs-botanical-hero {
+  background-color: #253128;
+}

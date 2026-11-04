@@ -78,32 +78,21 @@ function selectStories(articles: FeaturedSanityArticle[]): Story[] {
 
 function StoryCard({ post }: { post: Story }) {
   return (
-    <article className="group min-w-0">
-      <Link
-        href={`/blog/${post.slug}`}
-        className={`gs-story-card gs-atelier-feature-card block h-full overflow-hidden rounded-[1.25rem] border border-[#E5DAD0] bg-[#FFFCF8] transition hover:-translate-y-1 hover:border-[#A66370] hover:shadow-[0_18px_50px_rgba(60,40,45,0.09)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#662F42] `}
-      >
-        <div className={`relative overflow-hidden bg-[#EEE7DE] aspect-[4/3]`}>
-          {post.image && (
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-              className="object-cover transition duration-500 group-hover:scale-[1.03]"
-            />
+    <article className="min-w-0">
+      <Link href={`/blog/${post.slug}`} className="gs-botanical-card group flex h-full flex-col overflow-hidden rounded-[1.3rem] border border-[#DCE3D6] bg-[#FFFEFB] shadow-[0_8px_26px_rgba(44,59,42,.045)] transition hover:-translate-y-1 hover:border-[#8DA784] hover:shadow-[0_20px_46px_rgba(44,59,42,.11)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2D5830]">
+        <div className="relative aspect-[16/10] overflow-hidden border-b border-[#E6E9DE] bg-[#EFF1E7]">
+          {post.image ? (
+            <Image src={post.image} alt={post.title} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.015]" />
+          ) : (
+            <div aria-hidden="true" className="flex h-full items-center justify-center font-heading text-5xl italic text-[#728C68]">GlowSkin.</div>
           )}
         </div>
-        <div className={`flex flex-col justify-between p-5 sm:p-6`}>
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A66370]">{post.category}</p>
-            <h3 className={`mt-3 font-heading font-medium leading-tight tracking-tight text-[#282521] text-xl sm:text-2xl`}>
-              {post.title}
-            </h3>
-            <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#635D56]">{post.description}</p>
-          </div>
-          <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#662F42]">
-            Read the guide <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true"/>
+        <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-6 sm:pb-6">
+          <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#54764D] dark:text-[#B4D2AA]">{post.category}</p>
+          <h3 className="mt-3 font-heading text-[1.45rem] font-medium leading-[1.2] tracking-[-.025em] !text-[#29372B] dark:!text-[#F6F7F0]">{post.title}</h3>
+          <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#5B685B] dark:text-[#D4DEC8]">{post.description}</p>
+          <span className="mt-auto flex items-center justify-between gap-3 border-t border-[#E3E9DF] pt-5 text-sm font-semibold text-[#2D5830] dark:border-[#566B56] dark:text-[#C7E0BA]">
+            Read article <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E6EDD9] text-[#315835] transition group-hover:bg-[#2D5830] group-hover:text-white"><ArrowUpRight className="h-4 w-4" /></span>
           </span>
         </div>
       </Link>
@@ -115,28 +104,24 @@ export default function FeaturedArticles({ articles }: { articles: FeaturedSanit
   const stories = selectStories(articles);
 
   return (
-    <section className="bg-[#F7F3EC] py-16 sm:py-20" aria-labelledby="journal-heading">
+    <section className="gs-botanical-journal bg-[#FBFAF6] py-16 sm:py-20" aria-labelledby="journal-heading">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-12 flex flex-col items-start justify-between gap-6 border-b border-[#D9CBC0] pb-9 md:flex-row md:items-end">
+        <div className="mb-9 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
-            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.28em] text-[#A66370]">THE ATELIER · JOURNAL</p>
-            <h2 id="journal-heading" className="font-heading text-4xl font-medium tracking-tight text-[#282521] sm:text-5xl">
-              Stories worth <span className="italic text-[#A66370]">staying for.</span>
-            </h2>
-            <p className="mt-4 max-w-xl text-base leading-7 text-[#635D56]">
-              A considered collection of skincare routines, ingredients, and everyday questions.
-            </p>
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[.24em] text-[#54764D] dark:text-[#C0D9B4]">THE GLOW SKIN JOURNAL</p>
+            <h2 id="journal-heading" className="font-heading text-4xl font-medium tracking-[-.035em] !text-[#29372B] dark:!text-[#F6F7EF] sm:text-5xl">Fresh reads for your skin</h2>
+            <p className="mt-4 max-w-xl text-base leading-7 text-[#5B685B] dark:text-[#D5DECF]">A thoughtful collection of routines, ingredients, and answers to everyday skincare questions.</p>
           </div>
-          <Link href="/blog" className="inline-flex items-center gap-2 border-b border-[#662F42] pb-2 text-sm font-semibold text-[#662F42] hover:text-[#A66370]">
-            Explore all articles <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          <Link href="/blog" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#2D5830] underline-offset-4 hover:underline dark:text-[#C7DDBB]">
+            View all articles <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
         {stories.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4 xl:gap-6">
-            {stories.slice(0, 4).map((post) => <StoryCard key={post.id} post={post} />)}
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {stories.slice(0, 6).map((post) => <StoryCard key={post.id} post={post} />)}
           </div>
         ) : (
-          <p className="text-[#635D56]">New articles are on the way. Explore the skincare library in the meantime.</p>
+          <p className="text-[#5B685B] dark:text-[#D5DECF]">New articles are on the way. Explore the skincare library in the meantime.</p>
         )}
       </div>
     </section>
