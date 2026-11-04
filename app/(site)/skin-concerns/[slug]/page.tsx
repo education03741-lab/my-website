@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft, ArrowUpRight, Leaf } from "lucide-react";
 import { cache } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/app/components/Navbar";
@@ -30,7 +31,7 @@ const getConcern = cache(async (slug: string): Promise<Concern | undefined> => {
         title: sanityConcern.title,
         slug: sanityConcern.slug?.current,
         image: sanityConcern.image
-          ? urlFor(sanityConcern.image).width(1200).height(700).url()
+          ? urlFor(sanityConcern.image).width(1200).url()
           : "",
         emoji: sanityConcern.emoji ?? "",
         description: sanityConcern.description ?? "",
@@ -74,7 +75,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      images: concern.image ? [{ url: concern.image, width: 1200, height: 700 }] : [],
+      images: concern.image ? [{ url: concern.image }] : [],
       type: "article",
     },
     twitter: {
@@ -117,151 +118,137 @@ export default async function SkinConcernPage({ params }: PageProps) {
         }}
       />
 
-      <main className="gs-atelier-concern mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-20">
-        <Link
-          href="/skin-concerns"
-          className="text-[#82485A] font-semibold hover:underline"
-        >
-          ← Back to Skin Concerns
-        </Link>
+      <main className="gs-skin-concern-guide min-h-screen bg-[#F9F8F2] px-5 pb-20 pt-10 dark:bg-[#253128] sm:px-6 sm:pt-16">
+        <div className="mx-auto max-w-5xl">
+          <Link href="/skin-concerns" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#2D5830] underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-[#2B552D] dark:text-[#C7DDBB]">
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to skin concerns
+          </Link>
 
-        <div className="mt-8 rounded-[2rem] border border-[#E4D3CD] bg-[#FFF9F4] px-6 py-10 shadow-[0_18px_55px_rgba(79,44,54,.06)] sm:px-12 sm:py-14">
-          <span className="inline-block rounded-full bg-pink-100 px-4 py-2 text-sm font-semibold text-[#95556B]">
-            {concern.emoji} {concern.title}
-          </span>
-
-          <h1 className="mt-6 font-heading text-4xl font-medium leading-tight tracking-tight text-[#4E303B] sm:text-6xl">
-            {concern.title}
-          </h1>
-
-          <p className="mt-4 text-gray-500">{concern.description}</p>
-
-          {concern.image && (
-            <div className="relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[8rem] rounded-b-2xl bg-[#EBDDD8]">
-              <Image
-                src={concern.image}
-                alt={concern.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 768px"
-                className="object-cover"
-                priority
-              />
-            </div>
-          )}
-
-          <article className="prose prose-lg max-w-none mt-12">
-            <p className="whitespace-pre-line">{concern.overview}</p>
-          </article>
-
-          <section className="mt-16">
-            <h2 className="font-heading text-3xl font-medium mb-4 text-[#4E303B]">What Causes It</h2>
-            <p className="text-gray-600 mb-6">{concern.causesIntro}</p>
-            <ul className="grid sm:grid-cols-2 gap-3">
-              {concern.causes.map((cause) => (
-                <li
-                  key={cause}
-                  className="rounded-2xl border border-[#E9D9D3] bg-[#F8EFEB] px-5 py-4 text-[#554348]"
-                >
-                  {cause}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold mb-4">Recommended Treatments</h2>
-            <p className="text-gray-600 mb-6">{concern.treatmentsIntro}</p>
-            <ul className="grid sm:grid-cols-2 gap-3">
-              {concern.treatments.map((treatment) => (
-                <li
-                  key={treatment}
-                  className="rounded-2xl bg-pink-50 px-5 py-3 text-gray-800"
-                >
-                  {treatment}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold mb-4">What to Avoid</h2>
-            <p className="text-gray-600 mb-6">{concern.avoidIntro}</p>
-            <ul className="space-y-3">
-              {concern.avoid.map((item) => (
-                <li key={item} className="flex gap-3 text-gray-800">
-                  <span className="text-pink-600">✒</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold mb-4">Suggested Routine</h2>
-            <p className="text-gray-600 mb-6">{concern.routineIntro}</p>
-            <div className="grid sm:grid-cols-2 gap-6">
-              {concern.routine.map((block) => (
-                <div
-                  key={block.time}
-                  className="rounded-2xl border border-[#E5D5CF] bg-[#FFFCF9] p-7 shadow-sm"
-                >
-                  <h3 className="text-xl font-bold text-pink-600 mb-4">
-                    {block.time} Routine
-                  </h3>
-                  <ol className="space-y-2 list-decimal list-inside text-gray-700">
-                    {block.steps.map((step, i) => (
-                      <li key={i}>{step}</li>
-                    ))}
-                  </ol>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="mt-16">
-            <h2 className="text-3xl font-bold mb-4">
-              When to See a Dermatologist
-            </h2>
-            <p className="text-gray-600 mb-6">{concern.dermIntro}</p>
-            <ul className="space-y-3">
-              {concern.seeADermatologistIf.map((item) => (
-                <li key={item} className="flex gap-3 text-gray-800">
-                  <span className="text-pink-600">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
-
-        <section className="mt-24">
-          <h2 className="text-3xl font-bold mb-8">Related Concerns</h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {relatedConcerns.map((item) => (
-              <Link
-                key={item.id}
-                href={`/skin-concerns/${item.slug}`}
-                className="overflow-hidden rounded-3xl bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
-              >
-                <div className="relative h-56 w-full">
+          <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[2rem] border border-[#DCE4D5] px-6 py-10 shadow-[0_16px_45px_rgba(46,63,42,.06)] sm:px-10 sm:py-12">
+            <div className={`relative z-10 grid items-center gap-9 ${concern.image ? "lg:grid-cols-[1.05fr_.95fr]" : ""}`}>
+              <div>
+                <p className="mb-4 text-[11px] font-bold uppercase tracking-[.23em] text-[#52754D] dark:text-[#C5DCBB]">THE GLOW SKIN CONCERN LIBRARY</p>
+                <h1 className="mt-0 font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-6xl">
+                  {concern.title}
+                </h1>
+                <p className="mt-6 text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
+                  {concern.description}
+                </p>
+              </div>
+              {concern.image && (
+                <div className="relative aspect-[16/11] overflow-hidden rounded-[1.3rem] border border-[#D6E0D1] bg-[#EFF2E8] dark:border-[#536B55] dark:bg-[#435444]">
                   <Image
-                    src={item.image}
-                    alt={item.title}
+                    src={concern.image}
+                    alt={concern.title}
                     fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 42vw"
+                    priority
+                    className="object-contain p-3"
                   />
                 </div>
+              )}
+            </div>
+          </header>
 
-                <div className="p-6">
-                  <h3 className="mt-3 text-2xl font-bold">{item.title}</h3>
-                  <p className="mt-3 text-gray-600">{item.description}</p>
-                </div>
-              </Link>
-            ))}
+          <div className="mx-auto mt-8 max-w-3xl rounded-[1.4rem] border border-[#E2E9DD] bg-[#FFFEFB] px-6 py-10 shadow-[0_10px_34px_rgba(44,59,42,.035)] dark:border-[#526B54] dark:bg-[#303D33] sm:px-10 sm:py-12">
+            <article className="text-base leading-8 text-[#4E5E4E] dark:text-[#D4DECF] sm:text-lg">
+              <p className="whitespace-pre-line">{concern.overview}</p>
+            </article>
+
+            <section className="mt-12 border-t border-[#DFE6DA] pt-9 dark:border-[#536B55]">
+              <h2 className="mb-4 font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">What Causes It</h2>
+              <p className="mb-6 leading-8 text-[#5B685B] dark:text-[#D4DECF]">{concern.causesIntro}</p>
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {concern.causes.map((cause) => (
+                  <li key={cause} className="rounded-xl border border-[#DCE6D8] bg-[#F4F7EF] px-5 py-4 text-sm leading-7 text-[#405443] dark:border-[#5B7559] dark:bg-[#374B3B] dark:text-[#DFEADA]">
+                    {cause}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="mt-12 border-t border-[#DFE6DA] pt-9 dark:border-[#536B55]">
+              <h2 className="mb-4 font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">Recommended Treatments</h2>
+              <p className="mb-6 leading-8 text-[#5B685B] dark:text-[#D4DECF]">{concern.treatmentsIntro}</p>
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {concern.treatments.map((treatment) => (
+                  <li key={treatment} className="rounded-xl border border-[#DCE6D8] bg-[#F4F7EF] px-5 py-4 text-sm leading-7 text-[#405443] dark:border-[#5B7559] dark:bg-[#374B3B] dark:text-[#DFEADA]">
+                    {treatment}
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="mt-12 border-t border-[#DFE6DA] pt-9 dark:border-[#536B55]">
+              <h2 className="mb-4 font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">What to Avoid</h2>
+              <p className="mb-6 leading-8 text-[#5B685B] dark:text-[#D4DECF]">{concern.avoidIntro}</p>
+              <ul className="space-y-3">
+                {concern.avoid.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm leading-7 text-[#4E5E4E] dark:text-[#DFEADA]">
+                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#62845A]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section className="mt-12 border-t border-[#DFE6DA] pt-9 dark:border-[#536B55]">
+              <h2 className="mb-4 font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">Suggested Routine</h2>
+              <p className="mb-6 leading-8 text-[#5B685B] dark:text-[#D4DECF]">{concern.routineIntro}</p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {concern.routine.map((block) => (
+                  <div key={block.time} className="rounded-[1.2rem] border border-[#DCE6D8] bg-[#F8FAF5] p-6 dark:border-[#5B7559] dark:bg-[#374B3B]">
+                    <h3 className="mb-4 font-heading text-xl font-medium !text-[#2C5331] dark:!text-[#D1E7C9]">{block.time} Routine</h3>
+                    <ol className="list-inside list-decimal space-y-3 text-sm leading-7 text-[#4E5E4E] dark:text-[#DFEADA]">
+                      {block.steps.map((step, i) => <li key={i}>{step}</li>)}
+                    </ol>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="mt-12 border-t border-[#DFE6DA] pt-9 dark:border-[#536B55]">
+              <h2 className="mb-4 font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">When to See a Dermatologist</h2>
+              <p className="mb-6 leading-8 text-[#5B685B] dark:text-[#D4DECF]">{concern.dermIntro}</p>
+              <ul className="space-y-3">
+                {concern.seeADermatologistIf.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm leading-7 text-[#4E5E4E] dark:text-[#DFEADA]">
+                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#62845A]" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
           </div>
-        </section>
+
+          <section className="mt-16 border-t border-[#D9E2D5] pt-12 dark:border-[#536B55]" aria-labelledby="related-concerns-heading">
+            <h2 id="related-concerns-heading" className="mb-8 font-heading text-3xl font-medium !text-[#29372B] dark:!text-[#F7F6EF]">Related Concerns</h2>
+            <div className="grid gap-5 sm:grid-cols-2">
+              {relatedConcerns.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/skin-concerns/${item.slug}`}
+                  className="gs-botanical-card group flex h-full flex-col overflow-hidden rounded-[1.3rem] border border-[#DCE3D6] bg-[#FFFEFB] shadow-[0_8px_26px_rgba(44,59,42,.045)] transition hover:-translate-y-1 hover:border-[#8DA784] hover:shadow-[0_20px_46px_rgba(44,59,42,.11)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2D5830] dark:border-[#536B55] dark:bg-[#303D33]"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden border-b border-[#E6E9DE] bg-[#EFF1E7] dark:border-[#536B55] dark:bg-[#435444]">
+                    {item.image ? (
+                      <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.015]" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center" aria-hidden="true"><Leaf className="h-12 w-12 stroke-[1.2] text-[#829E78]" /></div>
+                    )}
+                  </div>
+                  <div className="flex flex-1 flex-col p-6">
+                    <h3 className="font-heading text-2xl font-medium !text-[#29372B] dark:!text-[#F6F7F0]">{item.title}</h3>
+                    <p className="mt-3 line-clamp-3 text-sm leading-7 text-[#5B685B] dark:text-[#D4DEC8]">{item.description}</p>
+                    <span className="mt-auto flex items-center justify-between gap-2 border-t border-[#E3E9DF] pt-5 text-sm font-semibold text-[#2D5830] dark:border-[#566B56] dark:text-[#C7E0BA]">
+                      Read concern guide <span aria-hidden="true" className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E6EDD9] text-[#315835] transition group-hover:bg-[#2D5830] group-hover:text-white"><ArrowUpRight className="h-4 w-4" /></span>
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </div>
       </main>
 
       <Footer />
