@@ -36,6 +36,13 @@ const targetSeo: Record<string, { title: string; description: string; answer: st
     source: "https://health.clevelandclinic.org/skin-care-ingredients-explained",
     sourceLabel: "Cleveland Clinic — Skin care ingredients explained",
   },
+  "layering-actives-guide": {
+    title: "How to Layer Skincare Actives Without Irritation",
+    description: "Learn how to introduce retinol, exfoliating acids and other skincare actives gradually, reduce irritation and build a simpler routine for sensitive skin.",
+    answer: "To layer skincare actives more comfortably, start with a gentle cleanser, introduce new treatment products gradually and follow with moisturizer. Avoid using several strong exfoliating or retinoid products together if your skin becomes irritated. Keep your routine simple, wear sunscreen during the day and seek professional advice for persistent reactions.",
+    source: "https://www.aad.org/public/public-health/awareness-campaigns/national-healthy-skin-month",
+    sourceLabel: "American Academy of Dermatology — Healthy skin care and gradual ingredient use",
+  },
   "top-7-ingredients-for-acne-prone-skin": {
     title: "7 Skincare Ingredients for Acne-Prone Skin",
     description: "Explore common skincare ingredients for acne-prone skin, including salicylic acid and benzoyl peroxide, and how to build a gentler routine.",
@@ -547,7 +554,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     portableTextToPlainText(sanityArticle.body).slice(0, 200) ||
     sanityArticle.excerpt?.trim();
   // Respect the CMS answer. Use the curated, source-backed answer only
-  // for the three high-impression GSC topics when Sanity leaves it blank.
+  // for the priority GSC topics when Sanity leaves it blank.
   const directAnswer = sanityArticle.directAnswer?.trim() || targetSeo[slug]?.answer;
   const authorName = sanityArticle.authorName?.trim();
   const authorBio = sanityArticle.authorBio?.trim();
