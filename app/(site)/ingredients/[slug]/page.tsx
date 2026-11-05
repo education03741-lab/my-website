@@ -18,6 +18,7 @@ import {
 } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { getIngredientCover } from "@/app/data/approvedCovers";
+import { getArticleTopic } from "@/app/data/articleTopics";
 
 interface PageProps {
   params: Promise<{
@@ -364,6 +365,14 @@ export default async function IngredientPage({ params }: PageProps) {
             <p className="mt-5 max-w-3xl text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
               {ingredient.description}
             </p>
+            {getArticleTopic(ingredient.slug) && (
+              <Link
+                href={`/blog/topic/${ingredient.slug}`}
+                className="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-[#2D5830] underline underline-offset-4 dark:text-[#C8DEBD]"
+              >
+                Browse {ingredient.name} articles <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            )}
             {ingredient.image && (
               <figure className="mx-auto mt-8 w-full max-w-4xl">
                 <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] border border-[#D6E0D1] bg-[#F9F8F2] dark:border-[#536B55] dark:bg-[#435444]">

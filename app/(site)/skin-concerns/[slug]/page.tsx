@@ -10,6 +10,7 @@ import { concerns as staticConcerns, Concern } from "@/app/data/concerns";
 import { client } from "@/sanity/lib/client";
 import { CONCERN_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
+import { getArticleTopic } from "@/app/data/articleTopics";
 
 interface PageProps {
   params: Promise<{
@@ -133,6 +134,14 @@ export default async function SkinConcernPage({ params }: PageProps) {
               <p className="mt-5 max-w-3xl text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
                 {concern.description}
               </p>
+              {getArticleTopic(concern.slug) && (
+                <Link
+                  href={`/blog/topic/${concern.slug}`}
+                  className="mt-5 inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-[#2D5830] underline underline-offset-4 dark:text-[#C8DEBD]"
+                >
+                  Browse {concern.title} articles <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              )}
               {concern.image && (
                 <figure className="mx-auto mt-8 w-full max-w-4xl">
                   <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] border border-[#D6E0D1] bg-[#F9F8F2] dark:border-[#536B55] dark:bg-[#435444]">

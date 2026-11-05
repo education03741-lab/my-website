@@ -2,6 +2,7 @@
 
 import {useEffect, useState, type CSSProperties} from "react"
 import Image from "next/image"
+import { articleTopics } from "../../app/data/articleTopics"
 import {useClient} from "sanity"
 import {useRouter} from "sanity/router"
 import {
@@ -93,6 +94,16 @@ export default function WordArticleImporter() {
     setDraft((prev) => prev ? {...prev,[field]:value} : prev)
   }
 
+  const toggleTopic = (slug:string,checked:boolean) => {
+    setCreatedId("")
+    setDraft((previous) => previous ? {
+      ...previous,
+      topics: checked
+        ? [...new Set([...previous.topics, slug])]
+        : previous.topics.filter((topic) => topic !== slug),
+    } : previous)
+  }
+
   const loadFile = async (file?:File) => {
     if (!file) return
     setError("");setCreatedId("");setDraft(null);setFileName(file.name)
@@ -178,6 +189,7 @@ export default function WordArticleImporter() {
         title,
         slug:{_type:"slug",current:slug},
         category,
+        topics: draft.topics.filter((value) => articleTopics.some((topic) => topic.slug === value)),
         excerpt:draft.excerpt.trim() || undefined,
         seoTitle:draft.seoTitle.trim() || undefined,
         seoDescription:draft.seoDescription.trim() || undefined,
@@ -236,7 +248,7 @@ export default function WordArticleImporter() {
           <details style={{marginTop:15}}>
             <summary style={{cursor:"pointer",color:"#754155",fontWeight:600}}>Word template: how to format the file</summary>
             <div style={{marginTop:10,fontSize:13,lineHeight:1.9,whiteSpace:"pre-line",color:"#57494a"}}>
-              {"Title: Nighttime Skincare Routine\nCategory: Routine Building\nSEO Title: Nighttime Skincare Routine: Steps & Order\nMeta Description: A concise original summary for search snippets.\nCover Image Alt: Skincare products used in an evening routine\nExcerpt: Short article summary\nDirect Answer: A short factual answer to the main question.\nAuthor: Verified writer name\n\n[Insert the cover image near the top]\n\n[Word Heading 1] Nighttime Skincare Routine\n[Word Heading 2] Step 1: Cleanse\nWrite paragraphs, links, lists, tables and inline images.\n\n[Word Heading 2] Frequently Asked Questions\nQ: How many steps do I need?\nA: A short, suitable routine can be enough.\n\n[Word Heading 2] Sources\nDermatology guidance — https://example.org/source"}
+              {"Title: Nighttime Skincare Routine\nCategory: Routine Building\nTopics: Oily Skin, Niacinamide\nSEO Title: Nighttime Skincare Routine: Steps & Order\nMeta Description: A concise original summary for search snippets.\nCover Image Alt: Skincare products used in an evening routine\nExcerpt: Short article summary\nDirect Answer: A short factual answer to the main question.\nAuthor: Verified writer name\n\n[Insert the cover image near the top]\n\n[Word Heading 1] Nighttime Skincare Routine\n[Word Heading 2] Step 1: Cleanse\nWrite paragraphs, links, lists, tables and inline images.\n\n[Word Heading 2] Frequently Asked Questions\nQ: How many steps do I need?\nA: A short, suitable routine can be enough.\n\n[Word Heading 2] Sources\nDermatology guidance — https://example.org/source"}
             </div>
           </details>
           {fileName && <p style={{fontSize:13,marginTop:10}}>Selected: <strong>{fileName}</strong></p>}
@@ -260,6 +272,25 @@ export default function WordArticleImporter() {
                       {categories.map((category)=><option key={category} value={category}>{category}</option>)}
                     </select>
                   </div>
+                  <fieldset style={{border:"1px solid #e3d9d2",borderRadius:9,padding:12,marginBottom:14}}>
+                    <legend style={{...labelStyle,padding:"0 5px"}}>Article topics (select all that apply)</legend>
+                    <p style={{fontSize:12,color:"#74645d",margin:"4px 0 11px"}}>
+                      A published article appears in each selected ingredient or skin concern collection.
+                    </p>
+                    {(["concern","ingredient"] as const).map((group) => (
+                      <div key={group} style={{marginBottom:10}}>
+                        <p style={{fontSize:12,fontWeight:700,margin:"5px 0"}}>{group === "concern" ? "Skin concerns" : "Ingredients"}</p>
+                        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(135px,1fr))",gap:8}}>
+                          {articleTopics.filter((topic)=>topic.group===group).map((topic)=>(
+                            <label key={topic.slug} style={{display:"flex",gap:7,alignItems:"center",fontSize:12}}>
+                              <input type="checkbox" checked={draft.topics.includes(topic.slug)} onChange={(event)=>toggleTopic(topic.slug,event.target.checked)} disabled={busy}/>
+                              {topic.label}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </fieldset>
                   <button type="button" disabled={busy} style={{background:"transparent",border:"1px solid #aa8d90",borderRadius:7,padding:"7px 12px",fontSize:12,marginBottom:15,cursor:"pointer"}} onClick={()=>update("slug",slugify(draft.title))}>
                     Regenerate slug from title
                   </button>

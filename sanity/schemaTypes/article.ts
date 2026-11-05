@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { articleTopics } from '../../app/data/articleTopics'
 
 export const article = defineType({
   name: 'article',
@@ -41,6 +42,21 @@ export const article = defineType({
           { title: 'Skin Science', value: 'Skin Science' },
         ],
       },
+    }),
+    defineField({
+      name: 'topics',
+      title: 'Article topics (show in topic collections)',
+      description: 'Choose every relevant ingredient or skin concern. The article automatically appears on each selected topic page after publishing; its URL stays unchanged.',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: articleTopics.map((topic) => ({
+          title: `${topic.group === 'concern' ? 'Skin concern' : 'Ingredient'} · ${topic.label}`,
+          value: topic.slug,
+        })),
+        layout: 'grid',
+      },
+      validation: (Rule) => Rule.unique(),
     }),
     defineField({
       name: 'body',

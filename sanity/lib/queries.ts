@@ -34,6 +34,27 @@ export const ARTICLES_BY_CATEGORY_QUERY = `*[
 }`
 
 // Contextual links use only complete, published articles in the same topic cluster.
+// Topic collections: a published article can belong to multiple concerns or
+// ingredients. Explicit legacy slugs keep older articles discoverable without
+// mutating existing Sanity documents.
+export const ARTICLES_BY_TOPIC_QUERY = `*[
+  _type == "article" &&
+  !(_id in path("drafts.**")) &&
+  defined(title) &&
+  defined(slug.current) &&
+  count(body) > 0 &&
+  ($topic in topics || slug.current in $legacySlugs || ($topic == "acne" && category == "Acne Care"))
+] | order(publishedAt desc){
+  _id,
+  title,
+  slug,
+  excerpt,
+  mainImage,
+  publishedAt,
+  category,
+  topics
+}`
+
 export const RELATED_ARTICLES_QUERY = `*[
   _type == "article" &&
   !(_id in path("drafts.**")) &&
@@ -56,6 +77,7 @@ export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && !(_id in path("dra
   mainImage,
   body,
   category,
+  topics,
   publishedAt,
   _updatedAt,
   seoTitle,

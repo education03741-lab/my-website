@@ -52,11 +52,22 @@ const visualSets: Record<Theme, { kicker: string; lead: Tile; tiles: Tile[] }> =
 
 function EditorialTile({tile, featured=false, priority=false}: {tile:Tile;featured?:boolean;priority?:boolean}) {
   return (
-    <Link href={tile.href} className={`group relative block min-w-0 overflow-hidden bg-[#E9D8D0] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#733D52] ${featured ? "h-full min-h-72 rounded-t-[8rem] rounded-b-[1.4rem] sm:rounded-t-[11rem]" : "aspect-[5/4] rounded-t-[4rem] rounded-b-xl sm:rounded-t-[5rem]"}`}>
-      <Image src={tile.image} alt={tile.alt} fill priority={priority} sizes={featured?"(max-width:1024px) 100vw, 35vw":"(max-width:640px) 50vw, 15vw"} className="object-cover transition-transform duration-700 group-hover:scale-[1.055]" />
-      <span className="absolute inset-0 bg-gradient-to-t from-[#2D2226]/75 via-transparent to-transparent" aria-hidden="true"/>
-      <span className={`absolute bottom-4 left-4 right-4 flex items-center justify-between gap-2 font-semibold text-white drop-shadow-sm ${featured ? "text-lg sm:text-xl" : "text-xs sm:text-sm"}`}>
-        {tile.label}<ArrowUpRight aria-hidden="true" className="h-4 w-4 shrink-0 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5"/>
+    <Link
+      href={tile.href}
+      className={`group flex h-full min-w-0 flex-col overflow-hidden rounded-[1.1rem] border border-[#DEE7D8] bg-[#FFFEFA] transition hover:border-[#8DA784] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2D5830] ${featured ? "min-h-72" : ""}`}
+    >
+      <div className="relative aspect-[16/10] min-h-0 w-full flex-1 bg-[#F0F3E9]">
+        <Image
+          src={tile.image}
+          alt={tile.alt}
+          fill
+          priority={priority}
+          sizes={featured?"(max-width:1024px) 100vw, 35vw":"(max-width:640px) 50vw, 15vw"}
+          className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.015]"
+        />
+      </div>
+      <span className={`flex items-center justify-between gap-2 border-t border-[#DEE7D8] px-4 py-3 font-semibold text-[#315835] ${featured ? "text-base sm:text-lg" : "text-xs sm:text-sm"}`}>
+        {tile.label}<ArrowUpRight aria-hidden="true" className="h-4 w-4 shrink-0 transition group-hover:translate-x-0.5"/>
       </span>
     </Link>
   );
@@ -88,6 +99,9 @@ export function CategoryCoverPhoto({slug}:{slug:string}) {
     "acne-care":{image:"/images/concerns/acne.jpg",label:"Acne care",href:"/skin-concerns/acne",alt:"Close-up skincare portrait relating to acne-prone skin"},
     "sun-protection":{image:"/images/blog/how-to-choose-the-right-sunscreen.jpg",label:"Sun protection",href:"/blog/how-to-choose-the-right-sunscreen",alt:"Skincare editorial photograph illustrating sun protection"},
     "beginner-guide":{image:"/images/blog/beginners-skincare-routine.jpg",label:"The essentials",href:"/blog/beginners-skincare-routine",alt:"Premium editorial skincare routine photography"},
+    "routine-building":{image:"/images/blog/layering-actives-guide.png",label:"Routine building",href:"/blog/layering-actives-guide",alt:"Guide to layering skincare actives"},
+    "ingredient-guide":{image:"/images/blog/vitamin-c-vs-niacinamide.png",label:"Ingredients",href:"/blog/vitamin-c-vs-niacinamide",alt:"Vitamin C and niacinamide comparison cover"},
+    "skin-science":{image:"/images/covers/understanding-skin-barrier.webp",label:"Skin science",href:"/blog/understanding-skin-barrier",alt:"Understanding the skin barrier cover"},
   };
   const image=images[slug]??images["beginner-guide"];
   return (

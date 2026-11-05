@@ -1,6 +1,8 @@
 // Browser-only DOCX reader. Uses the ZIP central directory and native
 // DecompressionStream so the Studio does not need a new runtime dependency.
 // Never render XML or Word HTML as unsafe HTML.
+import { articleTopics } from "../../app/data/articleTopics"
+
 export type RichSpan = { text: string; marks: string[] }
 export type LinkDefinition = { _key: string; _type: "link"; href: string }
 export type TextNode = {
@@ -27,6 +29,7 @@ export type ParsedWordArticle = {
   title: string
   slug: string
   category: string
+  topics: string[]
   excerpt: string
   seoTitle: string
   seoDescription: string
@@ -324,7 +327,7 @@ export async function parseDocx(file: File): Promise<ParsedWordArticle> {
   }
 
   const article: ParsedWordArticle = {
-    title:"",slug:"",category:"",excerpt:"",seoTitle:"",seoDescription:"",
+    title:"",slug:"",category:"",topics:[],excerpt:"",seoTitle:"",seoDescription:"",
     directAnswer:"",coverAlt:"",authorName:"",authorBio:"",reviewerName:"",
     publishedAt:"",body:[],images:images.filter((image) => image.mimeType),
     coverImageId: images.find((image) => image.mimeType)?.id || "",
@@ -361,6 +364,19 @@ export async function parseDocx(file: File): Promise<ParsedWordArticle> {
       section = "sources";leading = false;continue
     }
     if (leading) {
+      const topicLine = text.match(/^topics?\s*:\s*(.+)$/i)
+      if (topicLine) {
+        const selected = topicLine[1].split(",").map((value) => value.trim()).filter(Boolean)
+        for (const label of selected) {
+          const topic = articleTopics.find((option) =>
+            label.toLowerCase() === option.slug ||
+            label.toLowerCase() === option.label.toLowerCase()
+          )
+          if (topic && !article.topics.includes(topic.slug)) article.topics.push(topic.slug)
+          else if (!topic) warnings.push("Unknown topic in Word file: " + label)
+        }
+        continue
+      }
       const match = text.match(/^([A-Za-z][A-Za-z ]{1,24})\s*:\s*(.+)$/)
       const field = match && metadata[match[1].trim().toLowerCase()]
       if (field) {

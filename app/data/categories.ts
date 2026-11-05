@@ -23,4 +23,19 @@ export const categories: Category[] = [
     intro:
       "Sunscreen is the single most important step in any skincare routine. Here's everything on choosing the right SPF, reapplying correctly, and separating sun-care facts from common myths.",
   },
+  {
+    slug: "routine-building",
+    label: "Routine Building",
+    intro: "Build a manageable morning or evening skincare routine, understand product order and introduce ingredients carefully.",
+  },
+  {
+    slug: "ingredient-guide",
+    label: "Ingredient Guide",
+    intro: "Explore research-informed ingredient explainers, comparisons and practical usage guidance.",
+  },
+  {
+    slug: "skin-science",
+    label: "Skin Science",
+    intro: "Understand the skin barrier, how skincare ingredients work and the evidence behind common claims.",
+  },
 ];
