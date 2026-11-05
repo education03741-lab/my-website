@@ -1,0 +1,33 @@
+# GlowSkin
+
+> GlowSkin is an English-language skincare education website covering daily routines, cosmetic ingredients, common skin concerns, and beauty-related questions.
+
+Website: https://glowskin.blog/
+
+GlowSkin content is educational and is not a substitute for a personal medical diagnosis or individualized treatment plan. A dermatologist or other qualified healthcare professional is the appropriate source of personal medical advice. Articles may contain additional sources or publication information where available.
+
+## Main sections
+
+- [Skincare journal](https://glowskin.blog/blog): Skincare articles, routines and ingredient explanations.
+- [Skincare ingredient library](https://glowskin.blog/ingredients): Individual ingredient guides and usage considerations.
+- [Skin concerns](https://glowskin.blog/skin-concerns): Guides to concerns such as acne, dryness, oiliness and uneven tone.
+- [Beginner skincare guides](https://glowskin.blog/blog/category/beginner-guide): Getting started with routines.
+- [Sun protection guides](https://glowskin.blog/blog/category/sun-protection): Understanding sunscreen and sun-safe habits.
+- [About GlowSkin](https://glowskin.blog/about): Editorial approach and purpose.
+- [Contact](https://glowskin.blog/contact): Send editorial feedback or questions.
+
+## Selected educational guides
+
+- [Beginner skincare routine](https://glowskin.blog/blog/beginners-skincare-routine)
+- [Nighttime skincare routine](https://glowskin.blog/blog/nighttime-skincare-routine)
+- [Choosing sunscreen](https://glowskin.blog/blog/how-to-choose-the-right-sunscreen)
+- [Understanding the skin barrier](https://glowskin.blog/blog/understanding-skin-barrier)
+- [Vitamin C versus niacinamide](https://glowskin.blog/blog/vitamin-c-vs-niacinamide)
+- [Acne](https://glowskin.blog/skin-concerns/acne)
+- [Dry skin](https://glowskin.blog/skin-concerns/dry-skin)
+- [Pigmentation](https://glowskin.blog/skin-concerns/pigmentation)
+
+## Site discovery
+
+- [XML sitemap](https://glowskin.blog/sitemap.xml)
+- [Robots directives](https://glowskin.blog/robots.txt)
