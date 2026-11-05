@@ -385,7 +385,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     sanityArticle.excerpt?.trim() ||
     `Read ${sanityArticle.title} on GlowSkin.`;
   const image = getArticleCover(slug) ?? (sanityArticle.mainImage
-    ? urlFor(sanityArticle.mainImage).width(1200).height(630).url()
+    ? urlFor(sanityArticle.mainImage).width(1200).url()
     : undefined);
 
   return {
@@ -394,7 +394,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      images: image ? [{ url: image, width: 1200, height: getArticleCover(slug) ? 750 : 630 }] : [],
+      images: image ? [{ url: image }] : [],
       type: "article",
     },
     twitter: {
@@ -616,7 +616,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             image: approvedCover
               ? [`https://glowskin.blog${approvedCover}`]
               : sanityArticle.mainImage
-                ? [urlFor(sanityArticle.mainImage).width(1200).height(630).url()]
+                ? [urlFor(sanityArticle.mainImage).width(1200).url()]
                 : undefined,
             description,
           }),
