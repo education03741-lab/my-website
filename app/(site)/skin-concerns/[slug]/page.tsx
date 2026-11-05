@@ -101,6 +101,11 @@ export default async function SkinConcernPage({ params }: PageProps) {
     .filter((c) => c.id !== concern.id)
     .slice(0, 2);
 
+  const canonicalUrl = `https://glowskin.blog/skin-concerns/${concern.slug}`;
+  const schemaImage = concern.image
+    ? new URL(concern.image, "https://glowskin.blog").toString()
+    : undefined;
+
   return (
     <>
       <Navbar />
@@ -111,8 +116,10 @@ export default async function SkinConcernPage({ params }: PageProps) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
+            "@id": `${canonicalUrl}#article`,
             headline: concern.title,
-            image: concern.image ? [concern.image] : undefined,
+            mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+            image: schemaImage ? [schemaImage] : undefined,
             description: concern.description,
           }),
         }}
