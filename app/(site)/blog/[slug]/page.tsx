@@ -469,13 +469,13 @@ export default async function BlogPostPage({ params }: PageProps) {
               5 min read • GlowSkin Editorial
             </p>
 
-            <div className={approvedCover ? "relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] bg-[#F5F2EB]" : "relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]"}>
+            <div className="relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] border border-[#DDE5D8] bg-[#F5F2EB] dark:border-[#536B55] dark:bg-[#354638]">
               <Image
                 src={post.image}
                 alt={post.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
-                className={approvedCover ? "object-contain" : "object-cover"}
+                className="object-contain"
                 priority
               />
             </div>
@@ -506,13 +506,13 @@ export default async function BlogPostPage({ params }: PageProps) {
                   href={`/blog/${item.slug}`}
                   className="overflow-hidden rounded-3xl bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="relative h-56 w-full">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#F5F2EB]">
                     <Image
                       src={item.image}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"
-                      className={getArticleCover(item.slug) ? "object-contain p-2" : "object-cover"}
+                      className="object-contain p-2"
                     />
                   </div>
 
@@ -665,13 +665,13 @@ export default async function BlogPostPage({ params }: PageProps) {
           )}
 
           {(approvedCover || sanityArticle.mainImage) && (
-            <div className={approvedCover ? "relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] bg-[#F5F2EB]" : "relative mt-10 aspect-[16/9] w-full overflow-hidden rounded-t-[7rem] rounded-b-2xl bg-[#E8DCD3] sm:rounded-t-[10rem]"}>
+            <div className="relative mt-10 aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] border border-[#DDE5D8] bg-[#F5F2EB] dark:border-[#536B55] dark:bg-[#354638]">
               <Image
-                src={approvedCover ?? (sanityArticle.mainImage ? urlFor(sanityArticle.mainImage).width(1200).height(700).url() : "")}
+                src={approvedCover ?? (sanityArticle.mainImage ? urlFor(sanityArticle.mainImage).width(1200).url() : "")}
                 alt={sanityArticle.mainImage?.alt || sanityArticle.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 768px"
-                className={approvedCover ? "object-contain" : "object-cover"}
+                className="object-contain"
                 priority
               />
             </div>
