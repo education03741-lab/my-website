@@ -313,6 +313,11 @@ export default async function IngredientPage({ params }: PageProps) {
       }
     : null;
 
+  const canonicalUrl = `https://glowskin.blog/ingredients/${ingredient.slug}`;
+  const schemaImage = ingredient.image
+    ? new URL(ingredient.image, "https://glowskin.blog").toString()
+    : undefined;
+
   return (
     <>
       <Navbar />
@@ -324,10 +329,10 @@ export default async function IngredientPage({ params }: PageProps) {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
+            "@id": `${canonicalUrl}#article`,
             headline: ingredient.name,
-            image: ingredient.image
-              ? [ingredient.image]
-              : undefined,
+            mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+            image: schemaImage ? [schemaImage] : undefined,
             description: ingredient.description,
           }),
         }}
