@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
 
@@ -61,6 +62,54 @@ export default function ContactPage() {
             form below and we&apos;ll get back to you as soon as possible.
           </p>
         </div>
+
+        <section
+          aria-labelledby="contact-guidance-heading"
+          className="mt-9 rounded-[1.5rem] border border-[#DCE5D7] bg-[#FFFEFA] px-6 py-8 sm:px-10 sm:py-10"
+        >
+          <h2
+            id="contact-guidance-heading"
+            className="font-heading text-2xl font-medium text-[#29372B] sm:text-3xl"
+          >
+            How we can help
+          </h2>
+          <p className="mt-4 max-w-3xl leading-7 text-[#526052]">
+            GlowSkin welcomes questions about our published skincare articles,
+            suggestions for future educational topics, and messages about potential
+            corrections. We also welcome general editorial or business inquiries.
+            This contact form is for communicating with the GlowSkin team, not for
+            diagnosing a skin condition or providing personalized treatment plans.
+          </p>
+          <div className="mt-7 grid gap-6 sm:grid-cols-2">
+            <div>
+              <h3 className="font-semibold text-[#304A32]">Reporting an article issue</h3>
+              <p className="mt-2 leading-7 text-[#526052]">
+                If you have spotted a possible factual error or an outdated source,
+                include the article title or URL and describe the specific passage.
+                A link to a reputable dermatology or research source can help us
+                understand your feedback.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-[#304A32]">Before sharing information</h3>
+              <p className="mt-2 leading-7 text-[#526052]">
+                Please avoid including passwords, medical records, or other sensitive
+                health information in your message. For an individual skin concern,
+                a qualified dermatologist is the appropriate professional to consult.
+                Learn about our approach on the{" "}
+                <Link href="/about" className="font-semibold text-[#2D5830] underline underline-offset-4">
+                  About page
+                </Link>.
+              </p>
+            </div>
+          </div>
+          <p className="mt-6 text-sm leading-7 text-[#526052]">
+            For information about website data practices, see our{" "}
+            <Link href="/privacy-policy" className="font-semibold text-[#2D5830] underline underline-offset-4">
+              Privacy Policy
+            </Link>.
+          </p>
+        </section>
 
         {status === "success" ? (
           <div className="mt-16 rounded-3xl bg-white p-10 shadow-lg text-center">
