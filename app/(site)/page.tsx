@@ -5,6 +5,7 @@ import ExploreTopics from "@/app/components/ExploreTopics";
 import SkinStoryDiscovery from "@/app/components/SkinStoryDiscovery";
 import WhyChooseUs from "@/app/components/WhyChooseUs";
 import FeaturedArticles, { type FeaturedSanityArticle } from "@/app/components/FeaturedArticles";
+import ReadingPathways from "@/app/components/ReadingPathways";
 import SkinConcerns from "@/app/components/SkinConcerns";
 import Ingredients from "@/app/components/Ingredients";
 import Footer from "@/app/components/Footer";
@@ -146,6 +147,8 @@ export default async function Home() {
         <section id="blog">
           <FeaturedArticles articles={sanityArticles} />
         </section>
+
+        <ReadingPathways articles={sanityArticles} concerns={allConcerns} />
 
         <SkinStoryDiscovery />
 
