@@ -4,6 +4,7 @@ import { visionTool } from '@sanity/vision'
 import { apiVersion, dataset } from './sanity/env'
 import { schema } from './sanity/schemaTypes'
 import { replyAction } from './sanity/actions/replyAction'
+import { withArticleScheduling } from './sanity/actions/articleSchedulePublish'
 import WordArticleImporter from './sanity/word-import/WordArticleImporter'
 
 export default defineConfig({
@@ -44,6 +45,14 @@ export default defineConfig({
     actions: (prev, context) => {
       if (context.schemaType === 'message') {
         return [...prev, replyAction]
+      }
+      if (context.schemaType === 'article') {
+        const scheduleClient = context.getClient({apiVersion: '2025-02-19'})
+        return prev.map((action) =>
+          action.action === 'publish'
+            ? withArticleScheduling(action, scheduleClient)
+            : action
+        )
       }
       return prev
     },
