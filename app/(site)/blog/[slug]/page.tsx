@@ -12,7 +12,7 @@ import { client } from "@/sanity/lib/client";
 import { ARTICLE_BY_SLUG_QUERY, RELATED_ARTICLES_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { getArticleCover } from "@/app/data/approvedCovers";
-import { getArticleTopic, getLegacyTopicSlugs, type ArticleTopic } from "@/app/data/articleTopics";
+import { getArticleTopic, getImplicitTopicSlugs, getLegacyTopicSlugs, type ArticleTopic } from "@/app/data/articleTopics";
 
 interface PageProps {
   params: Promise<{
@@ -518,7 +518,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 </p>
               )}
             </article>
-            <ArticleTopicLinks slugs={getLegacyTopicSlugs(slug)} />
+            <ArticleTopicLinks slugs={[...getLegacyTopicSlugs(slug), ...getImplicitTopicSlugs(post.category)]} />
           </div>
 
           <section className="mt-24">
@@ -720,6 +720,7 @@ export default async function BlogPostPage({ params }: PageProps) {
           <ArticleTopicLinks slugs={[
             ...(Array.isArray(sanityArticle.topics) ? sanityArticle.topics : []),
             ...getLegacyTopicSlugs(slug),
+            ...getImplicitTopicSlugs(sanityArticle.category),
           ]} />
 
           {visibleFaqs.length > 0 && (
