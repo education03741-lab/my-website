@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import ThemeToggle from "./ThemeToggle";
+import { categories } from "@/app/data/categories";
+import { articleTopics } from "@/app/data/articleTopics";
 
 type NavItem = {
   label: string;
@@ -18,33 +20,26 @@ const navigation: NavItem[] = [
   {
     label: "Journal",
     href: "/blog",
-    children: [
-      { label: "Beginner guides", href: "/blog/category/beginner-guide" },
-      { label: "Acne care", href: "/blog/category/acne-care" },
-      { label: "Sun protection", href: "/blog/category/sun-protection" },
-    ],
+    children: categories.map((category) => ({
+      label: category.label,
+      href: `/blog/category/${category.slug}`,
+    })),
   },
   {
     label: "Ingredients",
     href: "/ingredients",
-    children: [
-      { label: "Vitamin C", href: "/ingredients/vitamin-c" },
-      { label: "Niacinamide", href: "/ingredients/niacinamide" },
-      { label: "Hyaluronic acid", href: "/ingredients/hyaluronic-acid" },
-      { label: "Retinol", href: "/ingredients/retinol" },
-    ],
+    children: articleTopics.filter((topic) => topic.group === "ingredient").map((topic) => ({
+      label: topic.label,
+      href: `/blog/topic/${topic.slug}`,
+    })),
   },
   {
     label: "Skin concerns",
     href: "/skin-concerns",
-    children: [
-      { label: "Acne", href: "/skin-concerns/acne" },
-      { label: "Dry skin", href: "/skin-concerns/dry-skin" },
-      { label: "Oily skin", href: "/skin-concerns/oily-skin" },
-      { label: "Sensitive skin", href: "/skin-concerns/sensitive-skin" },
-      { label: "Pigmentation", href: "/skin-concerns/pigmentation" },
-      { label: "Anti-aging", href: "/skin-concerns/anti-aging" },
-    ],
+    children: articleTopics.filter((topic) => topic.group === "concern").map((topic) => ({
+      label: topic.label,
+      href: `/blog/topic/${topic.slug}`,
+    })),
   },
   { label: "Products", href: "/products" },
   { label: "About", href: "/about" },
@@ -53,12 +48,33 @@ const navigation: NavItem[] = [
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const closeOnOutside = (event: PointerEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) setOpenMenu(null);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpenMenu(null);
+        setOpenMobileMenu(null);
+      }
+    };
+    document.addEventListener("pointerdown", closeOnOutside);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutside);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
 
   const isCurrent = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <header className="sticky top-0 z-50 bg-[#FBFAF6]/95 shadow-[0_1px_0_rgba(44,74,45,0.11)] dark:bg-[#253429]/95">
-      <nav aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-4 sm:px-6">
+      <nav ref={navRef} aria-label="Primary navigation" className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-4 sm:px-6">
         <Link href="/" className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2B552D]">
           <Logo />
         </Link>
@@ -74,21 +90,33 @@ export default function Navbar() {
                 {item.label}
               </Link>
               {item.children && (
-                <details className="group relative">
-                  <summary aria-label={`More ${item.label} topics`} className="flex cursor-pointer list-none items-center rounded-full p-1.5 text-[#687B67] transition hover:bg-[#EAF0E3] focus-visible:outline-2 focus-visible:outline-[#2B552D] dark:text-[#F6F6F0] [&::-webkit-details-marker]:hidden">
-                    <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" aria-hidden="true" />
-                  </summary>
-                  <div className="absolute left-0 top-[calc(100%+1rem)] z-50 w-60 border border-[#DCE5D8] bg-[#FBFAF6] p-2 shadow-[0_18px_50px_rgba(39,30,31,0.14)] dark:border-white/15 dark:bg-[#253429]">
-                    <Link href={item.href} className="block border-b border-[#DCE5D8] px-3 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#2B552D] dark:text-[#F0C5CA]">
-                      View all {item.label}
-                    </Link>
-                    {item.children.map((sub) => (
-                      <Link key={sub.href} href={sub.href} className="block px-3 py-2.5 text-sm text-[#475848] transition hover:bg-[#F6F6F0] hover:text-[#2B552D] dark:text-[#F6F6F0] dark:hover:bg-white/10">
-                        {sub.label}
+                <div className="relative">
+                  <button
+                    type="button"
+                    aria-label={`Explore ${item.label} topics`}
+                    aria-expanded={openMenu === item.href}
+                    aria-controls={`topics-${item.href.slice(1)}`}
+                    onClick={() => setOpenMenu((current) => current === item.href ? null : item.href)}
+                    className="flex items-center rounded-full p-1.5 text-[#687B67] transition hover:bg-[#EAF0E3] focus-visible:outline-2 focus-visible:outline-[#2B552D] dark:text-[#F6F6F0]"
+                  >
+                    <ChevronDown className={`h-3.5 w-3.5 transition-transform ${openMenu === item.href ? "rotate-180" : ""}`} aria-hidden="true" />
+                  </button>
+                  {openMenu === item.href && (
+                    <div
+                      id={`topics-${item.href.slice(1)}`}
+                      className="absolute left-0 top-[calc(100%+1rem)] z-50 w-64 rounded-xl border border-[#DCE5D8] bg-[#FBFAF6] p-2 shadow-[0_18px_50px_rgba(39,30,31,0.14)] dark:border-white/15 dark:bg-[#253429]"
+                    >
+                      <Link href={item.href} onClick={() => setOpenMenu(null)} className="block border-b border-[#DCE5D8] px-3 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#2B552D] dark:text-[#D6E4CC]">
+                        View all {item.label}
                       </Link>
-                    ))}
-                  </div>
-                </details>
+                      {item.children.map((sub) => (
+                        <Link key={sub.href} href={sub.href} onClick={() => setOpenMenu(null)} className="block rounded-lg px-3 py-2.5 text-sm text-[#475848] transition hover:bg-[#EFF3E9] hover:text-[#2B552D] dark:text-[#F6F6F0] dark:hover:bg-white/10">
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )}
             </li>
           ))}
@@ -124,16 +152,24 @@ export default function Navbar() {
                   </Link>
                 </div>
                 {item.children && (
-                  <details className="group mt-1">
-                    <summary aria-label={`Explore ${item.label} topics`} className="flex w-fit cursor-pointer list-none items-center gap-2 pb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2B552D] dark:text-[#D6E4CC] [&::-webkit-details-marker]:hidden">
-                      Explore topics <ChevronDown className="h-3.5 w-3.5 transition group-open:rotate-180" aria-hidden="true" />
-                    </summary>
-                    <div className="grid grid-cols-2 gap-x-5 gap-y-3 pb-3 pt-2">
-                      {item.children.map((sub) => (
-                        <Link key={sub.href} href={sub.href} onClick={() => setMobileOpen(false)} className="text-sm text-[#475848] underline-offset-4 hover:underline dark:text-[#F6F6F0]">{sub.label}</Link>
-                      ))}
-                    </div>
-                  </details>
+                  <div className="mt-1">
+                    <button
+                      type="button"
+                      aria-expanded={openMobileMenu === item.href}
+                      aria-controls={`mobile-topics-${item.href.slice(1)}`}
+                      onClick={() => setOpenMobileMenu((current) => current === item.href ? null : item.href)}
+                      className="flex min-h-9 items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#2B552D] dark:text-[#D6E4CC]"
+                    >
+                      Explore topics <ChevronDown className={`h-3.5 w-3.5 transition-transform ${openMobileMenu === item.href ? "rotate-180" : ""}`} aria-hidden="true" />
+                    </button>
+                    {openMobileMenu === item.href && (
+                      <div id={`mobile-topics-${item.href.slice(1)}`} className="grid grid-cols-2 gap-x-5 gap-y-3 pb-3 pt-2">
+                        {item.children.map((sub) => (
+                          <Link key={sub.href} href={sub.href} onClick={() => {setMobileOpen(false); setOpenMobileMenu(null);}} className="text-sm text-[#475848] underline-offset-4 hover:underline dark:text-[#F6F6F0]">{sub.label}</Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 )}
               </li>
             ))}
