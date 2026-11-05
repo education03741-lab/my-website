@@ -91,10 +91,11 @@ export function CategoryCoverPhoto({slug}:{slug:string}) {
   };
   const image=images[slug]??images["beginner-guide"];
   return (
-    <div className="relative mx-auto aspect-[5/4] max-h-[470px] w-full overflow-hidden rounded-t-[11rem] rounded-b-2xl border-[8px] border-[#FFF8F3]/80 bg-[#E8D4C7] shadow-[0_22px_65px_rgba(80,52,54,.16)]">
-      <Image src={image.image} alt={image.alt} fill sizes="(max-width:1024px) 100vw, 48vw" priority className="object-cover"/>
-      <span className="absolute inset-0 bg-gradient-to-t from-[#3A252E]/50 via-transparent to-transparent"/>
-      <span className="absolute bottom-5 left-6 text-xs font-semibold uppercase tracking-[.2em] text-white">{image.label} · The Skin Atelier</span>
-    </div>
+    <figure className="mx-auto w-full">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] border border-[#DCE5D7] bg-[#F4F3EA] dark:border-[#536B55] dark:bg-[#354638]">
+        <Image src={image.image} alt={image.alt} fill sizes="(max-width:1024px) 100vw, 48vw" priority className="object-contain"/>
+      </div>
+      <figcaption className="mt-3 text-xs font-semibold uppercase tracking-[.12em] text-[#52714A] dark:text-[#D1E0C9]">{image.label} · GlowSkin</figcaption>
+    </figure>
   );
 }
