@@ -83,18 +83,25 @@ export function EditorialPhotoCollection({type}:{type:Theme}) {
   );
 }
 
-export function CategoryCoverPhoto({slug}:{slug:string}) {
-  const images: Record<string,Tile> = {
-    "acne-care":{image:"/images/concerns/acne.jpg",label:"Acne care",href:"/skin-concerns/acne",alt:"Close-up skincare portrait relating to acne-prone skin"},
-    "sun-protection":{image:"/images/blog/how-to-choose-the-right-sunscreen.jpg",label:"Sun protection",href:"/blog/how-to-choose-the-right-sunscreen",alt:"Skincare editorial photograph illustrating sun protection"},
-    "beginner-guide":{image:"/images/blog/beginners-skincare-routine.jpg",label:"The essentials",href:"/blog/beginners-skincare-routine",alt:"Premium editorial skincare routine photography"},
+export function CategoryCoverPhoto({ slug }: { slug: string }) {
+  const images: Record<string, Tile> = {
+    "acne-care": { image: "/images/covers/acne.webp", label: "Acne care", href: "/skin-concerns/acne", alt: "Acne care editorial guide cover" },
+    "sun-protection": { image: "/images/blog/how-to-choose-the-right-sunscreen.jpg", label: "Sun protection", href: "/blog/how-to-choose-the-right-sunscreen", alt: "Sun protection editorial image" },
+    "beginner-guide": { image: "/images/blog/beginners-skincare-routine.jpg", label: "The essentials", href: "/blog/beginners-skincare-routine", alt: "Beginner-friendly skincare routine cover" },
   };
-  const image=images[slug]??images["beginner-guide"];
+  const image = images[slug] ?? images["beginner-guide"];
   return (
-    <div className="relative mx-auto aspect-[5/4] max-h-[470px] w-full overflow-hidden rounded-t-[11rem] rounded-b-2xl border-[8px] border-[#FFF8F3]/80 bg-[#E8D4C7] shadow-[0_22px_65px_rgba(80,52,54,.16)]">
-      <Image src={image.image} alt={image.alt} fill sizes="(max-width:1024px) 100vw, 48vw" priority className="object-cover"/>
-      <span className="absolute inset-0 bg-gradient-to-t from-[#3A252E]/50 via-transparent to-transparent"/>
-      <span className="absolute bottom-5 left-6 text-xs font-semibold uppercase tracking-[.2em] text-white">{image.label} · The Skin Atelier</span>
+    <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-[1.25rem] border border-[#DCE3D6] bg-[#EFF2E8] shadow-[0_12px_35px_rgba(44,59,42,.07)] dark:border-[#536B55] dark:bg-[#435444]">
+      <div className="relative aspect-[16/10] w-full">
+        <Image
+          src={image.image}
+          alt={image.alt}
+          fill
+          sizes="(max-width: 1024px) 100vw, 48vw"
+          priority
+          className="object-contain"
+        />
+      </div>
     </div>
   );
 }
