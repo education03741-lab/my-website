@@ -81,7 +81,16 @@ export default async function Home() {
     })
   );
 
-  const allConcerns = [...staticConcerns, ...mappedSanityConcerns];
+  // Static concern guides own their URLs. Do not render the same canonical
+  // destination a second time when Sanity contains an overlapping record.
+  const staticConcernSlugs = new Set(staticConcerns.map((item) => item.slug));
+  const seenConcernSlugs = new Set(staticConcernSlugs);
+  const uniqueSanityConcerns = mappedSanityConcerns.filter((item) => {
+    if (!item.slug || seenConcernSlugs.has(item.slug)) return false;
+    seenConcernSlugs.add(item.slug);
+    return true;
+  });
+  const allConcerns = [...staticConcerns, ...uniqueSanityConcerns];
   const allIngredients = mappedSanityIngredients;
 
   const jsonLd = {
