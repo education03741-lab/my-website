@@ -11,6 +11,7 @@ import {
   articleTopics,
   getArticleTopic,
   getLegacySlugsForTopic,
+  getImplicitTopicSlugs,
   type ArticleTopic,
 } from "@/app/data/articleTopics";
 import { getConcernCover, getIngredientCover, getArticleCover } from "@/app/data/approvedCovers";
@@ -76,7 +77,7 @@ const loadTopicCards = cache(async (topicSlug: string): Promise<TopicCard[]> => 
   // Show them only when no published Sanity version of the slug is present.
   const legacySlugs = new Set(getLegacySlugsForTopic(topic.slug));
   for (const post of posts) {
-    if (!legacySlugs.has(post.slug) || seen.has(post.slug)) continue;
+    if ((!legacySlugs.has(post.slug) && !getImplicitTopicSlugs(post.category).includes(topic.slug)) || seen.has(post.slug)) continue;
     seen.add(post.slug);
     cards.push({
       id: `legacy-${post.id}`,
