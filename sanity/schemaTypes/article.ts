@@ -102,7 +102,13 @@ export const article = defineType({
         },
       ],
     }),
-    defineField({ name: 'publishedAt', type: 'datetime' }),
+    defineField({
+      name: 'publishedAt',
+      title: 'Publication date and time',
+      type: 'datetime',
+      description:
+        'Choose a future date to schedule this article. The primary action becomes “Schedule publish” instead of immediately publishing it. Scheduled Drafts needs an eligible Sanity plan; if unavailable, your draft stays unpublished. Check the date/time zone before scheduling.',
+    }),
     defineField({
       name: 'seoTitle',
       title: 'SEO title',
