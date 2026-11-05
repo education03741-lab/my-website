@@ -3,6 +3,7 @@ import { createClient } from "@sanity/client";
 import { categories } from "@/app/data/categories";
 import { posts } from "@/app/data/posts";
 import { concerns as staticConcerns } from "@/app/data/concerns";
+import { articleTopics, getLegacyTopicSlugs } from "@/app/data/articleTopics";
 
 const client = createClient({
   projectId: "3x2g2pvc",
@@ -21,6 +22,7 @@ export const revalidate = 3600;
 type SitemapDocument = {
   slug: string;
   updatedAt?: string;
+  topics?: string[];
 };
 
 // A slug must be a single URL path segment, not an absolute or external URL.
@@ -93,7 +95,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       // Static fallback posts above remain indexable even if their CMS copy is incomplete.
       `*[_type == "article" && defined(slug.current) && defined(title) && count(body) > 0 && !(_id in path("drafts.**"))]{
         "slug": slug.current,
-        "updatedAt": _updatedAt
+        "updatedAt": _updatedAt,
+        topics
       }`
     ).catch(() => [] as SitemapDocument[]),
     client.fetch<SitemapDocument[]>(
@@ -114,6 +117,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (isValidSlug(article.slug)) {
       addUrl(`/blog/${article.slug}`, 0.8, article.updatedAt);
     }
+  }
+
+  // Only index topic collections that actually contain a complete published
+  // CMS article or a bundled article. Empty collections remain navigable but
+  // are noindex and are omitted from sitemap.xml.
+  const activeTopics = new Set<string>();
+  for (const article of articles) {
+    if (!isValidSlug(article.slug)) continue;
+    for (const topic of Array.isArray(article.topics) ? article.topics : []) {
+      if (typeof topic === "string") activeTopics.add(topic);
+    }
+    for (const topic of getLegacyTopicSlugs(article.slug)) activeTopics.add(topic);
+  }
+  for (const post of posts) {
+    if (!isValidSlug(post.slug)) continue;
+    for (const topic of getLegacyTopicSlugs(post.slug)) activeTopics.add(topic);
+  }
+  for (const topic of articleTopics) {
+    if (activeTopics.has(topic.slug)) addUrl(`/blog/topic/${topic.slug}`, 0.65);
   }
 
   for (const concern of cmsConcerns) {
