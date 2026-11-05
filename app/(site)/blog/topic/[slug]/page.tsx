@@ -138,7 +138,7 @@ function GuideLink({ topic }: { topic: ArticleTopic }) {
           Understanding {topic.label}
         </h2>
         <p className="mt-2 text-sm leading-7 text-[#536352] dark:text-[#CFDACB]">
-          Read the dedicated ${topic.group === "concern" ? "skin concern" : "ingredient"} guide before exploring the articles below.
+          Read the dedicated {topic.group === "concern" ? "skin concern" : "ingredient"} guide before exploring the articles below.
         </p>
         <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[#2D5830] dark:text-[#C6DDBC]">
           Read guide <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
