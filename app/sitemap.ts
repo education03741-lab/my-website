@@ -13,6 +13,11 @@ const client = createClient({
 
 const siteUrl = "https://glowskin.blog";
 
+// Next.js caches sitemap metadata routes by default. Refresh the Sanity-backed
+// URL inventory hourly so new published guides can appear without a redeploy.
+// Static URLs and canonical/indexability filters below remain unchanged.
+export const revalidate = 3600;
+
 type SitemapDocument = {
   slug: string;
   updatedAt?: string;
