@@ -43,7 +43,7 @@ export const ARTICLES_BY_TOPIC_QUERY = `*[
   defined(title) &&
   defined(slug.current) &&
   count(body) > 0 &&
-  ($topic in topics || slug.current in $legacySlugs)
+  ($topic in topics || slug.current in $legacySlugs || ($topic == "acne" && category == "Acne Care"))
 ] | order(publishedAt desc){
   _id,
   title,
