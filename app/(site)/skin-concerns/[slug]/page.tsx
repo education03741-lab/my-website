@@ -124,31 +124,40 @@ export default async function SkinConcernPage({ params }: PageProps) {
             <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to skin concerns
           </Link>
 
-          <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[2rem] border border-[#DCE4D5] px-6 py-10 shadow-[0_16px_45px_rgba(46,63,42,.06)] sm:px-10 sm:py-12">
-            <div className={`relative z-10 grid items-center gap-9 ${concern.image ? "lg:grid-cols-[1.05fr_.95fr]" : ""}`}>
-              <div>
-                <p className="mb-4 text-[11px] font-bold uppercase tracking-[.23em] text-[#52754D] dark:text-[#C5DCBB]">THE GLOW SKIN CONCERN LIBRARY</p>
-                <h1 className="mt-0 font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-6xl">
-                  {concern.title}
-                </h1>
-                <p className="mt-6 text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
-                  {concern.description}
-                </p>
-              </div>
-              {concern.image && (
-                <div className="relative aspect-[16/11] overflow-hidden rounded-[1.3rem] border border-[#D6E0D1] bg-[#EFF2E8] dark:border-[#536B55] dark:bg-[#435444]">
-                  <Image
-                    src={concern.image}
-                    alt={concern.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    priority
-                    className="object-contain p-3"
-                  />
-                </div>
-              )}
+          <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[1.5rem] border border-[#DCE4D5] px-6 py-8 shadow-[0_12px_35px_rgba(46,63,42,.05)] sm:px-10 sm:py-10">
+            <div className="relative z-10 max-w-3xl">
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[.23em] text-[#52754D] dark:text-[#C5DCBB]">THE GLOW SKIN CONCERN LIBRARY</p>
+              <h1 className="font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-5xl">
+                {concern.title}
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0]">
+                {concern.description}
+              </p>
             </div>
           </header>
+
+          {concern.image && (
+            <figure className="mx-auto mt-6 w-full max-w-4xl overflow-hidden rounded-[1.35rem] border border-[#D6E0D1] bg-[#F1F3EA] shadow-[0_14px_35px_rgba(46,63,42,.05)] dark:border-[#536B55] dark:bg-[#435444]">
+              <a
+                href={concern.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#2B552D]"
+                aria-label={`Open the full-size ${concern.title} cover`}
+              >
+                <div className="relative aspect-[16/10] w-full">
+                  <Image
+                    src={concern.image}
+                    alt={`${concern.title} guide cover`}
+                    fill
+                    priority
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 85vw, 896px"
+                    className="object-contain"
+                  />
+                </div>
+              </a>
+            </figure>
+          )}
 
           <div className="mx-auto mt-8 max-w-3xl rounded-[1.4rem] border border-[#E2E9DD] bg-[#FFFEFB] px-6 py-10 shadow-[0_10px_34px_rgba(44,59,42,.035)] dark:border-[#526B54] dark:bg-[#303D33] sm:px-10 sm:py-12">
             <article className="text-base leading-8 text-[#4E5E4E] dark:text-[#D4DECF] sm:text-lg">

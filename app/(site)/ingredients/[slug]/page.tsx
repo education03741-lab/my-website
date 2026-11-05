@@ -355,31 +355,40 @@ export default async function IngredientPage({ params }: PageProps) {
         </Link>
 
         {/* Ingredient editorial header */}
-        <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[2rem] border border-[#DCE4D5] px-6 py-10 shadow-[0_16px_45px_rgba(46,63,42,.06)] sm:px-10 sm:py-12">
-          <div className={`relative z-10 grid items-center gap-9 ${ingredient.image ? "lg:grid-cols-[1.05fr_.95fr]" : ""}`}>
-            <div>
+        <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[1.5rem] border border-[#DCE4D5] px-6 py-8 shadow-[0_12px_35px_rgba(46,63,42,.05)] sm:px-10 sm:py-10">
+            <div className="relative z-10 max-w-3xl">
               <p className="mb-4 text-[11px] font-bold uppercase tracking-[.23em] text-[#52754D] dark:text-[#C5DCBB]">THE GLOW SKIN INGREDIENT LIBRARY</p>
-              <h1 className="mt-0 font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-6xl">
+              <h1 className="font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-5xl">
                 {ingredient.name}
               </h1>
-              <p className="mt-6 text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
+              <p className="mt-4 max-w-2xl text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0]">
                 {ingredient.description}
               </p>
             </div>
-            {ingredient.image && (
-              <div className="relative aspect-[16/11] overflow-hidden rounded-[1.3rem] border border-[#D6E0D1] bg-[#EFF2E8] dark:border-[#536B55] dark:bg-[#435444]">
-                <Image
-                  src={ingredient.image}
-                  alt={ingredient.name}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="object-contain p-3"
-                />
-              </div>
-            )}
-          </div>
-        </header>
+          </header>
+
+          {ingredient.image && (
+            <figure className="mx-auto mt-6 w-full max-w-4xl overflow-hidden rounded-[1.35rem] border border-[#D6E0D1] bg-[#F1F3EA] shadow-[0_14px_35px_rgba(46,63,42,.05)] dark:border-[#536B55] dark:bg-[#435444]">
+              <a
+                href={ingredient.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#2B552D]"
+                aria-label={`Open the full-size ${ingredient.name} cover`}
+              >
+                <div className="relative aspect-[16/10] w-full">
+                  <Image
+                    src={ingredient.image}
+                    alt={`${ingredient.name} guide cover`}
+                    fill
+                    priority
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 85vw, 896px"
+                    className="object-contain"
+                  />
+                </div>
+              </a>
+            </figure>
+          )}
 
         <div className="mx-auto max-w-3xl">
         {ingredient.slug === "niacinamide" && (
