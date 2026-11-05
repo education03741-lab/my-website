@@ -24,20 +24,32 @@ const isValidSlug = (slug: unknown): slug is string =>
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
-  const seenUrls = new Set<string>();
+  const entriesByUrl = new Map<string, MetadataRoute.Sitemap[number]>();
 
+  // Static fallback and CMS documents may share one canonical URL.
+  // Preserve the single sitemap entry but use the real CMS update date
+  // when it becomes available, rather than discarding it on deduplication.
   const addUrl = (path: string, priority: number, updatedAt?: string) => {
     const url = `${siteUrl}${path}`;
-    if (seenUrls.has(url)) return;
+    const date = updatedAt ? new Date(updatedAt) : undefined;
+    const validDate = date && !Number.isNaN(date.getTime()) ? date : undefined;
+    const existing = entriesByUrl.get(url);
 
-    seenUrls.add(url);
-    const entry: MetadataRoute.Sitemap[number] = { url, priority };
-    if (updatedAt) {
-      const date = new Date(updatedAt);
-      if (!Number.isNaN(date.getTime())) {
-        entry.lastModified = date;
+    if (existing) {
+      if (validDate) {
+        const previous = existing.lastModified
+          ? new Date(String(existing.lastModified)).getTime()
+          : Number.NEGATIVE_INFINITY;
+        if (validDate.getTime() > previous) {
+          existing.lastModified = validDate;
+        }
       }
+      return;
     }
+
+    const entry: MetadataRoute.Sitemap[number] = { url, priority };
+    if (validDate) entry.lastModified = validDate;
+    entriesByUrl.set(url, entry);
     entries.push(entry);
   };
 
