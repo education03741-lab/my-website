@@ -81,7 +81,14 @@ export default async function Home() {
     })
   );
 
-  const allConcerns = [...staticConcerns, ...mappedSanityConcerns];
+  // The same concern may exist in bundled data and Sanity.
+  // Keep one guide link per canonical slug, matching the category page.
+  const allConcerns = [
+    ...staticConcerns,
+    ...mappedSanityConcerns.filter(
+      (item) => item.slug && !staticConcerns.some((staticItem) => staticItem.slug === item.slug)
+    ),
+  ];
   const allIngredients = mappedSanityIngredients;
 
   const jsonLd = {
