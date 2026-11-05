@@ -47,6 +47,11 @@ const existingArticleTopics: Record<string, string[]> = {
   "dark-spots-and-hyperpigmentation-what-actually-fades-them-and-what-s-a-waste-of-money": ["pigmentation", "vitamin-c"],
 };
 
+// The existing primary "Acne Care" category also implies the Acne topic.
+// Other primary categories are too broad to infer a specific ingredient.
+export const getImplicitTopicSlugs = (category?: string | null): string[] =>
+  category === "Acne Care" ? ["acne"] : [];
+
 export function getLegacyTopicSlugs(articleSlug: string): string[] {
   return existingArticleTopics[articleSlug] ?? [];
 }
