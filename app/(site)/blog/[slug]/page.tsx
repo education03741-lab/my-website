@@ -21,24 +21,34 @@ interface PageProps {
 
 // Search Console focus queries: preserve the URL and H1 while improving
 // search-snippet intent. A populated Sanity SEO title/description still wins.
-const targetSeo: Record<string, { title: string; description: string; answer: string; source: string }> = {
+const targetSeo: Record<string, { title: string; description: string; answer: string; source: string; sourceLabel: string }> = {
   "nighttime-skincare-routine": {
     title: "Nighttime Skincare Routine: Simple Steps & Order",
     description: "Learn the correct order for a simple nighttime skincare routine: cleansing, optional treatment and moisturizer, with practical tips for different skin needs.",
     answer: "A simple nighttime skincare routine starts with gentle cleansing, followed by any suitable treatment and then moisturizer. Remove makeup and sunscreen before bed, introduce active ingredients gradually, and adjust the steps to your skin's tolerance. You do not need a lengthy routine: consistency and avoiding unnecessary irritation matter more than product count.",
     source: "https://www.aad.org/public/everyday-care/skin-care-basics/care/apply-skin-care-certain-order",
+    sourceLabel: "American Academy of Dermatology — Skin care application order",
   },
   "vitamin-c-vs-niacinamide": {
     title: "Vitamin C vs Niacinamide: Benefits & Differences",
     description: "Compare vitamin C and niacinamide for uneven skin tone, hydration and barrier support. Learn how to choose based on your skin and product tolerance.",
     answer: "Vitamin C is a skincare antioxidant often used to address uneven-looking skin tone, while niacinamide is a form of vitamin B3 that may help support the skin barrier and improve the appearance of redness or excess oil. Neither is universally better. Your choice depends on skin concerns, formulation and how well your skin tolerates each product.",
     source: "https://health.clevelandclinic.org/skin-care-ingredients-explained",
+    sourceLabel: "Cleveland Clinic — Skin care ingredients explained",
+  },
+  "layering-actives-guide": {
+    title: "How to Layer Skincare Actives Without Irritation",
+    description: "Learn how to introduce retinol, exfoliating acids and other skincare actives gradually, reduce irritation and build a simpler routine for sensitive skin.",
+    answer: "To layer skincare actives more comfortably, start with a gentle cleanser, introduce new treatment products gradually and follow with moisturizer. Avoid using several strong exfoliating or retinoid products together if your skin becomes irritated. Keep your routine simple, wear sunscreen during the day and seek professional advice for persistent reactions.",
+    source: "https://www.aad.org/public/public-health/awareness-campaigns/national-healthy-skin-month",
+    sourceLabel: "American Academy of Dermatology — Healthy skin care and gradual ingredient use",
   },
   "top-7-ingredients-for-acne-prone-skin": {
     title: "7 Skincare Ingredients for Acne-Prone Skin",
     description: "Explore common skincare ingredients for acne-prone skin, including salicylic acid and benzoyl peroxide, and how to build a gentler routine.",
     answer: "Acne-prone skin needs an approach matched to the type of breakouts and your skin's tolerance. Salicylic acid and benzoyl peroxide are common options, while gentle cleansing and moisturizing help limit irritation. Avoid adding several strong actives at once, and consult a dermatologist if acne is persistent, painful or causing scars.",
-    source: "https://www.aad.org/public/diseases/acne/skin-care/tips",
+    source: "https://www.aad.org/public/diseases/acne/skin-care/habits-stop",
+    sourceLabel: "American Academy of Dermatology — Skin care habits that can worsen acne",
   },
 };
 
@@ -433,7 +443,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: serializeJsonLd({
               "@context": "https://schema.org",
               "@type": "BlogPosting",
               "@id": `https://glowskin.blog/blog/${slug}#article`,
@@ -441,7 +451,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               publisher: { "@type": "Organization", "@id": "https://glowskin.blog/#organization" },
               author: { "@type": "Organization", name: "GlowSkin Editorial" },
               headline: post.title,
-              image: post.image ? [post.image] : undefined,
+              image: post.image ? [new URL(post.image, "https://glowskin.blog").toString()] : undefined,
               description: post.description,
               articleSection: post.category,
             }),
@@ -490,7 +500,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               <div dangerouslySetInnerHTML={{ __html: formattedContent }} />
               {curatedAnswer && (
                 <p className="mt-9 border-t border-[#E8DBD0] pt-5 text-sm text-[#514842]">
-                  Further reading: <a className="text-[#662F42] underline underline-offset-4" href={curatedAnswer.source} target="_blank" rel="noopener noreferrer">Dermatology and skincare guidance from a clinical source</a>.
+                  Further reading: <a className="text-[#662F42] underline underline-offset-4" href={curatedAnswer.source} target="_blank" rel="noopener noreferrer">{curatedAnswer.sourceLabel}</a>.
                 </p>
               )}
             </article>
@@ -543,7 +553,9 @@ export default async function BlogPostPage({ params }: PageProps) {
     sanityArticle.seoDescription?.trim() ||
     portableTextToPlainText(sanityArticle.body).slice(0, 200) ||
     sanityArticle.excerpt?.trim();
-  const directAnswer = sanityArticle.directAnswer?.trim();
+  // Respect the CMS answer. Use the curated, source-backed answer only
+  // for the priority GSC topics when Sanity leaves it blank.
+  const directAnswer = sanityArticle.directAnswer?.trim() || targetSeo[slug]?.answer;
   const authorName = sanityArticle.authorName?.trim();
   const authorBio = sanityArticle.authorBio?.trim();
   const reviewerName = sanityArticle.reviewerName?.trim();
@@ -589,6 +601,12 @@ export default async function BlogPostPage({ params }: PageProps) {
           }
         )
       : [];
+
+  // Add further reading only when absent from editor-supplied CMS sources.
+  const curatedSource = targetSeo[slug];
+  if (curatedSource && !sources.some((source) => source.url === curatedSource.source)) {
+    sources.push({ title: curatedSource.sourceLabel, url: curatedSource.source });
+  }
 
   return (
     <>
