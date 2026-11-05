@@ -4,6 +4,7 @@ import { categories } from "@/app/data/categories";
 import { posts } from "@/app/data/posts";
 import { concerns as staticConcerns } from "@/app/data/concerns";
 import { articleTopics, getImplicitTopicSlugs, getLegacyTopicSlugs } from "@/app/data/articleTopics";
+import { ARTICLE_PUBLICATION_FILTER } from "@/sanity/lib/queries";
 
 const client = createClient({
   projectId: "3x2g2pvc",
@@ -94,7 +95,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     client.fetch<SitemapDocument[]>(
       // Match the blog renderer: incomplete CMS placeholders are not articles.
       // Static fallback posts above remain indexable even if their CMS copy is incomplete.
-      `*[_type == "article" && defined(slug.current) && defined(title) && count(body) > 0 && !(_id in path("drafts.**"))]{
+      `*[_type == "article" && defined(slug.current) && defined(title) && count(body) > 0 && !(_id in path("drafts.**")) && ${ARTICLE_PUBLICATION_FILTER}]{
         "slug": slug.current,
         "updatedAt": _updatedAt,
         category,

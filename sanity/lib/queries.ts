@@ -1,10 +1,20 @@
+/**
+ * Publication embargo. Sanity's publishedAt field is only metadata and does
+ * NOT delay a regular Publish action. Exclude future dates from every public
+ * article query, including direct URL lookups, until their UTC time arrives.
+ * Missing dates remain valid for historically published articles.
+ */
+export const ARTICLE_PUBLICATION_FILTER =
+  '(!defined(publishedAt) || dateTime(publishedAt) <= dateTime(now()))'
+
 // The blog index and homepage must only link to complete, published articles.
 export const ARTICLES_QUERY = `*[
   _type == "article" &&
   !(_id in path("drafts.**")) &&
   defined(title) &&
   defined(slug.current) &&
-  count(body) > 0
+  count(body) > 0 &&
+  ${ARTICLE_PUBLICATION_FILTER}
 ] | order(publishedAt desc){
   _id,
   title,
@@ -23,7 +33,8 @@ export const ARTICLES_BY_CATEGORY_QUERY = `*[
   category == $category &&
   defined(title) &&
   defined(slug.current) &&
-  count(body) > 0
+  count(body) > 0 &&
+  ${ARTICLE_PUBLICATION_FILTER}
 ] | order(publishedAt desc){
   _id,
   title,
@@ -43,6 +54,7 @@ export const ARTICLES_BY_TOPIC_QUERY = `*[
   defined(title) &&
   defined(slug.current) &&
   count(body) > 0 &&
+  ${ARTICLE_PUBLICATION_FILTER} &&
   ($topic in topics || slug.current in $legacySlugs || ($topic == "acne" && category == "Acne Care"))
 ] | order(publishedAt desc){
   _id,
@@ -61,6 +73,7 @@ export const RELATED_ARTICLES_QUERY = `*[
   defined(title) &&
   defined(slug.current) &&
   count(body) > 0 &&
+  ${ARTICLE_PUBLICATION_FILTER} &&
   category == $category &&
   slug.current != $slug
 ] | order(publishedAt desc)[0...3]{
@@ -69,7 +82,7 @@ export const RELATED_ARTICLES_QUERY = `*[
   slug
 }`
 
-export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && !(_id in path("drafts.**")) && slug.current == $slug][0]{
+export const ARTICLE_BY_SLUG_QUERY = `*[_type == "article" && !(_id in path("drafts.**")) && slug.current == $slug && ${ARTICLE_PUBLICATION_FILTER}][0]{
   _id,
   title,
   slug,

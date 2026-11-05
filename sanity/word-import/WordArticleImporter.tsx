@@ -356,7 +356,12 @@ export default function WordArticleImporter() {
                   {textField("reviewerName","Expert reviewer (only if reviewed)")}
                 </div>
                 <div>
-                  {textField("publishedAt","Publication date (optional ISO date)")}
+                  {textField("publishedAt","Publication date/time (ISO 8601; optional)")}
+                  <p style={{fontSize:12,lineHeight:1.7,color:"#765D51"}}>
+                    A future date does not publish the Word import. Open the saved Sanity draft and use
+                    “Schedule publish” to queue it. Actual scheduling requires an eligible Sanity plan.
+                    Do not use “Publish now” for a future-dated article.
+                  </p>
                   <p style={{fontSize:13}}>FAQs extracted: <strong>{draft.faqs.length}</strong></p>
                   {draft.faqs.map((faq,index)=><p key={index} style={{fontSize:12,margin:"8px 0"}}><strong>{faq.question}</strong> {faq.answer.slice(0,130)}</p>)}
                   <p style={{fontSize:13,marginTop:12}}>Source links extracted: <strong>{draft.sources.length}</strong></p>

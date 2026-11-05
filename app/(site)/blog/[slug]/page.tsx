@@ -14,6 +14,10 @@ import { urlFor } from "@/sanity/lib/image";
 import { getArticleCover } from "@/app/data/approvedCovers";
 import { getArticleTopic, getImplicitTopicSlugs, getLegacyTopicSlugs, type ArticleTopic } from "@/app/data/articleTopics";
 
+// The article URL must become available after a scheduled Sanity release even
+// if it previously returned a cached 404 before its publication time.
+export const revalidate = 60;
+
 interface PageProps {
   params: Promise<{
     slug: string;
