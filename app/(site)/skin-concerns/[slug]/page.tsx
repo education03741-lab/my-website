@@ -124,28 +124,28 @@ export default async function SkinConcernPage({ params }: PageProps) {
             <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to skin concerns
           </Link>
 
-          <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[2rem] border border-[#DCE4D5] px-6 py-10 shadow-[0_16px_45px_rgba(46,63,42,.06)] sm:px-10 sm:py-12">
-            <div className={`relative z-10 grid items-center gap-9 ${concern.image ? "lg:grid-cols-[1.05fr_.95fr]" : ""}`}>
-              <div>
-                <p className="mb-4 text-[11px] font-bold uppercase tracking-[.23em] text-[#52754D] dark:text-[#C5DCBB]">THE GLOW SKIN CONCERN LIBRARY</p>
-                <h1 className="mt-0 font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-6xl">
-                  {concern.title}
-                </h1>
-                <p className="mt-6 text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
-                  {concern.description}
-                </p>
-              </div>
+          <header className="gs-mineral-surface relative isolate mt-7 overflow-hidden rounded-[2rem] border border-[#DCE4D5] px-6 py-9 shadow-[0_16px_45px_rgba(46,63,42,.06)] sm:px-10 sm:py-12">
+            <div className="relative z-10">
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[.23em] text-[#52754D] dark:text-[#C5DCBB]">THE GLOW SKIN CONCERN LIBRARY</p>
+              <h1 className="max-w-4xl font-heading text-4xl font-medium leading-[1.1] tracking-[-.045em] !text-[#26382A] dark:!text-[#F7F6EF] sm:text-6xl">
+                {concern.title}
+              </h1>
+              <p className="mt-5 max-w-3xl text-base leading-8 text-[#4B5849] dark:text-[#D6E2D0] sm:text-lg">
+                {concern.description}
+              </p>
               {concern.image && (
-                <div className="relative aspect-[16/11] overflow-hidden rounded-[1.3rem] border border-[#D6E0D1] bg-[#EFF2E8] dark:border-[#536B55] dark:bg-[#435444]">
-                  <Image
-                    src={concern.image}
-                    alt={concern.title}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                    priority
-                    className="object-contain p-3"
-                  />
-                </div>
+                <figure className="mx-auto mt-8 w-full max-w-4xl">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.25rem] border border-[#D6E0D1] bg-[#F9F8F2] dark:border-[#536B55] dark:bg-[#435444]">
+                    <Image
+                      src={concern.image}
+                      alt={`Illustrated skincare cover for ${concern.title}`}
+                      fill
+                      sizes="(max-width: 1024px) calc(100vw - 3rem), 850px"
+                      priority
+                      className="object-contain"
+                    />
+                  </div>
+                </figure>
               )}
             </div>
           </header>
