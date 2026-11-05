@@ -12,6 +12,7 @@ import { client } from "@/sanity/lib/client";
 import { ARTICLE_BY_SLUG_QUERY, RELATED_ARTICLES_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import { getArticleCover } from "@/app/data/approvedCovers";
+import { getArticleTopic, getLegacyTopicSlugs, type ArticleTopic } from "@/app/data/articleTopics";
 
 interface PageProps {
   params: Promise<{
@@ -302,6 +303,29 @@ function portableTextToPlainText(blocks: TextBlock[] | undefined): string {
     .join(" ");
 }
 
+function ArticleTopicLinks({ slugs }: { slugs: string[] }) {
+  const topics = [...new Set(slugs)]
+    .map((slug) => getArticleTopic(slug))
+    .filter((topic): topic is ArticleTopic => Boolean(topic));
+
+  if (topics.length === 0) return null;
+  return (
+    <nav aria-label="Explore related skincare topics" className="mt-9 border-t border-[#E3E9DF] pt-6">
+      <p className="text-xs font-bold uppercase tracking-[.15em] text-[#54764D] dark:text-[#C7DDBB]">
+        Explore related topics
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {topics.map((topic) => (
+          <Link key={topic.slug} href={`/blog/topic/${topic.slug}`}
+            className="rounded-full border border-[#D8E4D3] bg-[#F3F7EF] px-4 py-2 text-sm font-semibold text-[#2D5830] transition hover:bg-[#E6F0DD] dark:border-[#567354] dark:bg-[#344638] dark:text-[#D6E5CE]">
+            {topic.label} articles
+          </Link>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
 // Sanity is the source of truth for published articles. Keep the bundled
 // articles intact as a fallback for missing/incomplete CMS documents.
 // JSON-LD is embedded in a script element; escape "<" so editorial text
@@ -494,6 +518,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 </p>
               )}
             </article>
+            <ArticleTopicLinks slugs={getLegacyTopicSlugs(slug)} />
           </div>
 
           <section className="mt-24">
@@ -692,6 +717,10 @@ export default async function BlogPostPage({ params }: PageProps) {
               components={portableTextComponents}
             />
           </article>
+          <ArticleTopicLinks slugs={[
+            ...(Array.isArray(sanityArticle.topics) ? sanityArticle.topics : []),
+            ...getLegacyTopicSlugs(slug),
+          ]} />
 
           {visibleFaqs.length > 0 && (
             <section aria-labelledby="reader-questions" className="mt-14 border-t border-gray-200 pt-10">
